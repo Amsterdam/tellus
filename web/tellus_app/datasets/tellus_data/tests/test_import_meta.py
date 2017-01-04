@@ -1,7 +1,7 @@
 from django.test import TestCase
 from unittest.mock import patch
 import datasets.tellus_data
-from datasets.build_meta_data import TellusMeta
+from datasets.build_meta_data import MetaImporter
 
 
 class TellusImportTest(TestCase):
@@ -10,7 +10,7 @@ class TellusImportTest(TestCase):
         pass
 
     def test_read_objectstore(self):
-        t = TellusMeta()
+        t = MetaImporter()
         t.ImportMeta()
 
 def _fixtures_meta_get():
@@ -31,4 +31,4 @@ def patch_get_telling_from_objectstore(function):
 
 # @patch_get_meta_from_objectstore
 def test_import_meta():
-    t = TellusMeta()
+    t = MetaImporter()

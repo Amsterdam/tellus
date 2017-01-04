@@ -2,7 +2,7 @@ from django.contrib.gis.db import models
 from django.contrib.postgres.fields import JSONField
 
 
-class SnelheidsCategorieen(models.Model):
+class SnelheidsCategorie(models.Model):
     """
     De snelheidscategorieen worden hier beschreven
 
@@ -10,7 +10,7 @@ class SnelheidsCategorieen(models.Model):
     snelheden = JSONField()
 
 
-class LengteCategorieen(models.Model):
+class LengteCategorie(models.Model):
     """
     Lengtecategorieen zijn hier beschreven
 
@@ -18,7 +18,7 @@ class LengteCategorieen(models.Model):
     lengtes = JSONField()
 
 
-class TellusInfo(models.Model):
+class Locatie(models.Model):
     """
     De tellussen die worden geadministreerd worden hier
     gedefinieerd (= Meta info).
@@ -38,12 +38,14 @@ class TellusInfo(models.Model):
     richting = models.CharField(max_length=256)
     ingangsdatum = models.DateField(blank=True, null=True)
     eindedatum = models.DateField(blank=True, null=True)
-    snelheidscategorie = models.ForeignKey(SnelheidsCategorieen, on_delete=models.SET_NULL, null=True)
-    lengtecategorie = models.ForeignKey(LengteCategorieen, on_delete=models.SET_NULL, null=True)
+    snelheidscategorie = models.ForeignKey(SnelheidsCategorie, on_delete=models.SET_NULL, null=True)
+    lengtecategorie = models.ForeignKey(LengteCategorie, on_delete=models.SET_NULL, null=True)
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
+    class Meta:
+        unique_together = ("telpunt", "meetlocatie")
 
-class Tellingen(models.Model):
+class Telling(models.Model):
     """
     De tellingen per lus
     NB. omdat per richting er een TellusInfo bestaat is de richting
@@ -54,7 +56,7 @@ class Tellingen(models.Model):
     C31;C32;C33;C34;C35;C36;C37;C38;C39;C40;C41;C42;C43;C44;C45;
     C46;C47;C48;C49;C50;C51;C52;C53;C54;C55;C56;C57;C58;C59;C60;
     """
-    meetlocatie = models.ForeignKey(TellusInfo, on_delete=models.CASCADE)
+    meetlocatie = models.ForeignKey(Locatie, on_delete=models.CASCADE)
     richting = models.IntegerField()
     validatie = models.IntegerField()
     representatief = models.IntegerField()

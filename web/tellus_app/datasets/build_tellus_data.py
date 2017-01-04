@@ -1,5 +1,6 @@
-from django.conf import settings
 import psycopg2
+from django.conf import settings
+
 from objectstore.objectstore import get_flobj_from_objectstore
 
 OBJSTORE_TELLING = 'telling'
@@ -10,6 +11,7 @@ SQL_STATEMENT = """
         HEADER
         DELIMITER AS ';'
     """
+
 
 class TellusData:
     def __init__(self):
