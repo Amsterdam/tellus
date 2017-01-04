@@ -1,0 +1,54 @@
+database:
+  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+  environment:
+    POSTGRES_PASSWORD: insecure
+    POSTGRES_USER: tellus
+
+
+tests:
+  build: ../web
+  links:
+    - database:database
+  environment:
+    DB_NAME: tellus
+    DB_USER: tellus
+    DB_PASSWORD: insecure
+  command: /app/docker-test.sh
+
+
+importer:
+  build: ../web
+  links:
+    - database:database
+    - elasticsearch:elastic
+  volumes:
+    - /mnt/data/diva_import:/app/diva
+  environment:
+    DATABASE_NAME: tellus
+    DATABASE_USER: tellus
+    DATABASE_PASSWORD: insecure
+    OBJECTSTORE_PASSWORD:
+
+  command: >
+    bash -c "python manage.py run_import"
+
+
+
+db-backup:
+  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+  links:
+    - database:db
+  volumes:
+    - ./backups:/tmp/backups
+  command: >
+    bash -c "echo db:5432:tellus:tellus:insecure > ~/.pgpass \
+            && chmod 600 ~/.pgpass \
+            && pg_dump --clean \
+                        -Fc \
+                        -t tellus* \
+                        -t geo*  \
+                        -T django*  \
+                        -T auth*    \
+                        -U tellus \
+                        -h db -p 5432 \
+                        tellus > /tmp/backups/database.dump"

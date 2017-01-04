@@ -1,0 +1,23 @@
+database:
+  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+  ports:
+    - "5401:5432"
+  environment:
+    POSTGRES_DB: tellus
+    POSTGRES_USER: tellus
+    POSTGRES_PASSWORD: insecure
+
+web:
+  build: ./web
+  ports:
+    - "8100:8000"
+  links:
+    - database:database
+  volumes:
+    - $PWD/reports:/app/reports
+  environment:
+    SECRET_KEY: hoi
+    DB_NAME: tellus
+    DB_USER: tellus
+    DB_PASSWORD: insecure
+  read_only: True
