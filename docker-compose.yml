@@ -1,7 +1,7 @@
 database:
   image: build.datapunt.amsterdam.nl:5000/atlas/postgres
   ports:
-    - "5401:5432"
+    - "5409:5432"
   environment:
     POSTGRES_DB: tellus
     POSTGRES_USER: tellus

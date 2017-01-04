@@ -1,31 +1,5 @@
-
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import JSONField
-
-
-class TellusInfo(models.Model):
-    """
-    De tellussen die worden geadministreerd worden hier
-    gedefinieerd (= Meta info).
-
-    Meta info kan wijzigen. Als dat het geval is, dan wordt
-    een NIEUWE tellus aangemaakt, en wordt voor het bestaande
-    telpunt een einddatum ingevuld
-    """
-
-    telpunt = models.CharField()
-    meetlocatie = models.IntegerField()
-    richtingcode = models.IntegerField(max_length=1, blank=True, null=True)
-    straat = models.CharField(max_length=150)
-    windrichting = models.CharField(max_length=20, blank=True, null=True)
-    zijstraat1 = models.CharField(blank=True, null=True)
-    zijstraat2 = models.CharField(blank=True, null=True)
-    richting = models.CharField()
-    ingangsdatum = models.DateField(blank=True, null=True)
-    eindedatum = models.DateField(blank=True, null=True)
-    snelheidscategorie = models.ForeignKey(SnelheidsCategorieen, on_delete=models.SET_NULL)
-    lengtecategorie = models.ForeignKey(LengteCategorieen, on_delete=models.SET_NULL)
-    geometrie = models.PointField(srid=28992, blank=True, null=True)
 
 
 class SnelheidsCategorieen(models.Model):
@@ -44,12 +18,41 @@ class LengteCategorieen(models.Model):
     lengtes = JSONField()
 
 
+class TellusInfo(models.Model):
+    """
+    De tellussen die worden geadministreerd worden hier
+    gedefinieerd (= Meta info).
+
+    Meta info kan wijzigen. Als dat het geval is, dan wordt
+    een NIEUWE tellus aangemaakt, en wordt voor het bestaande
+    telpunt een einddatum ingevuld
+    """
+
+    telpunt = models.CharField(max_length=256)
+    meetlocatie = models.IntegerField()
+    richtingcode = models.IntegerField(blank=True, null=True)
+    straat = models.CharField(max_length=150)
+    windrichting = models.CharField(max_length=20, blank=True, null=True)
+    zijstraat1 = models.CharField(max_length=256, blank=True, null=True)
+    zijstraat2 = models.CharField(max_length=256, blank=True, null=True)
+    richting = models.CharField(max_length=256)
+    ingangsdatum = models.DateField(blank=True, null=True)
+    eindedatum = models.DateField(blank=True, null=True)
+    snelheidscategorie = models.ForeignKey(SnelheidsCategorieen, on_delete=models.SET_NULL, null=True)
+    lengtecategorie = models.ForeignKey(LengteCategorieen, on_delete=models.SET_NULL, null=True)
+    geometrie = models.PointField(srid=28992, blank=True, null=True)
+
+
 class Tellingen(models.Model):
     """
     De tellingen per lus
     NB. omdat per richting er een TellusInfo bestaat is de richting
     hier niet nodig.
-Meetlocatie;Richting;Validatie;Representatief;Meetraai;Classificatie;Tijd_Van;Tijd_Tot;C1;C2;C3;C4;C5;C6;C7;C8;C9;C10;C11;C12;C13;C14;C15;C16;C17;C18;C19;C20;C21;C22;C23;C24;C25;C26;C27;C28;C29;C30;C31;C32;C33;C34;C35;C36;C37;C38;C39;C40;C41;C42;C43;C44;C45;C46;C47;C48;C49;C50;C51;C52;C53;C54;C55;C56;C57;C58;C59;C60;
+    Meetlocatie;Richting;Validatie;Representatief;Meetraai;Classificatie;Tijd_Van;Tijd_Tot;
+    C1;C2;C3;C4;C5;C6;C7;C8;C9;C10;C11;C12;C13;C14;C15;
+    C16;C17;C18;C19;C20;C21;C22;C23;C24;C25;C26;C27;C28;C29;C30;
+    C31;C32;C33;C34;C35;C36;C37;C38;C39;C40;C41;C42;C43;C44;C45;
+    C46;C47;C48;C49;C50;C51;C52;C53;C54;C55;C56;C57;C58;C59;C60;
     """
     meetlocatie = models.ForeignKey(TellusInfo, on_delete=models.CASCADE)
     richting = models.IntegerField()
@@ -131,5 +134,3 @@ Meetlocatie;Richting;Validatie;Representatief;Meetraai;Classificatie;Tijd_Van;Ti
     @property
     def totaal_telling(self):
         pass
-
-

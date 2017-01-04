@@ -22,7 +22,7 @@ COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 USER datapunt
-COPY nap_meetbouten /app/
+COPY tellus /app/
 
 RUN python manage.py collectstatic --noinput
 
