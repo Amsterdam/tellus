@@ -42,8 +42,13 @@ class Locatie(models.Model):
     lengtecategorie = models.ForeignKey(LengteCategorie, on_delete=models.SET_NULL, null=True)
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
+    def __str__(self):
+        return "Locatie ID: {} telpunt/meetlocatie/richting: {}/{}/{}".format(
+            self.id, self.telpunt, self.meetlocatie, self.richtingcode)
+
     class Meta:
         unique_together = ("telpunt", "meetlocatie", "richtingcode")
+
 
 class Telling(models.Model):
     """

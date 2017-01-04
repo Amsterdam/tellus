@@ -24,12 +24,13 @@ class MetaImporter(object):
         self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for sheet_name in wb.get_sheet_names()}
 
     def process_locaties(self, sheet_name='Locaties', title_row=2, first_col=2):
-
         for row in self.sheets[sheet_name].iter_rows(min_row=title_row + 1, min_col=first_col):
-            res = []
-            for cell in row:
-                    res.append(cell.value)
+            res = [cell.value for cell in row]
 
-            db_row = Locatie.objects.create(
+            db_row, created = Locatie.objects.update_or_create(
                 meetlocatie=res[0], richtingcode=res[1], telpunt=res[2],
                 straat=res[3], windrichting=res[4], zijstraat1=res[5])
+            if created:
+                log.info("Created location {}".format(str(db_row)))
+            else:
+                log.info("Updated location {}".format(str(db_row)))
