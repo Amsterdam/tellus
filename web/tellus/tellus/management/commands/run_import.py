@@ -8,7 +8,7 @@ from django.core.management import BaseCommand
 
 from datasets import build_tellus_data
 from datasets import build_meta_data
-from datasets.tellus import models
+from datasets.tellus_data import models
 
 
 LOG = logging.getLogger(__name__)

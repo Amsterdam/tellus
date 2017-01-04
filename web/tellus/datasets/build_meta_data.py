@@ -2,7 +2,7 @@ import logging
 import openpyxl
 
 from objectstore.objectstore import get_flobj_from_objectstore
-from .tellus.tellus_mixins import generic_mixin
+from .tellus_data.tellus_mixins import generic_mixin
 
 log = logging.getLogger(__name__)
 

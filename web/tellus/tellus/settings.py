@@ -36,7 +36,7 @@ PARTIAL_IMPORT = {
 
 PROJECT_APPS = [
     'tellus',
-    'datasets.tellus',
+    'datasets.tellus_data',
 ]
 
 DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'

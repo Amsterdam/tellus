@@ -1,6 +1,6 @@
 from django.test import TestCase
 from unittest.mock import patch
-import datasets.tellus
+import datasets.tellus_data
 from datasets.build_meta_data import TellusMeta
 
 
