@@ -1,5 +1,4 @@
 from django.contrib.gis.db import models
-from django.contrib.postgres.fields import JSONField
 
 
 class SnelheidsCategorie(models.Model):
@@ -7,7 +6,20 @@ class SnelheidsCategorie(models.Model):
     De snelheidscategorieen worden hier beschreven
 
     """
-    snelheden = JSONField()
+    categorie = models.IntegerField(primary_key=True)
+    s1 = models.CharField(max_length=30, default='nvt')
+    s2 = models.CharField(max_length=30, default='nvt')
+    s3 = models.CharField(max_length=30, default='nvt')
+    s4 = models.CharField(max_length=30, default='nvt')
+    s5 = models.CharField(max_length=30, default='nvt')
+    s6 = models.CharField(max_length=30, default='nvt')
+    s7 = models.CharField(max_length=30, default='nvt')
+    s8 = models.CharField(max_length=30, default='nvt')
+    s9 = models.CharField(max_length=30, default='nvt')
+    s10 = models.CharField(max_length=30, default='nvt')
+
+    def __str__(self):
+        return "SnelheidsCategorie {}".format(self.categorie)
 
 
 class LengteCategorie(models.Model):
