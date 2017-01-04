@@ -30,14 +30,6 @@ class MetaImporter(object):
             for cell in row:
                     res.append(cell.value)
 
-    meetlocatie
-    richtingcode
-    telpunt
-    straat
-    windrichting = models.CharField(max_length=20, blank=True, null=True)
-    zijstraat = models.CharField(max_length=256, blank=True, null=True)
-    richting = models.CharField(max_length=256)
-
-            db_row = Locatie.objects.insert_or_update(
-                meetlocatie=res[0], richtingcode=res[1], telpunt=res[2], straat=res[3], windrichting=res[4], zijstraat=res[5])
-            print(res)
+            db_row = Locatie.objects.create(
+                meetlocatie=res[0], richtingcode=res[1], telpunt=res[2],
+                straat=res[3], windrichting=res[4], zijstraat1=res[5])

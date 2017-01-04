@@ -43,7 +43,7 @@ class Locatie(models.Model):
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
     class Meta:
-        unique_together = ("telpunt", "meetlocatie")
+        unique_together = ("telpunt", "meetlocatie", "richtingcode")
 
 class Telling(models.Model):
     """
