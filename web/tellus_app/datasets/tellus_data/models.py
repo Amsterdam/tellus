@@ -12,10 +12,14 @@ class SnelheidsCategorie(models.Model):
 
 class LengteCategorie(models.Model):
     """
-    Lengtecategorieen zijn hier beschreven
-
+    Lengtecategorie
     """
-    lengtes = JSONField()
+    categorie = models.CharField(max_length=2, primary_key=True, default='X')
+    lengte_van = models.CharField(max_length=10, default='0')
+    lengte_tot = models.CharField(max_length=10, blank=True, default='')
+
+    def __str__(self):
+        return "LengteCategorie {}".format(self.categorie)
 
 
 class Locatie(models.Model):
