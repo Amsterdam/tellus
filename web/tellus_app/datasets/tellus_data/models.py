@@ -1,4 +1,7 @@
 from django.contrib.gis.db import models
+from django.utils import timezone
+from compositefk.fields import CompositeForeignKey
+from datetime import datetime
 
 
 class SnelheidsCategorie(models.Model):
@@ -44,9 +47,9 @@ class Locatie(models.Model):
     telpunt een einddatum ingevuld
     """
 
-    telpunt = models.CharField(max_length=256)
     meetlocatie = models.IntegerField()
-    richtingcode = models.IntegerField(blank=True, null=True)
+    richting = models.IntegerField(blank=True, null=True)
+    telpunt = models.CharField(max_length=256)
     straat = models.CharField(max_length=150)
     windrichting = models.CharField(max_length=20, blank=True, null=True)
     zijstraat1 = models.CharField(max_length=256, blank=True, null=True)
@@ -59,11 +62,11 @@ class Locatie(models.Model):
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
     def __str__(self):
-        return "Locatie ID: {} telpunt/meetlocatie/richting: {}/{}/{}".format(
-            self.id, self.telpunt, self.meetlocatie, self.richtingcode)
+        return "Locatie ID: {} meetlocatie/richting: {}/{}".format(
+            self.id, self.meetlocatie, self.richting)
 
     class Meta:
-        unique_together = ("telpunt", "meetlocatie", "richtingcode")
+        unique_together = ("meetlocatie", "richting")
 
 
 class Telling(models.Model):
@@ -77,74 +80,81 @@ class Telling(models.Model):
     C31;C32;C33;C34;C35;C36;C37;C38;C39;C40;C41;C42;C43;C44;C45;
     C46;C47;C48;C49;C50;C51;C52;C53;C54;C55;C56;C57;C58;C59;C60;
     """
-    meetlocatie = models.ForeignKey(Locatie, on_delete=models.CASCADE)
-    richting = models.IntegerField()
+
+    meetlocatie = models.IntegerField()
+    richting = models.IntegerField(blank=True, null=True)
+    locatie = CompositeForeignKey(
+        Locatie, on_delete=models.CASCADE, related_name='locaties', to_fields={
+            "meetlocatie": "meetlocatie",
+            "richting": "richting"
+        }, nullable_fields=["richting"], default=0
+    )
     validatie = models.IntegerField()
     representatief = models.IntegerField()
     meetraai = models.IntegerField()
     classificatie = models.IntegerField()
-    tijd_Van = models.DateTimeField()
-    tijd_Tot = models.DateTimeField
-    c1 = models.IntegerField()
-    c2 = models.IntegerField()
-    c3 = models.IntegerField()
-    c4 = models.IntegerField()
-    c5 = models.IntegerField()
-    c6 = models.IntegerField()
-    c7 = models.IntegerField()
-    c8 = models.IntegerField()
-    c9 = models.IntegerField()
-    c10 = models.IntegerField()
-    c11 = models.IntegerField()
-    c12 = models.IntegerField()
-    c13 = models.IntegerField()
-    c14 = models.IntegerField()
-    c15 = models.IntegerField()
-    c16 = models.IntegerField()
-    c17 = models.IntegerField()
-    c18 = models.IntegerField()
-    c19 = models.IntegerField()
-    c20 = models.IntegerField()
-    c21 = models.IntegerField()
-    c22 = models.IntegerField()
-    c23 = models.IntegerField()
-    c24 = models.IntegerField()
-    c25 = models.IntegerField()
-    c26 = models.IntegerField()
-    c27 = models.IntegerField()
-    c28 = models.IntegerField()
-    c29 = models.IntegerField()
-    c30 = models.IntegerField()
-    c31 = models.IntegerField()
-    c32 = models.IntegerField()
-    c33 = models.IntegerField()
-    c34 = models.IntegerField()
-    c35 = models.IntegerField()
-    c36 = models.IntegerField()
-    c37 = models.IntegerField()
-    c38 = models.IntegerField()
-    c39 = models.IntegerField()
-    c40 = models.IntegerField()
-    c41 = models.IntegerField()
-    c42 = models.IntegerField()
-    c43 = models.IntegerField()
-    c44 = models.IntegerField()
-    c45 = models.IntegerField()
-    c46 = models.IntegerField()
-    c47 = models.IntegerField()
-    c48 = models.IntegerField()
-    c49 = models.IntegerField()
-    c50 = models.IntegerField()
-    c51 = models.IntegerField()
-    c52 = models.IntegerField()
-    c53 = models.IntegerField()
-    c54 = models.IntegerField()
-    c55 = models.IntegerField()
-    c56 = models.IntegerField()
-    c57 = models.IntegerField()
-    c58 = models.IntegerField()
-    c59 = models.IntegerField()
-    c60 = models.IntegerField()
+    tijd_van = models.DateTimeField(default=timezone.now())
+    tijd_tot = models.DateTimeField(default=timezone.now())
+    c1 = models.IntegerField(null=True)
+    c2 = models.IntegerField(null=True)
+    c3 = models.IntegerField(null=True)
+    c4 = models.IntegerField(null=True)
+    c5 = models.IntegerField(null=True)
+    c6 = models.IntegerField(null=True)
+    c7 = models.IntegerField(null=True)
+    c8 = models.IntegerField(null=True)
+    c9 = models.IntegerField(null=True)
+    c10 = models.IntegerField(null=True)
+    c11 = models.IntegerField(null=True)
+    c12 = models.IntegerField(null=True)
+    c13 = models.IntegerField(null=True)
+    c14 = models.IntegerField(null=True)
+    c15 = models.IntegerField(null=True)
+    c16 = models.IntegerField(null=True)
+    c17 = models.IntegerField(null=True)
+    c18 = models.IntegerField(null=True)
+    c19 = models.IntegerField(null=True)
+    c20 = models.IntegerField(null=True)
+    c21 = models.IntegerField(null=True)
+    c22 = models.IntegerField(null=True)
+    c23 = models.IntegerField(null=True)
+    c24 = models.IntegerField(null=True)
+    c25 = models.IntegerField(null=True)
+    c26 = models.IntegerField(null=True)
+    c27 = models.IntegerField(null=True)
+    c28 = models.IntegerField(null=True)
+    c29 = models.IntegerField(null=True)
+    c30 = models.IntegerField(null=True)
+    c31 = models.IntegerField(null=True)
+    c32 = models.IntegerField(null=True)
+    c33 = models.IntegerField(null=True)
+    c34 = models.IntegerField(null=True)
+    c35 = models.IntegerField(null=True)
+    c36 = models.IntegerField(null=True)
+    c37 = models.IntegerField(null=True)
+    c38 = models.IntegerField(null=True)
+    c39 = models.IntegerField(null=True)
+    c40 = models.IntegerField(null=True)
+    c41 = models.IntegerField(null=True)
+    c42 = models.IntegerField(null=True)
+    c43 = models.IntegerField(null=True)
+    c44 = models.IntegerField(null=True)
+    c45 = models.IntegerField(null=True)
+    c46 = models.IntegerField(null=True)
+    c47 = models.IntegerField(null=True)
+    c48 = models.IntegerField(null=True)
+    c49 = models.IntegerField(null=True)
+    c50 = models.IntegerField(null=True)
+    c51 = models.IntegerField(null=True)
+    c52 = models.IntegerField(null=True)
+    c53 = models.IntegerField(null=True)
+    c54 = models.IntegerField(null=True)
+    c55 = models.IntegerField(null=True)
+    c56 = models.IntegerField(null=True)
+    c57 = models.IntegerField(null=True)
+    c58 = models.IntegerField(null=True)
+    c59 = models.IntegerField(null=True)
+    c60 = models.IntegerField(null=True)
 
     @property
     def snelheden(self):
