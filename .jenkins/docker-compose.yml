@@ -5,15 +5,15 @@ database:
     POSTGRES_USER: tellus
 
 
-tests:
-  build: ../web
-  links:
-    - database:database
-  environment:
-    DB_NAME: tellus
-    DB_USER: tellus
-    DB_PASSWORD: insecure
-  command: /app/docker-test.sh
+#tests:
+#  build: ../web
+#  links:
+#    - database:database
+#  environment:
+#    DB_NAME: tellus
+#    DB_USER: tellus
+#    DB_PASSWORD: insecure
+#  command: /app/docker-test.sh
 
 
 importer:

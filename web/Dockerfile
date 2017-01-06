@@ -20,10 +20,7 @@ RUN apt-get update \
 WORKDIR /app
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-
-USER datapunt
 COPY tellus_app /app/
+USER datapunt
 
-RUN python manage.py collectstatic --noinput
-
-CMD ["/app/docker-run.sh"]
+RUN bash /app/docker-entrypoint.sh

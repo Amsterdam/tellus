@@ -13,8 +13,8 @@ web:
     - "8100:8000"
   links:
     - database:database
-  volumes:
-    - $PWD/reports:/app/reports
+#  volumes:
+#    - $PWD/reports:/app/reports
   environment:
     SECRET_KEY: hoi
     DB_NAME: tellus

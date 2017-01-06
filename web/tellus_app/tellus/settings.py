@@ -9,16 +9,12 @@ https://docs.djangoproject.com/en/1.9/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
-import re
 import os
+import re
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-VBO_URI = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/"
-CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
-CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'
@@ -27,12 +23,6 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', insecure_key)
 DEBUG = SECRET_KEY == insecure_key
 
 ALLOWED_HOSTS = ['*']
-
-
-PARTIAL_IMPORT = {
-    'numerator': 0,
-    'denominator': 1,
-}
 
 PROJECT_APPS = [
     'tellus',
@@ -43,38 +33,28 @@ DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
+                     'django.contrib.admin',
+                     'django.contrib.auth',
+                     'django.contrib.contenttypes',
+                     'django.contrib.sessions',
+                     'django.contrib.messages',
+                     'django.contrib.staticfiles',
+                     'django.contrib.sites',
 
-    'django_extensions',
+                     'django_extensions',
 
-    'django.contrib.gis',
-    'rest_framework',
-    'rest_framework_gis',
-    'rest_framework_swagger',
+                     'django.contrib.gis',
+                     'rest_framework',
+                     'rest_framework_gis',
+                     'rest_framework_swagger',
 
-] + PROJECT_APPS
+                 ] + PROJECT_APPS
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
 if DEBUG:
     INSTALLED_APPS += (
         'debug_toolbar', 'explorer')
-    try:
-        with open('keys.env') as k:
-            OBJECTSTORE_PASSWORD = k.read()
-    except FileNotFoundError:
-        OBJECTSTORE_PASSWORD = os.getenv('OBJECTSTORE_PASSWORD', 'insecure')
-else:
-    OBJECTSTORE_PASSWORD = os.getenv('OBJECTSTORE_PASSWORD', 'insecure')
-
-SCRIPT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app'))
-SCRIPT_SRC = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'web'))
 
 SITE_ID = 1
 
@@ -89,7 +69,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
-
 
 ROOT_URLCONF = 'tellus.urls'
 
@@ -130,8 +109,6 @@ DATABASES = {
     }
 }
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -149,7 +126,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -186,7 +162,7 @@ REST_FRAMEWORK = dict(
         'rest_framework.filters.DjangoFilterBackend',
         # 'rest_framework.filters.OrderingFilter',
 
-        ),
+    ),
     COERCE_DECIMAL_TO_STRING=True,
 )
 
@@ -231,7 +207,6 @@ SWAGGER_SETTINGS = {
     'doc_expansion': 'list',
 }
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
@@ -263,7 +238,6 @@ LOGGING = {
         'level': 'DEBUG',
         'handlers': ['console'],
     },
-
 
     'loggers': {
         'django.db': {
