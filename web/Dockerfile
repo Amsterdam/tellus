@@ -20,7 +20,8 @@ RUN apt-get update \
 WORKDIR /app
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-COPY tellus_app /app/
 USER datapunt
 
-RUN bash /app/docker-entrypoint.sh
+COPY tellus_app /app/
+
+CMD ["/app/docker-entrypoint.sh"]

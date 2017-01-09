@@ -24,9 +24,9 @@ importer:
   volumes:
     - /mnt/data/diva_import:/app/diva
   environment:
-    DATABASE_NAME: tellus
-    DATABASE_USER: tellus
-    DATABASE_PASSWORD: insecure
+    DB_NAME: tellus
+    DB_USER: tellus
+    DB_PASSWORD: insecure
     OBJECTSTORE_PASSWORD:
 
   command: >

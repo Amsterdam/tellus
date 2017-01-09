@@ -1,10 +1,10 @@
 import csv
 import logging
-
 import openpyxl
+import django
+django.setup()
 
-from datasets.tellus_data.models import (
-    Locatie, LengteCategorie, SnelheidsCategorie, Telling)
+from datasets.tellus_data.models import (Locatie, LengteCategorie, SnelheidsCategorie, Telling)
 
 log = logging.getLogger(__name__)
 
@@ -91,6 +91,7 @@ class MetaImporter(object):
 
 
 if __name__ == "__main__":
+
     importer = MetaImporter()
 
     importer.process_snelheids_categorie()

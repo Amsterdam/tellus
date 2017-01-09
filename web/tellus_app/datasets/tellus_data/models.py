@@ -1,7 +1,5 @@
 from django.contrib.gis.db import models
-from django.utils import timezone
 from compositefk.fields import CompositeForeignKey
-from datetime import datetime
 
 
 class SnelheidsCategorie(models.Model):
