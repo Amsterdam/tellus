@@ -15,24 +15,19 @@ database:
 #    DB_PASSWORD: insecure
 #  command: /app/docker-test.sh
 
-
 importer:
   build: ../web
   links:
     - database:database
-    - elasticsearch:elastic
-  volumes:
-    - /mnt/data/diva_import:/app/diva
   environment:
     DB_NAME: tellus
     DB_USER: tellus
     DB_PASSWORD: insecure
     OBJECTSTORE_PASSWORD:
-
   command: >
-    bash -c "python manage.py run_import"
-
-
+    bash -c "/app/docker-wait.sh \
+            && python manage.py migrate \
+            && python importer.py"
 
 db-backup:
   image: build.datapunt.amsterdam.nl:5000/atlas/postgres

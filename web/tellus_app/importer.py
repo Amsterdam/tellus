@@ -1,10 +1,14 @@
+import os
 import csv
 import logging
-import openpyxl
+
 import django
+import openpyxl
+
 django.setup()
 
 from datasets.tellus_data.models import (Locatie, LengteCategorie, SnelheidsCategorie, Telling)
+from objectstore.objectstore import fetch_meta_data, fetch_last_tellus_data
 
 log = logging.getLogger(__name__)
 
@@ -20,6 +24,8 @@ class MetaImporter(object):
         """
         Function that retrieves the meta data from a file (use Objectstore later on)
         """
+        with open('/tmp/tellus/AMS365_Codeboek.xlsx', 'wb') as f:
+            f.write(fetch_meta_data())
         wb = openpyxl.load_workbook('/tmp/tellus/AMS365_Codeboek.xlsx')
         self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for sheet_name in wb.get_sheet_names()}
 
@@ -68,7 +74,10 @@ class MetaImporter(object):
                 log.info("Updated {}".format(str(db_row)))
 
     def process_telling_data(self):
-        with open('/tmp/tellus/AMS365_2016-10.csv') as csvfile:
+        with open('/tmp/tellus/tellus.csv', 'wb') as f:
+            f.write(fetch_last_tellus_data())
+
+        with open('/tmp/tellus/tellus.csv') as csvfile:
             my_reader = csv.reader(csvfile, dialect='excel', delimiter=';')
             next(my_reader, None)
             for row in my_reader:
@@ -91,12 +100,11 @@ class MetaImporter(object):
 
 
 if __name__ == "__main__":
-
+    os.makedirs('/tmp/tellus', exist_ok=True)
     importer = MetaImporter()
 
     importer.process_snelheids_categorie()
     importer.process_lengte_categorie()
     importer.process_locaties()
     importer.process_telling_data()
-
     log.info("Done importing tellus data")
