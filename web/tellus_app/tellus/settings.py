@@ -101,9 +101,9 @@ def _get_docker_host():
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME', 'tellus'),
-        'USER': os.getenv('DB_USER', 'tellus'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'NAME': os.getenv('DATABASE_NAME', 'tellus'),
+        'USER': os.getenv('DATABASE_USER', 'tellus'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': os.getenv('DATABASE_PORT_5432_TCP_ADDR', _get_docker_host()),
         'PORT': os.getenv('DATABASE_PORT_5432_TCP_PORT', '5409'),
     }
