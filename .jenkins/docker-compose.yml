@@ -23,7 +23,7 @@ importer:
     DB_NAME: tellus
     DB_USER: tellus
     DB_PASSWORD: insecure
-    OBJECTSTORE_PASSWORD:
+    TELLUS_OBJECTSTORE_PASSWORD:
   command: >
     bash -c "/app/docker-wait.sh \
             && python manage.py migrate \
