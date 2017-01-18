@@ -27,7 +27,7 @@ importer:
   command: >
     bash -c "/app/docker-wait.sh \
             && python manage.py migrate \
-            && python importer.py"
+            && export DJANGO_SETTINGS_MODULE=tellus.settings && python importer.py"
 
 db-backup:
   image: build.datapunt.amsterdam.nl:5000/atlas/postgres

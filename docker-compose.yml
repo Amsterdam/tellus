@@ -18,3 +18,4 @@ web:
     DB_NAME: tellus
     DB_USER: tellus
     DB_PASSWORD: insecure
+    OBJECTSTORE_PASSWORD:

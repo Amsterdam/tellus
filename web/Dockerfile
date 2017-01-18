@@ -1,4 +1,4 @@
-FROM python:3.5
+FROM python:3.6
 MAINTAINER datapunt.ois@amsterdam.nl
 
 ENV PYTHONUNBUFFERED 1
@@ -23,5 +23,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 USER datapunt
 
 COPY tellus_app /app/
+RUN export DJANGO_SETTINGS_MODULE=tellus.settings
 
 CMD ["/app/docker-entrypoint.sh"]
