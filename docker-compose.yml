@@ -10,7 +10,7 @@ database:
 web:
   build: ./web
   ports:
-    - "8100:8000"
+    - "8107:8000"
   links:
     - database:database
   environment:
@@ -18,4 +18,4 @@ web:
     DB_NAME: tellus
     DB_USER: tellus
     DB_PASSWORD: insecure
-    OBJECTSTORE_PASSWORD:
+    TELLUS_OBJECTSTORE_PASSWORD:
