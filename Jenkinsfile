@@ -64,7 +64,7 @@ node {
 
 
 stage('Waiting for approval') {
-    slackSend channel: '#ci-channel', color: 'warning', message: 'NAP meetbouten is waiting for Production Release - please confirm'
+    slackSend channel: '#ci-channel', color: 'warning', message: 'Tellus is waiting for Production Release - please confirm'
     input "Deploy to Production?"
 }
 
