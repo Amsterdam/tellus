@@ -21,8 +21,9 @@ os_connect = {
     'os_options': {
         'tenant_id': '7aebee82a6c848ae847ad5084e385fec',
         'region_name': 'NL',
-        # 'endpoint_type': 'internalURL'
-    }}
+       # 'endpoint_type': 'internalURL'
+    }
+}
 
 
 @lru_cache(maxsize=None)
