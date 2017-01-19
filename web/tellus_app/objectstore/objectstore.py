@@ -16,7 +16,7 @@ os_connect = {
     'auth_version': '2.0',
     'authurl': 'https://identity.stack.cloudvps.com/v2.0',
     'user': 'tellus',
-    'key': os.getenv('OBJECTSTORE_PASSWORD', 'insecure'),
+    'key': os.getenv('TELLUS_OBJECTSTORE_PASSWORD', 'insecure'),
     'tenant_name': 'BGE000081_Tellus',
     'os_options': {
         'tenant_id': '7aebee82a6c848ae847ad5084e385fec',
@@ -27,7 +27,7 @@ os_connect = {
 
 @lru_cache(maxsize=None)
 def get_conn():
-    assert os.getenv('OBJECTSTORE_PASSWORD')
+    assert os.getenv('TELLUS_OBJECTSTORE_PASSWORD')
     return Connection(**os_connect)
 
 
