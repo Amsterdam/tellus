@@ -26,3 +26,4 @@ COPY tellus_app /app/
 RUN export DJANGO_SETTINGS_MODULE=tellus.settings
 
 CMD ["/app/docker-entrypoint.sh"]
+
