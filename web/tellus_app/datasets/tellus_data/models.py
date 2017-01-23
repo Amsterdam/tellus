@@ -77,8 +77,8 @@ class TellusData(models.Model):
                 (2, "Niet compleet, data wel bruikbaar"))
 
     tellus = models.ForeignKey(Tellus)
-    tijd_van = models.DateTimeField()  # datum / uur
-    tijd_tot = models.DateTimeField()  # datum / uur
+    tijd_van = models.DateTimeField()
+    tijd_tot = models.DateTimeField()
     richting = models.IntegerField()
     validatie = models.IntegerField(choices=VALIDATION_CHOICES)
     lengte_categorie = models.CharField(max_length=20, choices=LENGTH_CATEGORY)
