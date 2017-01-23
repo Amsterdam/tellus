@@ -140,5 +140,5 @@ if __name__ == "__main__":
 
     importer.process_snelheids_klasse()
     importer.process_tellus_locaties()
-    # importer.process_telling_data()
+    importer.process_telling_data()
     log.info("Done importing tellus data")
