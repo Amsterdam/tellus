@@ -101,3 +101,6 @@ class TellusData(models.Model):
     @property
     def snelheids_klasse(self):
         return self.tellus.snelheids_klasse
+
+    class Meta:
+        unique_together = ("tellus", "tijd_van", "tijd_tot")

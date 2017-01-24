@@ -24,10 +24,11 @@ class TellusImporter(object):
 
     def _import_meta(self):
         """
-        Function that retrieves the meta data from a file (use Objectstore later on)
+        Function that retrieves the meta data from a Objectstore
         """
         with open(f"/tmp/tellus/{self.codebook_name}", 'wb') as f:
             f.write(fetch_meta_data(self.codebook_name))
+
         wb = openpyxl.load_workbook(f"/tmp/tellus/{self.codebook_name}")
         self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for sheet_name in wb.get_sheet_names()}
 
@@ -108,23 +109,28 @@ class TellusImporter(object):
                     r_start = tellus_object.snelheids_klasse.klasse + 8  # add index of field C1
                     db_row, created = TellusData.objects.update_or_create(
                         tellus=tellus_object,
-                        richting=trow[1],
                         tijd_van=parse_date(trow[6]),
                         tijd_tot=parse_date(trow[7]),
-                        validatie=trow[2],
-                        representatief=trow[3],
-                        meetraai=trow[4],
-                        meting_1=trow[r_start],
-                        meting_2=trow[r_start + 1],
-                        meting_3=trow[r_start + 2],
-                        meting_4=trow[r_start + 3],
-                        meting_5=trow[r_start + 4],
-                        meting_6=trow[r_start + 5],
-                        meting_7=trow[r_start + 6],
-                        meting_8=trow[r_start + 7],
-                        meting_9=trow[r_start + 8],
-                        meting_10=trow[r_start + 9],
-                    )
+                        defaults={
+                            'tellus': tellus_object,
+                            'tijd_van': parse_date(trow[6]),
+                            'tijd_tot': parse_date(trow[7]),
+                            'lengte_categorie': trow[5],
+                            'richting': trow[1],
+                            'validatie': trow[2],
+                            'representatief': trow[3],
+                            'meetraai': trow[4],
+                            'meting_1': trow[r_start],
+                            'meting_2': trow[r_start + 1],
+                            'meting_3': trow[r_start + 2],
+                            'meting_4': trow[r_start + 3],
+                            'meting_5': trow[r_start + 4],
+                            'meting_6': trow[r_start + 5],
+                            'meting_7': trow[r_start + 6],
+                            'meting_8': trow[r_start + 7],
+                            'meting_9': trow[r_start + 8],
+                            'meting_10': trow[r_start + 9]}
+                        )
                     if created:
                         log.debug("Created {}".format(str(db_row)))
                     else:
