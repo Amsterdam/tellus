@@ -17,7 +17,7 @@ assert os.getenv('TELLUS_OBJECTSTORE_PASSWORD')
 os_connect = {
     'auth_version': '2.0',
     'authurl': 'https://identity.stack.cloudvps.com/v2.0',
-    'user': 'Tellus',
+    'user': 'tellus',
     'key': os.getenv('TELLUS_OBJECTSTORE_PASSWORD', 'insecure'),
     'tenant_name': 'BGE000081_Tellus',
     'os_options': {
