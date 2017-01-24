@@ -65,7 +65,7 @@ def fetch_meta_data():
     """
     :return: return the xls file object
     """
-    file_name = "AMS365_Codeboek.xlsx"
+    file_name = "AMS365_codeboek_v5.xlsx"
     folder = "meta"
     log.info("Fetch file {} in {}".format(file_name, folder))
     return get_conn().get_object("tellus", '{}/{}'.format(folder, file_name))[1]
