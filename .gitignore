@@ -104,3 +104,7 @@ pyvenv.cfg
 pip-selfcheck.json
 
 keys.env
+
+# IDE INTELLIJ
+.idea/
+*.iml
