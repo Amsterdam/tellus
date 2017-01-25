@@ -6,7 +6,6 @@ import openpyxl
 
 from datasets.tellus_data.models import Tellus, SnelheidsKlasse, TellusData
 from importer import TellusImporter
-from objectstore import objectstore
 
 
 class TestImport(TestCase):
@@ -17,7 +16,7 @@ class TestImport(TestCase):
 
         def _import_meta(self):
             filepath = os.path.dirname(os.path.abspath(__file__))
-            wb = openpyxl.load_workbook(f"{filepath}/fixture_files/{self.codebook_name}")
+            wb = openpyxl.load_workbook("{}/fixture_files/{}".format(filepath, self.codebook_name))
             self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for sheet_name in wb.get_sheet_names()}
 
         # patch `_import_meta`
@@ -42,13 +41,13 @@ class TestImport(TestCase):
         # write fixture data
         filepath = os.path.dirname(os.path.abspath(__file__))
         with open('/tmp/tellus/tellus.csv', 'w') as f:
-            f.write(open(f"{filepath}/fixture_files/AMS365_2016-10.csv").read())
+            f.write(open("{}/fixture_files/AMS365_2016-10.csv".format(filepath)).read())
 
         self.my_importer.process_telling_data()
         assert TellusData.objects.count() == 19
 
         with open('/tmp/tellus/tellus.csv', 'w') as f:
-            f.write(open(f"{filepath}/fixture_files/AMS365_2016-11.csv").read())
+            f.write(open("{}/fixture_files/AMS365_2016-11.csv".format(filepath)).read())
 
         self.my_importer.process_telling_data()
         assert TellusData.objects.count() == 38
