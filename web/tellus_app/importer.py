@@ -26,6 +26,7 @@ class TellusImporter(object):
         """
         Function that retrieves the meta data from a Objectstore
         """
+        os.makedirs("/tmp/tellus", exist_ok=True)
         with open(f"/tmp/tellus/{self.codebook_name}", 'wb') as f:
             f.write(fetch_meta_data(self.codebook_name))
 
@@ -96,9 +97,11 @@ class TellusImporter(object):
             else:
                 log.info("Updated {}".format(str(db_row)))
 
-    def process_telling_data(self):
+    def temp_tellus_data(self):
         with open('/tmp/tellus/tellus.csv', 'wb') as f:
             f.write(fetch_last_tellus_data())
+
+    def process_telling_data(self):
 
         with open('/tmp/tellus/tellus.csv') as csvfile:
             my_reader = csv.reader(csvfile, dialect='excel', delimiter=';')
@@ -143,8 +146,8 @@ class TellusImporter(object):
 if __name__ == "__main__":
     os.makedirs('/tmp/tellus', exist_ok=True)
     importer = TellusImporter()
-
     importer.process_snelheids_klasse()
+    importer.temp_tellus_data()
     importer.process_tellus_locaties()
     importer.process_telling_data()
     log.info("Done importing tellus data")
