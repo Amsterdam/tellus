@@ -33,22 +33,21 @@ DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'
 
 # Application definition
 INSTALLED_APPS = [
-                     'django.contrib.admin',
-                     'django.contrib.auth',
-                     'django.contrib.contenttypes',
-                     'django.contrib.sessions',
-                     'django.contrib.messages',
-                     'django.contrib.staticfiles',
-                     'django.contrib.sites',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
 
-                     'django_extensions',
+    'django_extensions',
 
-                     'django.contrib.gis',
-                     'rest_framework',
-                     'rest_framework_gis',
-                     'rest_framework_swagger',
-
-                 ] + PROJECT_APPS
+    'django.contrib.gis',
+    'rest_framework',
+    'rest_framework_gis',
+    'rest_framework_swagger',
+] + PROJECT_APPS
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
@@ -214,7 +213,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
 
-HEALTH_MODEL = 'tellus.Tellingen'
+HEALTH_MODEL = 'tellus_data.TellusData'
 
 LOGGING = {
     'version': 1,

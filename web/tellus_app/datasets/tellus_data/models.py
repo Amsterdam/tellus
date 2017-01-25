@@ -1,13 +1,11 @@
 from django.contrib.gis.db import models
-from compositefk.fields import CompositeForeignKey
 
 
-class SnelheidsCategorie(models.Model):
+class SnelheidsKlasse(models.Model):
     """
-    De snelheidscategorieen worden hier beschreven
-
+    De snelheidsklasse worden hier beschreven
     """
-    categorie = models.IntegerField(primary_key=True)
+    klasse = models.IntegerField(primary_key=True)
     s1 = models.CharField(max_length=30, default='nvt')
     s2 = models.CharField(max_length=30, default='nvt')
     s3 = models.CharField(max_length=30, default='nvt')
@@ -20,24 +18,12 @@ class SnelheidsCategorie(models.Model):
     s10 = models.CharField(max_length=30, default='nvt')
 
     def __str__(self):
-        return "SnelheidsCategorie {}".format(self.categorie)
+        return "SnelheidsKlasse {}".format(self.klasse)
 
 
-class LengteCategorie(models.Model):
+class Tellus(models.Model):
     """
-    Lengtecategorie
-    """
-    categorie = models.CharField(max_length=2, primary_key=True, default='X')
-    lengte_van = models.CharField(max_length=10, default='0')
-    lengte_tot = models.CharField(max_length=10, blank=True, default='')
-
-    def __str__(self):
-        return "LengteCategorie {}".format(self.categorie)
-
-
-class Locatie(models.Model):
-    """
-    De tellussen die worden geadministreerd worden hier
+    De geadministreerde tellussen die worden worden hier
     gedefinieerd (= Meta info).
 
     Meta info kan wijzigen. Als dat het geval is, dan wordt
@@ -45,123 +31,76 @@ class Locatie(models.Model):
     telpunt een einddatum ingevuld
     """
 
-    meetlocatie = models.IntegerField()
-    richting = models.IntegerField(blank=True, null=True)
-    telpunt = models.CharField(max_length=256)
-    straat = models.CharField(max_length=150)
-    windrichting = models.CharField(max_length=20, blank=True, null=True)
-    zijstraat1 = models.CharField(max_length=256, blank=True, null=True)
-    zijstraat2 = models.CharField(max_length=256, blank=True, null=True)
-    richting = models.CharField(max_length=256)
-    ingangsdatum = models.DateField(blank=True, null=True)
-    eindedatum = models.DateField(blank=True, null=True)
-    snelheidscategorie = models.ForeignKey(SnelheidsCategorie, on_delete=models.SET_NULL, null=True)
-    lengtecategorie = models.ForeignKey(LengteCategorie, on_delete=models.SET_NULL, null=True)
-    geometrie = models.PointField(srid=28992, blank=True, null=True)
+    objnr_vor = models.CharField(max_length=10, unique=True)
+    objnr_leverancier = models.CharField(max_length=10, unique=True)
+    snelheids_klasse = models.ForeignKey(SnelheidsKlasse, related_name='tellussen')
+    standplaats = models.CharField(max_length=80)
+    zijstraat_a = models.CharField(max_length=80)
+    zijstraat_b = models.CharField(max_length=80)
+    richting_1 = models.CharField(max_length=80)
+    richting_2 = models.CharField(max_length=80)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    rijksdriehoek_x = models.FloatField()
+    rijksdriehoek_y = models.FloatField()
 
     def __str__(self):
-        return "Locatie ID: {} meetlocatie/richting: {}/{}".format(
-            self.id, self.meetlocatie, self.richting)
-
-    class Meta:
-        unique_together = ("meetlocatie", "richting")
+        return "Tellus {}".format(self.objnr_vor)
 
 
-class Telling(models.Model):
+class TellusData(models.Model):
     """
     De tellingen per lus
-    NB. omdat per richting er een TellusInfo bestaat is de richting
-    hier niet nodig.
-    Meetlocatie;Richting;Validatie;Representatief;Meetraai;Classificatie;Tijd_Van;Tijd_Tot;
-    C1;C2;C3;C4;C5;C6;C7;C8;C9;C10;C11;C12;C13;C14;C15;
-    C16;C17;C18;C19;C20;C21;C22;C23;C24;C25;C26;C27;C28;C29;C30;
-    C31;C32;C33;C34;C35;C36;C37;C38;C39;C40;C41;C42;C43;C44;C45;
-    C46;C47;C48;C49;C50;C51;C52;C53;C54;C55;C56;C57;C58;C59;C60;
     """
+    VALIDATION_CHOICES = ((0, "Geen data"),
+                          (1, "Consistent, plausibel 100% compleet"),
+                          (2, "Consistent, plausibel >98% compleet"),
+                          (3, "Consistent, plausibel <98% compleet"),
+                          (4, "Niet consistent"),
+                          (5, "Niet plausibel"))
 
-    meetlocatie = models.IntegerField()
-    richting = models.IntegerField(blank=True, null=True)
-    locatie = CompositeForeignKey(
-        Locatie, on_delete=models.CASCADE, related_name='locaties', to_fields={
-            "meetlocatie": "meetlocatie",
-            "richting": "richting"
-        }, nullable_fields=["richting"], default=0
-    )
-    validatie = models.IntegerField()
-    representatief = models.IntegerField()
-    meetraai = models.IntegerField()
-    classificatie = models.IntegerField()
-    tijd_van = models.DateTimeField(auto_now_add=True)
-    tijd_tot = models.DateTimeField(auto_now_add=True)
-    c1 = models.IntegerField(null=True)
-    c2 = models.IntegerField(null=True)
-    c3 = models.IntegerField(null=True)
-    c4 = models.IntegerField(null=True)
-    c5 = models.IntegerField(null=True)
-    c6 = models.IntegerField(null=True)
-    c7 = models.IntegerField(null=True)
-    c8 = models.IntegerField(null=True)
-    c9 = models.IntegerField(null=True)
-    c10 = models.IntegerField(null=True)
-    c11 = models.IntegerField(null=True)
-    c12 = models.IntegerField(null=True)
-    c13 = models.IntegerField(null=True)
-    c14 = models.IntegerField(null=True)
-    c15 = models.IntegerField(null=True)
-    c16 = models.IntegerField(null=True)
-    c17 = models.IntegerField(null=True)
-    c18 = models.IntegerField(null=True)
-    c19 = models.IntegerField(null=True)
-    c20 = models.IntegerField(null=True)
-    c21 = models.IntegerField(null=True)
-    c22 = models.IntegerField(null=True)
-    c23 = models.IntegerField(null=True)
-    c24 = models.IntegerField(null=True)
-    c25 = models.IntegerField(null=True)
-    c26 = models.IntegerField(null=True)
-    c27 = models.IntegerField(null=True)
-    c28 = models.IntegerField(null=True)
-    c29 = models.IntegerField(null=True)
-    c30 = models.IntegerField(null=True)
-    c31 = models.IntegerField(null=True)
-    c32 = models.IntegerField(null=True)
-    c33 = models.IntegerField(null=True)
-    c34 = models.IntegerField(null=True)
-    c35 = models.IntegerField(null=True)
-    c36 = models.IntegerField(null=True)
-    c37 = models.IntegerField(null=True)
-    c38 = models.IntegerField(null=True)
-    c39 = models.IntegerField(null=True)
-    c40 = models.IntegerField(null=True)
-    c41 = models.IntegerField(null=True)
-    c42 = models.IntegerField(null=True)
-    c43 = models.IntegerField(null=True)
-    c44 = models.IntegerField(null=True)
-    c45 = models.IntegerField(null=True)
-    c46 = models.IntegerField(null=True)
-    c47 = models.IntegerField(null=True)
-    c48 = models.IntegerField(null=True)
-    c49 = models.IntegerField(null=True)
-    c50 = models.IntegerField(null=True)
-    c51 = models.IntegerField(null=True)
-    c52 = models.IntegerField(null=True)
-    c53 = models.IntegerField(null=True)
-    c54 = models.IntegerField(null=True)
-    c55 = models.IntegerField(null=True)
-    c56 = models.IntegerField(null=True)
-    c57 = models.IntegerField(null=True)
-    c58 = models.IntegerField(null=True)
-    c59 = models.IntegerField(null=True)
-    c60 = models.IntegerField(null=True)
+    LENGTH_CATEGORY = (('L1', '0 - 5,1m'),
+                       ('L2', '5,1 - 5,6m'),
+                       ('L3', '5,6 - 7,5m'),
+                       ('L4', '7,5 - 10,5m'),
+                       ('L5', '10,5 - 12,2m'),
+                       ('L6', '>12,2m'))
+
+    REPRESENTATIVE = ((0, 'Geen data'),
+                      (1, "Representatieve dag"),
+                      (2, "Schoolvakantie"),
+                      (3, "Feestdag"),
+                      (4, "Niet representatieve dag"))
+
+    MEETRAAI = ((0, "Niet compleet"),
+                (1, "Compleet"),
+                (2, "Niet compleet, data wel bruikbaar"))
+
+    tellus = models.ForeignKey(Tellus)
+    tijd_van = models.DateTimeField()
+    tijd_tot = models.DateTimeField()
+    richting = models.IntegerField()
+    validatie = models.IntegerField(choices=VALIDATION_CHOICES)
+    lengte_categorie = models.CharField(max_length=20, choices=LENGTH_CATEGORY)
+    representatief = models.IntegerField(choices=REPRESENTATIVE)
+    meetraai = models.IntegerField(choices=MEETRAAI)
+    meting_1 = models.IntegerField(default=0)
+    meting_2 = models.IntegerField(default=0)
+    meting_3 = models.IntegerField(default=0)
+    meting_4 = models.IntegerField(default=0)
+    meting_5 = models.IntegerField(default=0)
+    meting_6 = models.IntegerField(default=0)
+    meting_7 = models.IntegerField(default=0)
+    meting_8 = models.IntegerField(default=0)
+    meting_9 = models.IntegerField(default=0)
+    meting_10 = models.IntegerField(default=0)
+
+    def __str__(self):
+        return "TellusData {} {}".format(self.tellus, self.tijd_van)
 
     @property
-    def snelheden(self):
-        pass
+    def snelheids_klasse(self):
+        return self.tellus.snelheids_klasse
 
-    @property
-    def telling_per_lengte(self):
-        pass
-
-    @property
-    def totaal_telling(self):
-        pass
+    class Meta:
+        unique_together = ("tellus", "tijd_van", "tijd_tot")
