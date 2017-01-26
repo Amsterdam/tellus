@@ -7,8 +7,6 @@ cd /app
 
 source docker-wait.sh
 
-python manage.py migrate
-
 echo Performing system check
 python manage.py check
 
