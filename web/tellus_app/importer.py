@@ -26,10 +26,11 @@ class TellusImporter(object):
         """
         Function that retrieves the meta data from a Objectstore
         """
-        with open(f"/tmp/tellus/{self.codebook_name}", 'wb') as f:
+        os.makedirs("/tmp/tellus", exist_ok=True)
+        with open("/tmp/tellus/{}".format(self.codebook_name), 'wb') as f:
             f.write(fetch_meta_data(self.codebook_name))
 
-        wb = openpyxl.load_workbook(f"/tmp/tellus/{self.codebook_name}")
+        wb = openpyxl.load_workbook("/tmp/tellus/{}".format(self.codebook_name))
         self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for sheet_name in wb.get_sheet_names()}
 
     def decodedata(self, filebytes):
@@ -69,8 +70,8 @@ class TellusImporter(object):
                     objnr_vor=res[0], objnr_leverancier=res[1], standplaats=res[2],
                     zijstraat_a=res[3], zijstraat_b=res[4],
                     richting_1=res[5], richting_2=res[6],
-                    rijksdriehoek_x=res[7], rijksdriehoek_y=res[8], latitude=
-                    res[9], longitude=res[10], snelheids_klasse_id=res[11])
+                    rijksdriehoek_x=res[7], rijksdriehoek_y=res[8],
+                    latitude=res[9], longitude=res[10], snelheids_klasse_id=res[11])
                 if created:
                     log.info("Created {}".format(str(db_row)))
                 else:
@@ -96,9 +97,11 @@ class TellusImporter(object):
             else:
                 log.info("Updated {}".format(str(db_row)))
 
-    def process_telling_data(self):
+    def temp_tellus_data(self):
         with open('/tmp/tellus/tellus.csv', 'wb') as f:
             f.write(fetch_last_tellus_data())
+
+    def process_telling_data(self):
 
         with open('/tmp/tellus/tellus.csv') as csvfile:
             my_reader = csv.reader(csvfile, dialect='excel', delimiter=';')
@@ -137,14 +140,14 @@ class TellusImporter(object):
                         log.debug("Updated {}".format(str(db_row)))
                 except Tellus.DoesNotExist:
                     # Log not found message and continue
-                    log.error(f"Tellus {trow[0]}-{trow[1]} does not exist")
+                    log.error("Tellus {}-{} does not exist".format(trow[0], trow[1]))
 
 
 if __name__ == "__main__":
     os.makedirs('/tmp/tellus', exist_ok=True)
     importer = TellusImporter()
-
     importer.process_snelheids_klasse()
+    importer.temp_tellus_data()
     importer.process_tellus_locaties()
     importer.process_telling_data()
     log.info("Done importing tellus data")

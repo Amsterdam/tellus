@@ -10,8 +10,6 @@ logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 logging.getLogger("swiftclient").setLevel(logging.WARNING)
 
-assert os.getenv('TELLUS_OBJECTSTORE_PASSWORD')
-
 os_connect = {
     'auth_version': '2.0',
     'authurl': 'https://identity.stack.cloudvps.com/v2.0',
