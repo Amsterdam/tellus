@@ -8,6 +8,9 @@ from dateutil.parser import parse as parse_date
 
 django.setup()
 
+from django.contrib.gis.geos import Point
+
+
 from datasets.tellus_data.models import (Tellus, SnelheidsKlasse, TellusData)
 from objectstore.objectstore import fetch_meta_data, fetch_last_tellus_data
 
@@ -71,7 +74,8 @@ class TellusImporter(object):
                     zijstraat_a=res[3], zijstraat_b=res[4],
                     richting_1=res[5], richting_2=res[6],
                     rijksdriehoek_x=res[7], rijksdriehoek_y=res[8],
-                    latitude=res[9], longitude=res[10], snelheids_klasse_id=res[11])
+                    latitude=res[9], longitude=res[10], snelheids_klasse_id=res[11],
+                    geometrie=Point(float(res[7]), float(res[8]), srid=28992))
                 if created:
                     log.info("Created {}".format(str(db_row)))
                 else:
@@ -147,7 +151,7 @@ if __name__ == "__main__":
     os.makedirs('/tmp/tellus', exist_ok=True)
     importer = TellusImporter()
     importer.process_snelheids_klasse()
-    importer.temp_tellus_data()
     importer.process_tellus_locaties()
-    importer.process_telling_data()
+    # importer.temp_tellus_data()
+    # importer.process_telling_data()
     log.info("Done importing tellus data")

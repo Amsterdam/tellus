@@ -43,6 +43,7 @@ class Tellus(models.Model):
     longitude = models.FloatField()
     rijksdriehoek_x = models.FloatField()
     rijksdriehoek_y = models.FloatField()
+    geometrie = models.PointField(null=True, srid=28992)
 
     def __str__(self):
         return "Tellus {}".format(self.objnr_vor)
