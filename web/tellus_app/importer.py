@@ -2,8 +2,11 @@ import csv
 import logging
 import os
 
+import json
 import django
 import openpyxl
+import pytz
+
 from dateutil.parser import parse as parse_date
 
 django.setup()
@@ -11,13 +14,12 @@ django.setup()
 from django.contrib.gis.geos import Point
 
 
-from datasets.tellus_data.models import (Tellus, SnelheidsKlasse, TellusData)
+from datasets.tellus_data.models import (Tellus, SnelheidsCategorie, LengteCategorie, TellusData)
 from objectstore.objectstore import fetch_meta_data, fetch_last_tellus_data
 
 log = logging.getLogger(__name__)
 
 OBJSTORE_METADATA = 'meta'
-
 
 class TellusImporter(object):
     def __init__(self, codebook_name="AMS365_codeboek_v5.xlsx"):
@@ -81,9 +83,9 @@ class TellusImporter(object):
                 else:
                     log.info("Updated {}".format(str(db_row)))
 
-    def process_snelheids_klasse(self, sheet_name='Snelheidscategorieen', title_row=1, first_col=1):
+    def process_snelheids_categorie(self, sheet_name='Snelheidscategorieen', title_row=1, first_col=1):
         """
-        Import SnelheidsKlasse objects
+        Import SnelheidsCategorie objects
         :param sheet_name:
         :param title_row:
         :param first_col:
@@ -92,10 +94,30 @@ class TellusImporter(object):
         for row in self.sheets[sheet_name].iter_rows(min_row=title_row + 1, max_row=5, min_col=first_col):
             res = [cell.value for cell in row]
 
-            db_row, created = SnelheidsKlasse.objects.update_or_create(
+            db_row, created = SnelheidsCategorie.objects.update_or_create(
                 klasse=int(res[0]),
                 s1=res[1], s2=res[2], s3=res[3], s4=res[4], s5=res[5],
                 s6=res[6], s7=res[7], s8=res[8], s9=res[9], s10=res[10])
+            if created:
+                log.info("Created {}".format(str(db_row)))
+            else:
+                log.info("Updated {}".format(str(db_row)))
+
+    def process_lengte_categorie(self, sheet_name='Lengtecategorieen', title_row=1, first_col=1):
+        """
+        Import LengteCategorie objects
+        :param sheet_name:
+        :param title_row:
+        :param first_col:
+        :return:
+        """
+        for row in self.sheets[sheet_name].iter_rows(min_row=title_row + 1, max_row=2, min_col=first_col):
+            res = [cell.value for cell in row]
+
+            db_row, created = LengteCategorie.objects.update_or_create(
+                klasse=int(res[0]),
+                l1=res[1], l2=res[2], l3=res[3], l4=res[4], l5=res[5],
+                l6=res[6])
             if created:
                 log.info("Created {}".format(str(db_row)))
             else:
@@ -105,6 +127,18 @@ class TellusImporter(object):
         with open('/tmp/tellus/tellus.csv', 'wb') as f:
             f.write(fetch_last_tellus_data())
 
+
+    def determineTellusObjectNumber(self, location, direction):
+
+        # lokaties, waarbij iedere richting een eigen tellus object heeft
+        dual_locations = (12, 17, 22, 29)
+        if direction == '2' and dual_locations.__contains__(int(location)):
+            nr =  int(location) + 1
+        else:
+            nr = int(location)
+        return 'TP' + str(nr).zfill(4)
+
+
     def process_telling_data(self):
 
         with open('/tmp/tellus/tellus.csv') as csvfile:
@@ -112,31 +146,29 @@ class TellusImporter(object):
             next(my_reader, None)
             for trow in my_reader:
                 try:
-                    tellus_object = Tellus.objects.get(id=trow[0])
-                    r_start = tellus_object.snelheids_klasse.klasse + 8  # add index of field C1
+                    tellus_object_number = self.determineTellusObjectNumber(trow[0], trow[1])
+                    tellus_object = Tellus.objects.get(objnr_vor=tellus_object_number)
+                    snelheids_categorie_object = SnelheidsCategorie.objects.get(klasse=trow[5])
+                    lengte_categorie_object = LengteCategorie.objects.get(klasse='1')
+                    tijd_van = parse_date(trow[6]).replace(tzinfo=pytz.UTC)
+                    tijd_tot = parse_date(trow[7]).replace(tzinfo=pytz.UTC)
                     db_row, created = TellusData.objects.update_or_create(
                         tellus=tellus_object,
-                        tijd_van=parse_date(trow[6]),
-                        tijd_tot=parse_date(trow[7]),
+                        richting=trow[1],
+                        tijd_van=tijd_van,
+                        tijd_tot=tijd_tot,
                         defaults={
                             'tellus': tellus_object,
-                            'tijd_van': parse_date(trow[6]),
-                            'tijd_tot': parse_date(trow[7]),
-                            'lengte_categorie': trow[5],
+                            'snelheids_categorie' : snelheids_categorie_object,
+                            'tijd_van': tijd_van,
+                            'tijd_tot': tijd_tot,
+                            'lengte_categorie': lengte_categorie_object,
                             'richting': trow[1],
                             'validatie': trow[2],
                             'representatief': trow[3],
                             'meetraai': trow[4],
-                            'meting_1': trow[r_start],
-                            'meting_2': trow[r_start + 1],
-                            'meting_3': trow[r_start + 2],
-                            'meting_4': trow[r_start + 3],
-                            'meting_5': trow[r_start + 4],
-                            'meting_6': trow[r_start + 5],
-                            'meting_7': trow[r_start + 6],
-                            'meting_8': trow[r_start + 7],
-                            'meting_9': trow[r_start + 8],
-                            'meting_10': trow[r_start + 9]}
+                            'data': json.dumps(list(map(int,trow[8:68])))
+                        }
                         )
                     if created:
                         log.debug("Created {}".format(str(db_row)))
@@ -150,8 +182,9 @@ class TellusImporter(object):
 if __name__ == "__main__":
     os.makedirs('/tmp/tellus', exist_ok=True)
     importer = TellusImporter()
-    importer.process_snelheids_klasse()
+    importer.process_snelheids_categorie()
+    importer.process_lengte_categorie()
     importer.process_tellus_locaties()
-    # importer.temp_tellus_data()
-    # importer.process_telling_data()
+    importer.temp_tellus_data()
+    importer.process_telling_data()
     log.info("Done importing tellus data")

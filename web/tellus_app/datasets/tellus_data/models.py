@@ -1,9 +1,24 @@
 from django.contrib.gis.db import models
 
-
-class SnelheidsKlasse(models.Model):
+class LengteCategorie(models.Model):
     """
-    De snelheidsklasse worden hier beschreven
+    De lengte categorieen worden hier beschreven
+    """
+    klasse = models.IntegerField(primary_key=True)
+    l1 = models.CharField(max_length=30, default='')
+    l2 = models.CharField(max_length=30, default='')
+    l3 = models.CharField(max_length=30, default='')
+    l4 = models.CharField(max_length=30, default='')
+    l5 = models.CharField(max_length=30, default='')
+    l6 = models.CharField(max_length=30, default='')
+
+    def __str__(self):
+        return "LengteCategorie {}".format(self.klasse)
+
+
+class SnelheidsCategorie(models.Model):
+    """
+    De snelheids categorieen worden hier beschreven
     """
     klasse = models.IntegerField(primary_key=True)
     s1 = models.CharField(max_length=30, default='nvt')
@@ -18,7 +33,7 @@ class SnelheidsKlasse(models.Model):
     s10 = models.CharField(max_length=30, default='nvt')
 
     def __str__(self):
-        return "SnelheidsKlasse {}".format(self.klasse)
+        return "SnelheidsCategorie {}".format(self.klasse)
 
 
 class Tellus(models.Model):
@@ -33,7 +48,7 @@ class Tellus(models.Model):
 
     objnr_vor = models.CharField(max_length=10, unique=True)
     objnr_leverancier = models.CharField(max_length=10, unique=True)
-    snelheids_klasse = models.ForeignKey(SnelheidsKlasse, related_name='tellussen')
+    snelheids_klasse = models.ForeignKey(SnelheidsCategorie, related_name='tellussen')
     standplaats = models.CharField(max_length=80)
     zijstraat_a = models.CharField(max_length=80)
     zijstraat_b = models.CharField(max_length=80)
@@ -60,13 +75,6 @@ class TellusData(models.Model):
                           (4, "Niet consistent"),
                           (5, "Niet plausibel"))
 
-    LENGTH_CATEGORY = (('L1', '0 - 5,1m'),
-                       ('L2', '5,1 - 5,6m'),
-                       ('L3', '5,6 - 7,5m'),
-                       ('L4', '7,5 - 10,5m'),
-                       ('L5', '10,5 - 12,2m'),
-                       ('L6', '>12,2m'))
-
     REPRESENTATIVE = ((0, 'Geen data'),
                       (1, "Representatieve dag"),
                       (2, "Schoolvakantie"),
@@ -77,31 +85,21 @@ class TellusData(models.Model):
                 (1, "Compleet"),
                 (2, "Niet compleet, data wel bruikbaar"))
 
+
     tellus = models.ForeignKey(Tellus)
+    snelheids_categorie = models.ForeignKey(SnelheidsCategorie)
+    lengte_categorie = models.ForeignKey(LengteCategorie)
+
     tijd_van = models.DateTimeField()
     tijd_tot = models.DateTimeField()
     richting = models.IntegerField()
     validatie = models.IntegerField(choices=VALIDATION_CHOICES)
-    lengte_categorie = models.CharField(max_length=20, choices=LENGTH_CATEGORY)
     representatief = models.IntegerField(choices=REPRESENTATIVE)
     meetraai = models.IntegerField(choices=MEETRAAI)
-    meting_1 = models.IntegerField(default=0)
-    meting_2 = models.IntegerField(default=0)
-    meting_3 = models.IntegerField(default=0)
-    meting_4 = models.IntegerField(default=0)
-    meting_5 = models.IntegerField(default=0)
-    meting_6 = models.IntegerField(default=0)
-    meting_7 = models.IntegerField(default=0)
-    meting_8 = models.IntegerField(default=0)
-    meting_9 = models.IntegerField(default=0)
-    meting_10 = models.IntegerField(default=0)
+    data = models.TextField(null=True)
 
     def __str__(self):
         return "TellusData {} {}".format(self.tellus, self.tijd_van)
 
-    @property
-    def snelheids_klasse(self):
-        return self.tellus.snelheids_klasse
-
     class Meta:
-        unique_together = ("tellus", "tijd_van", "tijd_tot")
+        unique_together = ("tellus", "richting", "tijd_van", "tijd_tot")
