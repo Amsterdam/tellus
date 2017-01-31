@@ -1,4 +1,6 @@
 from django.contrib.gis.db import models
+from django.core.serializers import json
+
 
 class LengteCategorie(models.Model):
     """
@@ -100,6 +102,10 @@ class TellusData(models.Model):
 
     def __str__(self):
         return "TellusData {} {}".format(self.tellus, self.tijd_van)
+
+    @property
+    def meet_resultaten(self):
+        return json.loads(self.data)
 
     class Meta:
         unique_together = ("tellus", "richting", "tijd_van", "tijd_tot")

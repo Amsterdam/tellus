@@ -25,6 +25,7 @@ DEBUG = SECRET_KEY == insecure_key
 ALLOWED_HOSTS = ['*']
 
 PROJECT_APPS = [
+    'api',
     'tellus',
     'datasets.tellus_data',
 ]
@@ -212,6 +213,7 @@ SWAGGER_SETTINGS = {
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
+
 
 HEALTH_MODEL = 'tellus_data.TellusData'
 

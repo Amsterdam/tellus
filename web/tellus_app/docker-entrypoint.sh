@@ -14,7 +14,6 @@ echo Performing migrations
 yes yes | python manage.py migrate
 
 echo Collecting static files
-yes yes | python manage.py collectstatic
-
+yes yes | python manage.py collectstatic --noinput
 # run uwsgi
 exec uwsgi --ini /app/uwsgi.ini

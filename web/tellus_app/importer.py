@@ -149,7 +149,7 @@ class TellusImporter(object):
                     tellus_object_number = self.determineTellusObjectNumber(trow[0], trow[1])
                     tellus_object = Tellus.objects.get(objnr_vor=tellus_object_number)
                     snelheids_categorie_object = SnelheidsCategorie.objects.get(klasse=trow[5])
-                    lengte_categorie_object = LengteCategorie.objects.get(klasse='1')
+                    lengte_categorie_object = LengteCategorie.objects.get(klasse=1)
                     tijd_van = parse_date(trow[6]).replace(tzinfo=pytz.UTC)
                     tijd_tot = parse_date(trow[7]).replace(tzinfo=pytz.UTC)
                     db_row, created = TellusData.objects.update_or_create(
