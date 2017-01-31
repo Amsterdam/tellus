@@ -16,8 +16,10 @@ class TestImport(TestCase):
 
         def _import_meta(self):
             filepath = os.path.dirname(os.path.abspath(__file__))
-            wb = openpyxl.load_workbook("{}/fixture_files/{}".format(filepath, self.codebook_name))
-            self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for sheet_name in wb.get_sheet_names()}
+            wb = openpyxl.load_workbook(
+                "{}/fixture_files/{}".format(filepath, self.codebook_name))
+            self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for
+                           sheet_name in wb.get_sheet_names()}
 
         # patch `_import_meta`
         TellusImporter._import_meta = _import_meta
@@ -28,7 +30,6 @@ class TestImport(TestCase):
         assert len(self.my_importer.sheets) == 7
 
     def test_process_tellus_import(self):
-
         self.my_importer.process_snelheids_klasse()
         assert SnelheidsKlasse.objects.count() == 4
         # import the `tellus_locaties`
@@ -41,13 +42,15 @@ class TestImport(TestCase):
         # write fixture data
         filepath = os.path.dirname(os.path.abspath(__file__))
         with open('/tmp/tellus/tellus.csv', 'w') as f:
-            f.write(open("{}/fixture_files/AMS365_2016-10.csv".format(filepath)).read())
+            f.write(open(
+                "{}/fixture_files/AMS365_2016-10.csv".format(filepath)).read())
 
         self.my_importer.process_telling_data()
         assert TellusData.objects.count() == 19
 
         with open('/tmp/tellus/tellus.csv', 'w') as f:
-            f.write(open("{}/fixture_files/AMS365_2016-11.csv".format(filepath)).read())
+            f.write(open(
+                "{}/fixture_files/AMS365_2016-11.csv".format(filepath)).read())
 
         self.my_importer.process_telling_data()
         assert TellusData.objects.count() == 38
