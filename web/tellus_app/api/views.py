@@ -8,9 +8,9 @@ from .serializers import (
 class LengteCategorieViewSet(viewsets.ReadOnlyModelViewSet):
     """
     retrieve:
-        Return a LengteCategorie instance
+        Return a `LengteCategorie` instance
     list:
-        Return all LengteCategorie instances, ordered by id
+        Return all `LengteCategorie instances`, ordered by id
     """
     queryset = LengteCategorie.objects.all()
     serializer_class = LengteCategorieSerializer
