@@ -4,7 +4,7 @@ from unittest import mock
 
 import openpyxl
 
-from datasets.tellus_data.models import Tellus, SnelheidsKlasse, TellusData
+from datasets.tellus_data.models import Tellus, SnelheidsCategorie, TellusData
 from importer import TellusImporter
 
 
@@ -30,8 +30,9 @@ class TestImport(TestCase):
         assert len(self.my_importer.sheets) == 7
 
     def test_process_tellus_import(self):
-        self.my_importer.process_snelheids_klasse()
-        assert SnelheidsKlasse.objects.count() == 4
+        self.my_importer.process_lengte_categorie()
+        self.my_importer.process_snelheids_categorie()
+        assert SnelheidsCategorie.objects.count() == 4
         # import the `tellus_locaties`
         self.my_importer.process_tellus_locaties()
 
@@ -46,11 +47,11 @@ class TestImport(TestCase):
                 "{}/fixture_files/AMS365_2016-10.csv".format(filepath)).read())
 
         self.my_importer.process_telling_data()
-        assert TellusData.objects.count() == 19
+        assert TellusData.objects.count() == 34
 
         with open('/tmp/tellus/tellus.csv', 'w') as f:
             f.write(open(
                 "{}/fixture_files/AMS365_2016-11.csv".format(filepath)).read())
 
         self.my_importer.process_telling_data()
-        assert TellusData.objects.count() == 38
+        assert TellusData.objects.count() == 34

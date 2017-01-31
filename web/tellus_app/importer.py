@@ -160,9 +160,8 @@ class TellusImporter(object):
                     tellus_object = Tellus.objects.get(
                         objnr_vor=tellus_object_number)
                     snelheids_categorie_object = SnelheidsCategorie.objects.get(
-                        klasse=trow[5])
-                    lengte_categorie_object = LengteCategorie.objects.get(
-                        klasse='1')
+                        klasse=int(trow[5]))
+                    lengte_categorie_object = LengteCategorie.objects.get(klasse=1)
                     tijd_van = parse_date(trow[6]).replace(tzinfo=pytz.UTC)
                     tijd_tot = parse_date(trow[7]).replace(tzinfo=pytz.UTC)
                     db_row, created = TellusData.objects.update_or_create(
@@ -196,8 +195,8 @@ class TellusImporter(object):
 if __name__ == "__main__":
     os.makedirs('/tmp/tellus', exist_ok=True)
     importer = TellusImporter()
-    importer.process_snelheids_categorie()
     importer.process_lengte_categorie()
+    importer.process_snelheids_categorie()
     importer.process_tellus_locaties()
     importer.temp_tellus_data()
     importer.process_telling_data()
