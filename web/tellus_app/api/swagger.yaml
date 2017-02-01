@@ -57,7 +57,7 @@
     /tellus/tellus/{id}:
       get:
         description: Returns a Tellus based on a single ID
-        operationId: findTellusById
+        operationId: find_tellus_by_id
         produces:
           - application/json
           - application/xml
@@ -114,15 +114,112 @@
           - application/json
 
         parameters:
-          - name: id
-          - in: path
+          -
+            name: id
+            in: path
+            description: ID of pet to fetch
+            required: true
+            type: integer
+            format: int64
         responses:
           200:
             description: A tellus data measurement data object
             schema:
               $ref: '#/definitions/TellusData'
 
+    /tellus/lengtecategorie?page={page}&{page_size={page_size}:
+      get:
+        description: Returns a list of lengte categorie objects
+        operationId: get_lengtecategories
+        produces:
+          - application/json
+        parameters:
+          -
+            name: page
+            in: query
+            description: Page number to view
+            required: true
+            type: integer
+            format: int64
+          -
+            name: page_size
+            in: query
+            description: number of rows per page
+            required: true
+            type: integer
+            format: int64
+        responses:
+          200:
+            description: A list of lengte categoie objects
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/LengteCategorie'
+    /tellus/lengtecategorie{id}:
+      get:
+        description: Return lengtecategorie with id {id}
+        operationId: get_lengtecategorie_by_id
+        parameters:
+          -
+            name: id
+            in: path
+            description: ID of pet to fetch
+            required: true
+            type: integer
+            format: int64
+        responses:
+          200:
+            description: A lengte categorie
+            schema: '#/definitions/LengteCategorie'
+
+
   definitions:
+    LengteCategorie:
+      type: object
+      required:
+        - klasse
+      properties:
+        klasse:
+          type: integer
+        l1:
+          type: string
+        l2:
+          type: string
+        l3:
+          type: string
+        l4:
+          type: string
+        l5:
+          type: string
+        l6:
+          type: string
+    SnelheidsCategorie:
+      type: object
+      required:
+        - klasse
+      properties:
+        klasse:
+          type: integer
+        s1:
+          type: string
+        s2:
+          type: string
+        s3:
+          type: string
+        s4:
+          type: string
+        s5:
+          type: string
+        s6:
+          type: string
+        s7:
+          type: string
+        s8:
+          type: string
+        s9:
+          type: string
+        s10:
+          type: string
     Tellus:
       type: object
       required:
