@@ -1,72 +1,88 @@
-from rest_framework import viewsets
-
 from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie, Tellus, TellusData
-from .serializers import (
-    LengteCategorieSerializer, SnelheidsCategorieSerializer, TellusSerializer, TellusDataSerializer)
+from rest_framework import mixins, generics
+from api import serializers
 
 
-class LengteCategorieViewSet(viewsets.ReadOnlyModelViewSet):
+class LengteCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
     """
-    retrieve:
-        Return a `LengteCategorie` instance
-    list:
-        Return all `LengteCategorie instances`, ordered by id
+    Returns all `LengteCategorie instances`, ordered by id
     """
-    queryset = LengteCategorie.objects.all()
-    serializer_class = LengteCategorieSerializer
-    lookup_field = 'klasse'
+    queryset = LengteCategorie.objects.all().order_by('pk')
+    serializer_class = serializers.LengteCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
-class SnelheidsCategorieViewSet(viewsets.ReadOnlyModelViewSet):
+class LengteCategorieDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
     """
-    retrieve:
-        Return a SnelheidsCategorie instance
-    list:
-        Return all SnelheidsCategorie instances, ordered by id
-    """
-    queryset = SnelheidsCategorie.objects.all()
-    serializer_class = SnelheidsCategorieSerializer
-    lookup_field = 'klasse'
-
-
-class TellusViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    retrieve:
-        Return a Tellus object instance
-    list:
-        Return all Tellus objects, ordered by objnr_vor
+    Returns `LengteCategorie` instance by id
     """
     queryset = Tellus.objects.all()
-    serializer_class = TellusSerializer
-    lookup_field = 'id'
+    serializer_class = serializers.LengteCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
 
-class TellusDataViewSet(viewsets.ReadOnlyModelViewSet):
+class SnelheidsCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
     """
-    retrieve:
-        Return a Tellus data instance
-    list:
-        Return all Tellus data instances, ordered by date and time descending
+    Returns all `SnelheidsCategorie instances`, ordered by id
+    """
+    queryset = SnelheidsCategorie.objects.all().order_by('pk')
+    serializer_class = serializers.SnelheidsCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class SnelheidsCategorieDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = SnelheidsCategorie.objects.all()
+    serializer_class = serializers.SnelheidsCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
+class TellusList(mixins.ListModelMixin, generics.GenericAPIView):
+    queryset = Tellus.objects.all().order_by('pk')
+    serializer_class = serializers.TellusSerializer
+
+    # pagination_class = HALPagination
+    # filter_backends = (filters.DjangoFilterBackend,)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class TellusDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    """
+    Returns a `Tellus detail` object by id
+    """
+    queryset = Tellus.objects.all()
+    serializer_class = serializers.TellusSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
+class TellusDataList(mixins.ListModelMixin, generics.GenericAPIView):
+    """
+    Returns a list of `TellusData` objects.
     """
     queryset = TellusData.objects.all()
-    serializer_class = TellusDataSerializer
+    serializer_class = serializers.TellusDataSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
-# from rest_framework import mixins
-# from rest_framework import generics
-#
-#
-# class TellusDataList(mixins.ListModelMixin, generics.GenericAPIView):
-#     queryset = Tellus.objects.all()
-#     serializer_class = TellusDataSerializer
-#
-#     def get(self, request, *args, **kwargs):
-#         return self.list(request, *args, **kwargs)
-#
-#
-# class TellusDataDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
-#     queryset = TellusData.objects.all()
-#     serializer_class = TellusDataSerializer
-#
-#     def get(self, request, *args, **kwargs):
-#         return self.retrieve(request, *args, **kwargs)
+class TellusDataDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    """
+    Returns a `TellusData detail` object by id
+    """
+    queryset = TellusData.objects.all()
+    serializer_class = serializers.TellusDataSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)

@@ -1,0 +1,173 @@
+---
+  swagger: 2.0
+  info:
+    version: 1.0.0
+    title: Tellus API
+    description: The tellus Rest API
+  basePath: /tellus
+  schemes:
+    - http
+  consumes:
+    - application/json
+  produces:
+    - application/json
+
+  paths:
+    /tellus/tellus?page={page}&page_size={page_size}&lat={lat}&lon={lon}&radius={radius}:
+      get:
+        description: Returns tellus objects
+        operationId: find_tellussen_by_lat_lon_radius
+        produces:
+          - application/json
+        parameters:
+          -
+            name: lat
+            in: query
+            description: latitude of viewpoint
+            required: true
+            type: number
+            format: float
+          -
+            name: lon
+            in: query
+            description: longitude of viewpoint
+            required: true
+            type: number
+            format: float
+          -
+            name: radius
+            in: query
+            description: radius of viewpoint
+            required: true
+            type: integer
+            format: int64
+        responses:
+          200:
+            description: tellus response
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Tellus'
+
+    /tellus/tellus/{id}:
+      get:
+        description: Returns a Tellus based on a single ID
+        operationId: findTellusById
+        produces:
+          - application/json
+          - application/xml
+          - text/xml
+          - text/html
+        parameters:
+          -
+            name: id
+            in: path
+            description: ID of pet to fetch
+            required: true
+            type: integer
+            format: int64
+        responses:
+          200:
+            description: A list of tellus objects
+            schema:
+              $ref: '#/definitions/Tellus'
+
+    /tellus/tellusdata?page={page}&page_size={page_size}:
+      get:
+        description: Returns tellus measurements per hour
+        operationId: find_tellus_measurements
+        produces:
+          - application/json
+          - application/xml
+          - text/xml
+          - text/html
+        parameters:
+          -
+            name: page
+            in: query
+            description: Page number to view
+            required: true
+            type: integer
+            format: int64
+          -
+            name: page_size
+            in: query
+            description: number of rows per page
+            required: true
+            type: integer
+            format: int64
+        responses:
+          200:
+            description: A list of tellus data objedcts
+            schema:
+              type: array
+              items:
+                $ref: #definitions/TellusData
+
+  definitions:
+    Tellus:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+        objnr_vor:
+          type: string
+        objnr_leverancier:
+          type: string
+        snelheids_klasse:
+          type: integer
+        standplaats:
+          type: string
+        zijstraat_a:
+          type: string
+        zijstraat_b:
+          type: string
+        richting_1:
+          type: string
+        richting_2:
+          type: string
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+        rijksdriehoek_x:
+          type: number
+          format: float
+        rijksdriehoek_y:
+          type: number
+          format: float
+        geometrie:
+          type: string
+    TellusData:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+        tellus_id:
+          type: integer
+        snelheids_categorie:
+          type: integer
+        lengte_categorie:
+          type: integer
+        tijd_van:
+          type: string
+          format: date-time
+        tijd_tot:
+          type: string
+          format: date-time
+        richting:
+          type: integer
+        validatie:
+          type: integer
+        representatief:
+          type: integer
+        meetraai:
+          type: integer
+        meetresultatem:
+          type: string
