@@ -1,14 +1,19 @@
 ---
   swagger: 2.0
+
   info:
     version: 1.0.0
     title: Tellus API
     description: The tellus Rest API
+
   basePath: /tellus
+
   schemes:
     - http
+
   consumes:
     - application/json
+
   produces:
     - application/json
 
@@ -75,12 +80,9 @@
     /tellus/tellusdata?page={page}&page_size={page_size}:
       get:
         description: Returns tellus measurements per hour
-        operationId: find_tellus_measurements
+        operationId: get_tellus_measurements_list
         produces:
           - application/json
-          - application/xml
-          - text/xml
-          - text/html
         parameters:
           -
             name: page
@@ -102,7 +104,23 @@
             schema:
               type: array
               items:
-                $ref: #definitions/TellusData
+                $ref: '#definitions/TellusData'
+
+    /tellus/telusdata{id}:
+      get:
+        description: Returns a tellus data object for id
+        operationId: get_tellus_measurement_by_id
+        produces:
+          - application/json
+
+        parameters:
+          - name: id
+          - in: path
+        responses:
+          200:
+            description: A tellus data measurement data object
+            schema:
+              $ref: '#/definitions/TellusData'
 
   definitions:
     Tellus:
