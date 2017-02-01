@@ -107,4 +107,5 @@ pip-selfcheck.json
 .jenkins/backups/
 *.iml
 
-web/static
+# static files
+web/static/

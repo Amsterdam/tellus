@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),
     url(r'^tellus/', include('api.urls'), name='api'),
 ]
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [

@@ -41,8 +41,10 @@ def check_data(request):
     # check tellus db
     try:
         assert model.objects.count() > 1000
+        return HttpResponse(
+            "Database data OK", content_type='text/plain', status=200)
     except:
         log.exception("No tellus data found")
         return HttpResponse(
-            "No tellus data found",
+            "No database data found",
             content_type="text/plain", status=500)

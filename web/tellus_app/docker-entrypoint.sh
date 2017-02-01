@@ -10,9 +10,6 @@ source docker-wait.sh
 echo Performing system check
 python manage.py check
 
-echo Performing migrations
-yes yes | python manage.py migrate
-
 echo Collecting static files
 yes yes | python manage.py collectstatic --noinput
 # run uwsgi

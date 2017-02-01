@@ -49,7 +49,8 @@ class Tellus(models.Model):
 
     objnr_vor = models.CharField(max_length=10, unique=True)
     objnr_leverancier = models.CharField(max_length=10, unique=True)
-    snelheids_klasse = models.ForeignKey(SnelheidsCategorie, related_name='tellussen')
+    snelheids_klasse = models.ForeignKey(SnelheidsCategorie,
+                                         related_name='tellussen')
     standplaats = models.CharField(max_length=80)
     zijstraat_a = models.CharField(max_length=80)
     zijstraat_b = models.CharField(max_length=80)
