@@ -99,7 +99,7 @@ paths:
           schema:
             $ref: '#/definitions/Tellus'
 
-  /tellus/tellusdata:
+  /tellus/tellusdata/:
     get:
       description: Returns tellus measurements per hour
       operationId: get_tellus_measurements_list
@@ -132,7 +132,7 @@ paths:
             items:
               $ref: "#/definitions/TellusData"
 
-  /tellus/telusdata{id}:
+  /tellus/telusdata/{id}:
     get:
       description: Returns a tellus data object for id
       operationId: get_tellus_measurement_by_id
@@ -187,7 +187,7 @@ paths:
             type: array
             items:
               $ref: "#/definitions/LengteCategorie"
-  /tellus/lengtecategorie{id}:
+  /tellus/lengtecategorie/{id}:
     get:
       description: Return lengtecategorie with id {id}
       operationId: get_lengtecategorie_by_id
@@ -195,7 +195,7 @@ paths:
         -
           name: id
           in: path
-          description: ID of pet to fetch
+          description: ID of the lengetcategie object
           required: true
           type: integer
           format: int64
@@ -240,7 +240,7 @@ paths:
             items:
               $ref: "#/definitions/SnelheidsCategorie"
 
-  /tellus/snelheidscategorie{id}:
+  /tellus/snelheidscategorie/{id}:
     get:
       description: Return snelheidscategorie with id {id}
       operationId: get_snelheidscategorie_by_id
