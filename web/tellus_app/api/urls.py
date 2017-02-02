@@ -1,11 +1,8 @@
-from django.conf.urls import url, include
-from rest_framework import routers
-from rest_framework.routers import DefaultRouter
+from django.conf.urls import url
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 
 from api import views
-
 
 #
 #  Create our schema's view w/ the get_schema_view() helper method. Pass in the proper Renderers for swagger
@@ -22,8 +19,8 @@ urlpatterns = [
     url(r'^lengtecategorie/$', views.LengteCategorieList.as_view(), name='lengtecategorie-list'),
     url(r'^lengtecategorie/(?P<pk>[0-9]+)/', views.SnelheidsCategorieDetail.as_view(), name='lengtecategorie-detail'),
     url(r'^snelheidscategorie/$', views.LengteCategorieList.as_view(), name='snelheidcategorie-list'),
-    url(r'^snelheidscategorie/(?P<pk>[0-9]+)/', views.SnelheidsCategorieDetail.as_view(), name='snelheidscategorie-detail'),
+    url(r'^snelheidscategorie/(?P<pk>[0-9]+)/', views.SnelheidsCategorieDetail.as_view(),
+        name='snelheidscategorie-detail'),
     url(r'^tellusdata/$', views.TellusDataList.as_view(), name='tellusdata-list'),
     url(r'^tellusdata/(?P<pk>[0-9]+)/$', views.TellusDataDetail.as_view(), name='tellusdata-detail'),
 ]
-
