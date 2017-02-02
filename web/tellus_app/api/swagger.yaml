@@ -1,4 +1,4 @@
-swagger: 2.0
+swagger: "2.0"
 
 info:
   version: 1.0.0
@@ -17,7 +17,7 @@ produces:
   - application/json
 
 paths:
-  /tellus/tellus?page={page}&page_size={page_size}&lat={lat}&lon={lon}&radius={radius}:
+  /tellus/tellus:
     get:
       description: Returns tellus objects
       operationId: find_tellussen_by_lat_lon_radius
@@ -53,7 +53,7 @@ paths:
           in: query
           description: longitude of viewpoint
           required: false
-          default: 0.0
+          default: 0
           type: number
           format: float
         -
@@ -61,7 +61,8 @@ paths:
           in: query
           description: radius of viewpoint
           required: false
-          type: 25
+          default: 25
+          type: integer
           format: int64
       responses:
         "404":
@@ -98,7 +99,7 @@ paths:
           schema:
             $ref: '#/definitions/Tellus'
 
-  /tellus/tellusdata?page={page}&page_size={page_size}:
+  /tellus/tellusdata:
     get:
       description: Returns tellus measurements per hour
       operationId: get_tellus_measurements_list
@@ -129,7 +130,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#definitions/TellusData"
+              $ref: "#/definitions/TellusData"
 
   /tellus/telusdata{id}:
     get:
@@ -154,7 +155,7 @@ paths:
           schema:
             $ref: "#/definitions/TellusData"
 
-  /tellus/lengtecategorie?page={page}&page_size={page_size}:
+  /tellus/lengtecategorie:
     get:
       description: Returns a list of lengte categorie objects
       operationId: get_lengtecategories
@@ -206,7 +207,7 @@ paths:
           schema:
             $ref: "#/definitions/LengteCategorie"
 
-  /tellus/snelheidscategorie?page={page}&page_size={page_size}:
+  /tellus/snelheidscategorie:
     get:
       description: Returns a list of snelheids categorie objects
       operationId: get_snelheidscategories
@@ -310,7 +311,7 @@ definitions:
     type: object
     required:
       - id
-      - snelheidsklasse
+      - snelheids_klasse
     properties:
       id:
         type: integer
@@ -319,7 +320,7 @@ definitions:
       objnr_leverancier:
         type: string
       snelheids_klasse:
-        $ref: "#definitions/SnelheidsCategorie"
+        $ref: "#/definitions/SnelheidsCategorie"
       standplaats:
         type: string
       zijstraat_a:
@@ -355,11 +356,11 @@ definitions:
       id:
         type: integer
       tellus:
-        $ref: "#definitions/Tellus"
+        $ref: "#/definitions/Tellus"
       snelheids_categorie:
-        $ref: "#definitions/SnelheidsCategorie"
+        $ref: "#/definitions/SnelheidsCategorie"
       lengte_categorie:
-        $ref: "#definitions/LengteCategorie"
+        $ref: "#/definitions/LengteCategorie"
       tijd_van:
         type: string
         format: date-time
