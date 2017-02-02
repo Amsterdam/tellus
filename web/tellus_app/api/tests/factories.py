@@ -1,6 +1,8 @@
-import datetime
+
 import json
+import pytz
 from random import randint
+from datetime  import datetime
 
 import factory
 from factory import fuzzy
@@ -12,7 +14,7 @@ class LengteCategorieFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.LengteCategorie
 
-    id = fuzzy.FuzzyInteger(low=1, high=1)
+    klasse = 1
     l1 = fuzzy.FuzzyText(length=10)
     l2 = fuzzy.FuzzyText(length=10)
     l3 = fuzzy.FuzzyText(length=10)
@@ -25,7 +27,7 @@ class SnelheidsCategorieFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.SnelheidsCategorie
 
-    id = fuzzy.FuzzyInteger(low=1, high=1)
+    klasse = 1
     s1 = fuzzy.FuzzyText(length=10)
     s2 = fuzzy.FuzzyText(length=10)
     s3 = fuzzy.FuzzyText(length=10)
@@ -42,9 +44,8 @@ class TellusFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Tellus
 
-    id = fuzzy.FuzzyInteger(low=1, high=30)
-    objnr_vor = 'TP%4d' % id
-    objnr_leverancier = 'AMST%4d' % id
+    objnr_vor = 'TP%4d' % randint(1, 10)
+    objnr_leverancier = 'AMST%4d' % randint(1, 10)
     snelheids_klasse = factory.SubFactory(SnelheidsCategorieFactory)
     standplaats = fuzzy.FuzzyText(length=30)
     zijstraat_a = fuzzy.FuzzyText(length=30)
@@ -63,13 +64,17 @@ class TellusDataFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=1)
     tellus = factory.SubFactory(TellusFactory)
-    snelheids_categorie = factory.SubFactory(SnelheidsCategorieFactory)
+    snelheids_categorie_id = 1
     lengte_categorie = factory.SubFactory(LengteCategorieFactory)
 
-    tijd_van = fuzzy.BaseFuzzyDateTime(start_dt=datetime.datetime.now())
-    tijd_tot = fuzzy.BaseFuzzyDateTime(start_dt=datetime.datetime.now())
+    tijd_van = fuzzy.BaseFuzzyDateTime(
+        start_dt=datetime(2016, 1, 11, 0, 0, 0, 0, pytz.UTC),
+        end_dt=datetime.now(pytz.UTC))
+    tijd_tot = fuzzy.BaseFuzzyDateTime(
+        start_dt=datetime(2016, 1, 11, 0, 0, 0, 0, pytz.UTC),
+        end_dt=datetime.now(pytz.UTC))
     richting = fuzzy.FuzzyChoice(choices=(1, 2))
-    validatie = fuzzy.FuzzyChoice(choices=models.TellusData.VALIDATION_CHOICES)
-    representatief = fuzzy.FuzzyChoice(choices=models.TellusData.REPRESENTATIVE)
-    meetraai = fuzzy.FuzzyChoice(choices=models.TellusData.MEETRAAI)
+    validatie = 1 #fuzzy.FuzzyChoice(choices=models.TellusData.VALIDATION_CHOICES)
+    representatief = 1 #fuzzy.FuzzyChoice(choices=models.TellusData.REPRESENTATIVE)
+    meetraai = 1 #fuzzy.FuzzyChoice(choices=models.TellusData.MEETRAAI)
     data = json.dumps([randint(0, 1000) for x in range(60)])

@@ -26,3 +26,6 @@ dateutils==0.6.6
 python-dateutil==2.6.0
 drf-hal-json==0.9.1
 drf-extensions==0.3.1
+factory-boy==2.7.0
+fake-factory==0.7.2
+
