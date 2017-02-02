@@ -1,7 +1,9 @@
+import json
+
 from rest_framework import serializers
+
 from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie, Tellus, TellusData
 from .rest import DataSetSerializerMixin, HALSerializer
-import json
 
 
 class TellusMixin(DataSetSerializerMixin):
@@ -45,8 +47,10 @@ class SnelheidsCategorieSerializer(TellusMixin, HALSerializer):
             's10',
         )
 
+
 class TellusDataSerializer(TellusMixin, HALSerializer):
     meet_resultaten = serializers.SerializerMethodField()
+
     class Meta:
         model = TellusData
         fields = (
@@ -70,5 +74,5 @@ class TellusDataSerializer(TellusMixin, HALSerializer):
     def get_meet_resultaten(self, obj):
         return json.loads(obj.data)
 
-    # def get_radius(self, obj):
-    #     return "BLA"
+        # def get_radius(self, obj):
+        #     return "BLA"

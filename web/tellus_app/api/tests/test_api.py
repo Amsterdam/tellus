@@ -1,7 +1,10 @@
+import logging
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
 from api.tests.factories import TellusDataFactory
+
+log = logging.getLogger(__name__)
 
 
 class TestAPIEndpoints(APITestCase):
@@ -54,6 +57,7 @@ class TestAPIEndpoints(APITestCase):
 
     def test_lists(self):
         for url in self.reverse_list_urls:
+            log.debug("test {} => {}".format(url, reverse(url)))
             response = self.client.get(reverse(url))
             self.valid_response(url, response)
             self.assertIn(
@@ -64,4 +68,5 @@ class TestAPIEndpoints(APITestCase):
 
     def test_details(self):
         for url in self.reverse_detail_urls:
+            log.debug("test {} => {}".format(url, reverse(url, [1])))
             self.valid_response(url, self.client.get(reverse(url, [1])))

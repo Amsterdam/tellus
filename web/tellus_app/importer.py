@@ -10,11 +10,10 @@ from dateutil.parser import parse as parse_date
 
 django.setup()
 
-from django.contrib.gis.geos import Point
-
+from django.contrib.gis.geos import Point  # noqa
 from datasets.tellus_data.models import (Tellus, SnelheidsCategorie,
-                                         LengteCategorie, TellusData)
-from objectstore.objectstore import fetch_meta_data, fetch_last_tellus_data
+                                         LengteCategorie, TellusData)  # noqa
+from objectstore.objectstore import fetch_meta_data, fetch_last_tellus_data  # noqa
 
 log = logging.getLogger(__name__)
 
