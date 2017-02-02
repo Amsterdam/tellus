@@ -310,6 +310,7 @@ definitions:
     type: object
     required:
       - id
+      - snelheidsklasse
     properties:
       id:
         type: integer
@@ -347,6 +348,9 @@ definitions:
     type: object
     required:
       - id
+      - tellus
+      - snelheids_categorie
+      - lengte_categorie
     properties:
       id:
         type: integer
