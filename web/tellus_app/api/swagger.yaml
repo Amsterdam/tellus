@@ -1,333 +1,374 @@
----
-  swagger: 2.0
+swagger: 2.0
 
-  info:
-    version: 1.0.0
-    title: Tellus API
-    description: The tellus Rest API
+info:
+  version: 1.0.0
+  title: Tellus API
+  description: The tellus Rest API
 
-  basePath: /tellus
+basePath: /tellus
 
-  schemes:
-    - http
+schemes:
+  - http
 
-  consumes:
-    - application/json
+consumes:
+  - application/json
 
-  produces:
-    - application/json
+produces:
+  - application/json
 
-  paths:
-    /tellus/tellus?page={page}&page_size={page_size}&lat={lat}&lon={lon}&radius={radius}:
-      get:
-        description: Returns tellus objects
-        operationId: find_tellussen_by_lat_lon_radius
-        produces:
-          - application/json
-        parameters:
-          -
-            name: lat
-            in: query
-            description: latitude of viewpoint
-            required: true
-            type: number
-            format: float
-          -
-            name: lon
-            in: query
-            description: longitude of viewpoint
-            required: true
-            type: number
-            format: float
-          -
-            name: radius
-            in: query
-            description: radius of viewpoint
-            required: true
-            type: integer
-            format: int64
-        responses:
-          200:
-            description: tellus response
-            schema:
-              type: array
-              items:
-                $ref: '#/definitions/Tellus'
-
-    /tellus/tellus/{id}:
-      get:
-        description: Returns a Tellus based on a single ID
-        operationId: find_tellus_by_id
-        produces:
-          - application/json
-          - application/xml
-          - text/xml
-          - text/html
-        parameters:
-          -
-            name: id
-            in: path
-            description: ID of pet to fetch
-            required: true
-            type: integer
-            format: int64
-        responses:
-          200:
-            description: A list of tellus objects
-            schema:
-              $ref: '#/definitions/Tellus'
-
-    /tellus/tellusdata?page={page}&page_size={page_size}:
-      get:
-        description: Returns tellus measurements per hour
-        operationId: get_tellus_measurements_list
-        produces:
-          - application/json
-        parameters:
-          -
-            name: page
-            in: query
-            description: Page number to view
-            required: true
-            type: integer
-            format: int64
-          -
-            name: page_size
-            in: query
-            description: number of rows per page
-            required: true
-            type: integer
-            format: int64
-        responses:
-          200:
-            description: A list of tellus data objedcts
-            schema:
-              type: array
-              items:
-                $ref: '#definitions/TellusData'
-
-    /tellus/telusdata{id}:
-      get:
-        description: Returns a tellus data object for id
-        operationId: get_tellus_measurement_by_id
-        produces:
-          - application/json
-
-        parameters:
-          -
-            name: id
-            in: path
-            description: ID of pet to fetch
-            required: true
-            type: integer
-            format: int64
-        responses:
-          200:
-            description: A tellus data measurement data object
-            schema:
-              $ref: '#/definitions/TellusData'
-
-    /tellus/lengtecategorie?page={page}&page_size={page_size}:
-      get:
-        description: Returns a list of lengte categorie objects
-        operationId: get_lengtecategories
-        produces:
-          - application/json
-        parameters:
-          -
-            name: page
-            in: query
-            description: Page number to view
-            required: true
-            type: integer
-            format: int64
-          -
-            name: page_size
-            in: query
-            description: number of rows per page
-            required: true
-            type: integer
-            format: int64
-        responses:
-          200:
-            description: A list of lengte categoie objects
-            schema:
-              type: array
-              items:
-                $ref: '#/definitions/LengteCategorie'
-    /tellus/lengtecategorie{id}:
-      get:
-        description: Return lengtecategorie with id {id}
-        operationId: get_lengtecategorie_by_id
-        parameters:
-          -
-            name: id
-            in: path
-            description: ID of pet to fetch
-            required: true
-            type: integer
-            format: int64
-        responses:
-          200:
-            description: A lengte categorie
-            schema: '#/definitions/LengteCategorie'
-
-    /tellus/snelheidscategorie?page={page}&page_size={page_size}:
-      get:
-        description: Returns a list of snelheids categorie objects
-        operationId: get_snelheidscategories
-        produces:
-          - application/json
-        parameters:
-          -
-            name: page
-            in: query
-            description: Page number to view
-            required: true
-            type: integer
-            format: int64
-          -
-            name: page_size
-            in: query
-            description: number of rows per page
-            required: true
-            type: integer
-            format: int64
-        responses:
-          200:
-            description: A list of snelheids categoie objects
-            schema:
-              type: array
-              items:
-                $ref: '#/definitions/SnelheidsCategorie'
-
-    /tellus/snelheidscategorie{id}:
-      get:
-        description: Return snelheidscategorie with id {id}
-        operationId: get_snelheidscategorie_by_id
-        parameters:
-          -
-            name: id
-            in: path
-            description: ID of pet to fetch
-            required: true
-            type: integer
-            format: int64
-        responses:
-          200:
-            description: A snelheids categorie
-            schema: '#/definitions/SnelheidsCategorie'
-            
-  definitions:
-    LengteCategorie:
-      type: object
-      required:
-        - klasse
-      properties:
-        klasse:
+paths:
+  /tellus/tellus?page={page}&page_size={page_size}&lat={lat}&lon={lon}&radius={radius}:
+    get:
+      description: Returns tellus objects
+      operationId: find_tellussen_by_lat_lon_radius
+      produces:
+        - application/json
+      parameters:
+        -
+          name: page
+          in: query
+          description: Page number to view
+          required: false
+          default: 1
           type: integer
-        l1:
-          type: string
-        l2:
-          type: string
-        l3:
-          type: string
-        l4:
-          type: string
-        l5:
-          type: string
-        l6:
-          type: string
-    SnelheidsCategorie:
-      type: object
-      required:
-        - klasse
-      properties:
-        klasse:
+          format: int64
+        -
+          name: page_size
+          in: query
+          description: number of rows per page
+          required: false
+          default: 100
           type: integer
-        s1:
-          type: string
-        s2:
-          type: string
-        s3:
-          type: string
-        s4:
-          type: string
-        s5:
-          type: string
-        s6:
-          type: string
-        s7:
-          type: string
-        s8:
-          type: string
-        s9:
-          type: string
-        s10:
-          type: string
-    Tellus:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: integer
-        objnr_vor:
-          type: string
-        objnr_leverancier:
-          type: string
-        snelheids_klasse:
-          type: integer
-        standplaats:
-          type: string
-        zijstraat_a:
-          type: string
-        zijstraat_b:
-          type: string
-        richting_1:
-          type: string
-        richting_2:
-          type: string
-        latitude:
+          format: int64
+        -
+          name: lat
+          in: query
+          description: latitude of viewpoint
+          required: false
+          default: 0.0
           type: number
           format: float
-        longitude:
+        -
+          name: lon
+          in: query
+          description: longitude of viewpoint
+          required: false
+          default: 0.0
           type: number
           format: float
-        rijksdriehoek_x:
-          type: number
-          format: float
-        rijksdriehoek_y:
-          type: number
-          format: float
-        geometrie:
-          type: string
-    TellusData:
-      type: object
-      required:
-        - id
-      properties:
-        id:
+        -
+          name: radius
+          in: query
+          description: radius of viewpoint
+          required: false
+          type: 25
+          format: int64
+      responses:
+        "404":
+          description: 404 not found
+        "200":
+          description: request successful
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Tellus"
+
+  /tellus/tellus/{id}:
+    get:
+      description: Returns a Tellus based on a single ID
+      operationId: find_tellus_by_id
+      produces:
+        - application/json
+        - application/xml
+        - text/xml
+        - text/html
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of pet to fetch
+          required: true
           type: integer
-        tellus_id:
+          format: int64
+      responses:
+        "404":
+          description: Tellus not found
+        "200":
+          description: request successful
+          schema:
+            $ref: '#/definitions/Tellus'
+
+  /tellus/tellusdata?page={page}&page_size={page_size}:
+    get:
+      description: Returns tellus measurements per hour
+      operationId: get_tellus_measurements_list
+      produces:
+        - application/json
+      parameters:
+        -
+          name: page
+          in: query
+          description: Page number to view
+          required: false
+          default: 1
           type: integer
-        snelheids_categorie:
+          format: int64
+        -
+          name: page_size
+          in: query
+          description: number of rows per page
+          required: false
+          default: 100
           type: integer
-        lengte_categorie:
+          format: int64
+      responses:
+        "404":
+          description: 404 not found
+        "200":
+          description: request successful
+          schema:
+            type: array
+            items:
+              $ref: "#definitions/TellusData"
+
+  /tellus/telusdata{id}:
+    get:
+      description: Returns a tellus data object for id
+      operationId: get_tellus_measurement_by_id
+      produces:
+        - application/json
+
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of pet to fetch
+          required: true
           type: integer
-        tijd_van:
-          type: string
-          format: date-time
-        tijd_tot:
-          type: string
-          format: date-time
-        richting:
+          format: int64
+      responses:
+        "404":
+          description: 404 not found
+        "200":
+          description: request successful
+          schema:
+            $ref: "#/definitions/TellusData"
+
+  /tellus/lengtecategorie?page={page}&page_size={page_size}:
+    get:
+      description: Returns a list of lengte categorie objects
+      operationId: get_lengtecategories
+      produces:
+        - application/json
+      parameters:
+        -
+          name: page
+          in: query
+          description: Page number to view
+          required: false
+          default: 1
           type: integer
-        validatie:
+          format: int64
+        -
+          name: page_size
+          in: query
+          description: number of rows per page
+          required: false
+          default: 100
           type: integer
-        representatief:
+          format: int64
+      responses:
+        "404":
+          description: 404 not found
+        "200":
+          description: request successful
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/LengteCategorie"
+  /tellus/lengtecategorie{id}:
+    get:
+      description: Return lengtecategorie with id {id}
+      operationId: get_lengtecategorie_by_id
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of pet to fetch
+          required: true
           type: integer
-        meetraai:
+          format: int64
+      responses:
+        "404":
+          description: 404 not found
+        "200":
+          description: request successful
+          schema:
+            $ref: "#/definitions/LengteCategorie"
+
+  /tellus/snelheidscategorie?page={page}&page_size={page_size}:
+    get:
+      description: Returns a list of snelheids categorie objects
+      operationId: get_snelheidscategories
+      produces:
+        - application/json
+      parameters:
+        -
+          name: page
+          in: query
+          description: Page number to view
+          required: false
+          default: 1
           type: integer
-        meetresultatem:
-          type: string
+          format: int64
+        -
+          name: page_size
+          in: query
+          description: number of rows per page
+          required: false
+          default: 100
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: 404 not found
+        "200":
+          description: request successful
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/SnelheidsCategorie"
+
+  /tellus/snelheidscategorie{id}:
+    get:
+      description: Return snelheidscategorie with id {id}
+      operationId: get_snelheidscategorie_by_id
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of pet to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: 404 not found
+        "200":
+          description: request successful
+          schema:
+            $ref: "#/definitions/SnelheidsCategorie"
+
+definitions:
+  LengteCategorie:
+    type: object
+    required:
+      - klasse
+    properties:
+      klasse:
+        type: integer
+      l1:
+        type: string
+      l2:
+        type: string
+      l3:
+        type: string
+      l4:
+        type: string
+      l5:
+        type: string
+      l6:
+        type: string
+  SnelheidsCategorie:
+    type: object
+    required:
+      - klasse
+    properties:
+      klasse:
+        type: integer
+      s1:
+        type: string
+      s2:
+        type: string
+      s3:
+        type: string
+      s4:
+        type: string
+      s5:
+        type: string
+      s6:
+        type: string
+      s7:
+        type: string
+      s8:
+        type: string
+      s9:
+        type: string
+      s10:
+        type: string
+  Tellus:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+      objnr_vor:
+        type: string
+      objnr_leverancier:
+        type: string
+      snelheids_klasse:
+        $ref: "#definitions/SnelheidsCategorie"
+      standplaats:
+        type: string
+      zijstraat_a:
+        type: string
+      zijstraat_b:
+        type: string
+      richting_1:
+        type: string
+      richting_2:
+        type: string
+      latitude:
+        type: number
+        format: float
+      longitude:
+        type: number
+        format: float
+      rijksdriehoek_x:
+        type: number
+        format: float
+      rijksdriehoek_y:
+        type: number
+        format: float
+      geometrie:
+        type: string
+  TellusData:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+      tellus:
+        $ref: "#definitions/Tellus"
+      snelheids_categorie:
+        $ref: "#definitions/SnelheidsCategorie"
+      lengte_categorie:
+        $ref: "#definitions/LengteCategorie"
+      tijd_van:
+        type: string
+        format: date-time
+      tijd_tot:
+        type: string
+        format: date-time
+      richting:
+        type: integer
+      validatie:
+        type: integer
+      representatief:
+        type: integer
+      meetraai:
+        type: integer
+      meetresultatem:
+        type: string
