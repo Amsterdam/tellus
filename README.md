@@ -28,6 +28,7 @@ Tellus API and import  module.
     pip install -r requirements.txt
     
     # run database migrations
+    export DJANGO_SETTINGS_MODULE=tellus.settings
     ./web/tellus_app/manage.py migrate
     
     # start server

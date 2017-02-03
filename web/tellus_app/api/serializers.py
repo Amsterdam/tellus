@@ -13,7 +13,22 @@ class TellusMixin(DataSetSerializerMixin):
 class TellusSerializer(TellusMixin, HALSerializer):
     class Meta:
         model = Tellus
-        fields = '__all__'
+        fields = (
+            'id',
+            'objnr_vor',
+            'objnr_leverancier',
+            'snelheids_klasse',
+            'standplaats',
+            'zijstraat_a',
+            'zijstraat_b',
+            'richting_1',
+            'richting_2',
+            'latitude',
+            'longitude',
+            'rijksdriehoek_x',
+            'rijksdriehoek_y',
+            'geometrie',
+        )
 
 
 class LengteCategorieSerializer(TellusMixin, HALSerializer):

@@ -1,7 +1,8 @@
 from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie, Tellus, TellusData
 from rest_framework import mixins, generics
 from api import serializers
-
+from django.contrib.gis.measure import D
+from django.contrib.gis.geos import Point
 
 class LengteCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
     """
@@ -54,17 +55,34 @@ class TellusList(mixins.ListModelMixin, generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+    def get_queryset(self):
+        """
+        Filtering using latitude, longitude and radius
+        """
+        queryset = Tellus.objects.all()
+        lat = self.request.query_params.get('lat', None)
+        lon = self.request.query_params.get('lon', None)
+        radius = self.request.query_params.get('radius', None)
+        if lat is not None and lon is not None and radius is not None:
+            pnt = Point(float(lon), float(lat), srid=4326)
+            queryset = queryset.filter(geometrie__distance_lte=(pnt, D(m=int(radius))))
+        return queryset
 
 class TellusDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
     """
     Returns a `Tellus detail` object by id
     """
-    queryset = Tellus.objects.all()
     serializer_class = serializers.TellusSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
+    def get_object(self):
+        """
+        Get using pk
+        """
+        pk = self.kwargs['pk']
+        return Tellus.objects.get(pk=pk)
 
 class TellusDataList(mixins.ListModelMixin, generics.GenericAPIView):
     """
