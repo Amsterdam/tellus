@@ -16,6 +16,7 @@ class TellusSerializer(TellusMixin, HALSerializer):
     class Meta:
         model = Tellus
         fields = (
+            '_display',
             'id',
             'objnr_vor',
             'objnr_leverancier',
