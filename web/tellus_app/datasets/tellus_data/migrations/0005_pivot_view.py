@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
 
             -- DROP VIEW public.tellus_data_tellus_expanded;
 
-            create materialized_view public.tellus_data_tellus_expanded
+            create materialized view public.tellus_data_tellus_expanded
             as
             select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c1 as meetwaarde, 'l1' as lengte_interval, 's1' as snelheid_interval  from tellus_data_tellusdata
             union
@@ -138,7 +138,7 @@ class Migration(migrations.Migration):
             select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c59 as meetwaarde, 'l6' as lengte_interval, 's9' as snelheid_interval  from tellus_data_tellusdata
             union
             select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c60 as meetwaarde, 'l6' as lengte_interval, 's10' as snelheid_interval  from tellus_data_tellusdata
-            order by id, tijd_van, tijd_tot, richting, lengte_interval, snelheids_interval
+            order by id, tijd_van, tijd_tot, richting, lengte_interval, snelheid_interval
             with data;
 
             ALTER TABLE public.tellus_data_tellus_expanded
