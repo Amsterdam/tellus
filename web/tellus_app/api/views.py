@@ -59,14 +59,14 @@ class TellusList(mixins.ListModelMixin, generics.GenericAPIView):
         """
         Filtering using latitude, longitude and radius
         """
-        queryset = Tellus.objects.all()
         lat = self.request.query_params.get('lat', None)
         lon = self.request.query_params.get('lon', None)
         radius = self.request.query_params.get('radius', None)
         if lat is not None and lon is not None and radius is not None:
             pnt = Point(float(lon), float(lat), srid=4326)
-            queryset = queryset.filter(geometrie__distance_lte=(pnt, D(m=int(radius))))
-        return queryset
+            return Tellus.objects.filter(geometrie__distance_lte=(pnt, D(m=int(radius))))
+        else:
+            return Tellus.objects.all()
 
 class TellusDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
     """
