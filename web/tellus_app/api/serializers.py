@@ -11,9 +11,14 @@ class TellusMixin(DataSetSerializerMixin):
 
 
 class TellusSerializer(TellusMixin, HALSerializer):
+    _display = serializers.SerializerMethodField()
+
     class Meta:
         model = Tellus
         fields = '__all__'
+
+    def get__display(self, obj):
+        return str(obj)
 
 
 class LengteCategorieSerializer(TellusMixin, HALSerializer):
@@ -50,10 +55,12 @@ class SnelheidsCategorieSerializer(TellusMixin, HALSerializer):
 
 class TellusDataSerializer(TellusMixin, HALSerializer):
     meet_resultaten = serializers.SerializerMethodField()
+    _display = serializers.SerializerMethodField()
 
     class Meta:
         model = TellusData
         fields = (
+            '_display',
             'tellus',
             'snelheids_categorie',
             'lengte_categorie',
@@ -74,5 +81,5 @@ class TellusDataSerializer(TellusMixin, HALSerializer):
     def get_meet_resultaten(self, obj):
         return json.loads(obj.data)
 
-        # def get_radius(self, obj):
-        #     return "BLA"
+    def get__display(self, obj):
+        return str(obj)

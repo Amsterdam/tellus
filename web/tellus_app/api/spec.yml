@@ -280,6 +280,7 @@ definitions:
         type: string
       l6:
         type: string
+
   SnelheidsCategorie:
     type: object
     required:
@@ -307,6 +308,7 @@ definitions:
         type: string
       s10:
         type: string
+
   Tellus:
     type: object
     required:
@@ -345,6 +347,9 @@ definitions:
         format: float
       geometrie:
         type: string
+      _display:
+        type: string
+
   TellusData:
     type: object
     required:
@@ -376,4 +381,6 @@ definitions:
       meetraai:
         type: integer
       meetresultatem:
+        type: string
+      _display:
         type: string

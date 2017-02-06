@@ -63,8 +63,7 @@ class Tellus(models.Model):
     geometrie = models.PointField(null=True, srid=28992)
 
     def __str__(self):
-        return "Tellus {}".format(self.objnr_vor)
-
+        return "{} - {}".format(self.objnr_leverancier, self.standplaats)
 
 class TellusData(models.Model):
     """
@@ -100,7 +99,8 @@ class TellusData(models.Model):
     data = models.TextField(null=True)
 
     def __str__(self):
-        return "TellusData {} {}".format(self.tellus, self.tijd_van)
+        return "{} - {} van {} tot {}".format(
+            self.tellus, self.richting, self.tijd_van.strftime('%d-%m-%Y %H:%M'), self.tijd_tot.strftime('%H:%M'))
 
     class Meta:
         unique_together = ("tellus", "richting", "tijd_van", "tijd_tot")
