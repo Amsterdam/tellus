@@ -25,6 +25,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 USER datapunt
 
 COPY tellus_app /app/
+COPY .jenkins-import /.jenkins-import/
+
 RUN export DJANGO_SETTINGS_MODULE=tellus.settings
 
 CMD ["/app/docker-entrypoint.sh"]

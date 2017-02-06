@@ -4,18 +4,6 @@ database:
     POSTGRES_PASSWORD: insecure
     POSTGRES_USER: tellus
 
-
-tests:
-  build: ../web
-  links:
-    - database:database
-  environment:
-    DB_NAME: tellus
-    DB_USER: tellus
-    DB_PASSWORD: insecure
-  command: >
-    bash -c "cd /app && ./docker-code-check.sh && ./docker-test.sh"
-
 importer:
   image: build.datapunt.amsterdam.nl:5000/datapunt/tellus:${ENVIRONMENT}
   links:
