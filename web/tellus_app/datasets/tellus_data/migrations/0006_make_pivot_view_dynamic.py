@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("tellus_data", "0005_pivot_view_dynamic"),
+        ("tellus_data", "0005_pivot_view"),
     ]
 
     operations = [
