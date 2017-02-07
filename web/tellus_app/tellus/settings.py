@@ -30,7 +30,9 @@ PROJECT_APPS = [
     'datasets.tellus_data',
 ]
 
-DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'
+DATAPUNT_API_URL = os.getenv(
+    'DATAPUNT_API_URL', 'https://api.datapunt.amsterdam.nl/')
+
 
 # Application definition
 INSTALLED_APPS = [
