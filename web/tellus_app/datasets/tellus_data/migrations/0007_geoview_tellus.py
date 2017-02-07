@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 CREATE VIEW geo_tellus_point AS
                 SELECT
                   tellus.objnr_leverancier as display,
-                  'tellussen/tellus' as type,
+                  cast('tellussen/tellus' as varchar(30)) as type,
                   tellus.standplaats,
                   site.domain || 'tellus/tellus/' || tellus.id || '/' AS uri,
                   tellus.geometrie AS geometrie
