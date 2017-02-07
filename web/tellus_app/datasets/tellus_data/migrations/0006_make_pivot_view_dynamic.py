@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.RunSQL("""
             -- View: public.tellus_data_tellus_expanded
 
-            DROP VIEW public.tellus_data_tellus_expanded;
+            DROP materialized VIEW public.tellus_data_tellus_expanded;
 
             create view public.tellus_data_tellus_expanded
             as
@@ -140,8 +140,5 @@ class Migration(migrations.Migration):
             select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c60 as meetwaarde, 'l6' as lengte_interval, 's10' as snelheid_interval  from tellus_data_tellusdata
 
             order by id, tijd_van, tijd_tot, richting, lengte_interval, snelheid_interval
-
-            ALTER TABLE public.tellus_data_tellus_expanded
-              OWNER TO tellus;
         """),
     ]
