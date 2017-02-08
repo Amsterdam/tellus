@@ -32,5 +32,5 @@ COPY .jenkins-import /.jenkins-import/
 
 RUN export DJANGO_SETTINGS_MODULE=tellus.settings
 
-CMD ["/app/docker-entrypoint.sh"]
+CMD ["/app/docker-run.sh"]
 
