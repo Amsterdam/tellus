@@ -46,9 +46,6 @@ def in_docker():
 OVERRIDE_HOST_ENV_VAR = 'DATABASE_HOST_OVERRIDE'
 OVERRIDE_PORT_ENV_VAR = 'DATABASE_PORT_OVERRIDE'
 
-OVERRIDE_EL_HOST_VAR = 'ELASTIC_HOST_OVERRIDE'
-OVERRIDE_EL_PORT_VAR = 'ELASTIC_PORT_OVERRIDE'
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -60,7 +57,7 @@ class Location_key:
 
 
 def get_database_key():
-    if os.getenv(OVERRIDE_HOST_ENV_VAR) and os.getenv(OVERRIDE_EL_HOST_VAR):
+    if os.getenv(OVERRIDE_HOST_ENV_VAR):
         return Location_key.override
     elif in_docker():
         return Location_key.docker
@@ -146,25 +143,25 @@ WSGI_APPLICATION = 'tellus.wsgi.application'
 DATABASE_OPTIONS = {
     Location_key.docker: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME', 'tellus'),
-        'USER': os.getenv('DB_USER', 'tellus'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'NAME': os.getenv('DATABASE_NAME', 'tellus'),
+        'USER': os.getenv('DATABASE_USER', 'tellus'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': 'database',
         'PORT': '5432'
     },
     Location_key.local: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME', 'tellus'),
-        'USER': os.getenv('DB_USER', 'tellus'),
+        'NAME': os.getenv('DATABASE_NAME', 'tellus'),
+        'USER': os.getenv('DATABASE_USER', 'tellus'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
         'HOST': get_docker_host(),
         'PORT': '5409'
     },
     Location_key.override: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME', 'tellus'),
-        'USER': os.getenv('DB_USER', 'tellus'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'NAME': os.getenv('DATABASE_NAME', 'tellus'),
+        'USER': os.getenv('DATABASE_USER', 'tellus'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': os.getenv(OVERRIDE_HOST_ENV_VAR),
         'PORT': os.getenv(OVERRIDE_PORT_ENV_VAR, '5432')
     },
