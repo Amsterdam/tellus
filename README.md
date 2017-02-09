@@ -38,6 +38,9 @@ Tellus API and import  module.
     http://127.0.0.1:8000/status/health
     http://127.0.0.1:8000/status/data
 
+### Importeer de meest recente database van acceptatie:
+
+docker-compose exec database update-db.sh tellus
 
 ### Tellus import
 #### Location of the datafiles
