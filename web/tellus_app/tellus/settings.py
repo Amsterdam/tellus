@@ -13,8 +13,57 @@ import os
 import re
 import sys
 
+
+def get_docker_host():
+    """
+    Looks for the DOCKER_HOST environment variable to find the VM
+    running docker-machine.
+
+    If the environment variable is not found, it is assumed that
+    you're running docker on localhost.
+    """
+    d_host = os.getenv('DOCKER_HOST', None)
+    if d_host:
+        if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', d_host):
+            return d_host
+
+        return re.match(r'tcp://(.*?):\d+', d_host).group(1)
+    return 'localhost'
+
+
+def in_docker():
+    """
+    Checks pid 1 cgroup settings to check with reasonable certainty we're in a
+    docker env.
+    :return: true when running in a docker container, false otherwise
+    """
+    try:
+        return ':/docker/' in open('/proc/1/cgroup', 'r').read()
+    except:
+        return False
+
+
+OVERRIDE_HOST_ENV_VAR = 'DATABASE_HOST_OVERRIDE'
+OVERRIDE_PORT_ENV_VAR = 'DATABASE_PORT_OVERRIDE'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+class Location_key:
+    local = 'local'
+    docker = 'docker'
+    override = 'override'
+
+
+def get_database_key():
+    if os.getenv(OVERRIDE_HOST_ENV_VAR):
+        return Location_key.override
+    elif in_docker():
+        return Location_key.docker
+
+    return Location_key.local
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'
@@ -32,7 +81,6 @@ PROJECT_APPS = [
 
 DATAPUNT_API_URL = os.getenv(
     'DATAPUNT_API_URL', 'https://api.datapunt.amsterdam.nl/')
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -92,23 +140,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tellus.wsgi.application'
 
-
-def _get_docker_host():
-    d_host = os.getenv('DOCKER_HOST', None)
-    if d_host:
-        return re.match(r'tcp://(.*?):\d+', d_host).group(1)
-    return '0.0.0.0'
-
-
-DATABASES = {
-    'default': {
+DATABASE_OPTIONS = {
+    Location_key.docker: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DATABASE_NAME', 'tellus'),
         'USER': os.getenv('DATABASE_USER', 'tellus'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
-        'HOST': os.getenv('DATABASE_PORT_5432_TCP_ADDR', _get_docker_host()),
-        'PORT': os.getenv('DATABASE_PORT_5432_TCP_PORT', '5409'),
-    }
+        'HOST': 'database',
+        'PORT': '5432'
+    },
+    Location_key.local: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DATABASE_NAME', 'tellus'),
+        'USER': os.getenv('DATABASE_USER', 'tellus'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
+        'HOST': get_docker_host(),
+        'PORT': '5409'
+    },
+    Location_key.override: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DATABASE_NAME', 'tellus'),
+        'USER': os.getenv('DATABASE_USER', 'tellus'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
+        'HOST': os.getenv(OVERRIDE_HOST_ENV_VAR),
+        'PORT': os.getenv(OVERRIDE_PORT_ENV_VAR, '5432')
+    },
+}
+
+DATABASES = {
+    'default': DATABASE_OPTIONS[get_database_key()]
 }
 
 # Password validation
@@ -219,7 +279,6 @@ SWAGGER_SETTINGS = {
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
-
 
 HEALTH_MODEL = 'tellus_data.TellusData'
 

@@ -1,38 +1,44 @@
-database:
-  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
-  environment:
-    POSTGRES_PASSWORD: insecure
-    POSTGRES_USER: tellus
+version: '3.0'
+services:
+  database:
+    image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+    environment:
+      POSTGRES_PASSWORD: insecure
+      POSTGRES_USER: tellus
 
-importer:
-  image: build.datapunt.amsterdam.nl:5000/datapunt/tellus:${ENVIRONMENT}
-  links:
-    - database:database
-  environment:
-    DATABASE_NAME: tellus
-    DATABASE_USER: tellus
-    DATABASE_PASSWORD: insecure
-    TELLUS_OBJECTSTORE_PASSWORD:
-  command: >
-    bash -c "/app/docker-wait.sh \
-            && python manage.py migrate \
-            && export DJANGO_SETTINGS_MODULE=tellus.settings && python importer.py"
+  importer:
+    image: build.datapunt.amsterdam.nl:5000/datapunt/tellus:${ENVIRONMENT}
+    links:
+      - database
+    environment:
+      TELLUS_OBJECTSTORE_PASSWORD:
+      DATABASE_NAME: tellus
+      DATABASE_USER: tellus
+      DATABASE_PASSWORD: insecure
+      DATABASE_HOST_OVERRIDE: database
+      DATABASE_PORT_OVERRIDE: 5432
+      DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.datapunt.amsterdam.nl/}
 
-db-backup:
-  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
-  links:
-    - database:db
-  volumes:
-    - ./backups:/tmp/backups
-  command: >
-    bash -c "echo db:5432:tellus:tellus:insecure > ~/.pgpass \
-            && chmod 600 ~/.pgpass \
-            && pg_dump --clean \
-                        -Fc \
-                        -t tellus* \
-                        -t geo*  \
-                        -T django*  \
-                        -T auth*    \
-                        -U tellus \
-                        -h db -p 5432 \
-                        tellus > /tmp/backups/database.dump"
+    command: >
+      bash -c "/app/docker-wait.sh \
+              && python manage.py migrate \
+              && export DJANGO_SETTINGS_MODULE=tellus.settings && python importer.py"
+
+  db-backup:
+    image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+    links:
+      - database:db
+    volumes:
+      - ./backups:/tmp/backups
+    command: >
+      bash -c "echo db:5432:tellus:tellus:insecure > ~/.pgpass \
+              && chmod 600 ~/.pgpass \
+              && pg_dump --clean \
+                          -Fc \
+                          -t tellus* \
+                          -t geo*  \
+                          -T django*  \
+                          -T auth*    \
+                          -U tellus \
+                          -h db -p 5432 \
+                          tellus > /tmp/backups/database.dump"
