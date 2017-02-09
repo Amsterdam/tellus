@@ -106,7 +106,7 @@ if DEBUG:
     INSTALLED_APPS += (
         'debug_toolbar', 'explorer')
 
-SITE_ID = 1
+SITE_ID = int(os.getenv('DJANGO_SITE_ID', '1'))
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
