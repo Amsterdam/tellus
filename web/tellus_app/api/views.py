@@ -4,6 +4,7 @@ from api import serializers
 from django.contrib.gis.measure import D
 from django.contrib.gis.geos import Point
 
+
 class LengteCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
     """
     Returns all `LengteCategorie instances`, ordered by id
@@ -68,6 +69,7 @@ class TellusList(mixins.ListModelMixin, generics.GenericAPIView):
         else:
             return Tellus.objects.all()
 
+
 class TellusDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
     """
     Returns a `Tellus detail` object by id
@@ -83,6 +85,7 @@ class TellusDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
         """
         pk = self.kwargs['pk']
         return Tellus.objects.get(pk=pk)
+
 
 class TellusDataList(mixins.ListModelMixin, generics.GenericAPIView):
     """
