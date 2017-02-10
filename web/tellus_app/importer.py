@@ -198,6 +198,8 @@ class TellusImporter(object):
 
 
 if __name__ == "__main__":
+    assert os.getenv('TELLUS_OBJECTSTORE_PASSWORD')
+
     os.makedirs('/tmp/tellus', exist_ok=True)
     importer = TellusImporter()
     importer.process_lengte_categorie()
