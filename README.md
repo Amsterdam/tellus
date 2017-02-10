@@ -3,7 +3,7 @@ Tellus API and import  module.
 
 ## Development 
 
-* Python 3 (required)
+* Python 3.6 (required)
 * Virtualenv (recommended)
 * Docker-Compose (recommended)
 
