@@ -22,6 +22,13 @@ log = logging.getLogger(__name__)
 
 
 def health(request):
+    # check debug
+    if settings.DEBUG:
+        log.exception("Debug mode not allowed in production")
+        return HttpResponse(
+            "Debug mode not allowed in production",
+            content_type="text/plain", status=500)
+
     # check database
     try:
         with connection.cursor() as cursor:
@@ -38,13 +45,10 @@ def health(request):
 
 
 def check_data(request):
-    # check tellus db
-    try:
-        assert model.objects.count() > 1000
+
+    if model.objects.all().count() < 30000:
         return HttpResponse(
-            "Database data OK", content_type='text/plain', status=200)
-    except:
-        log.exception("No tellus data found")
-        return HttpResponse(
-            "No database data found",
+            "Too few tellus data in the database",
             content_type="text/plain", status=500)
+    return HttpResponse(
+        "Database data OK", content_type='text/plain', status=200)

@@ -12,7 +12,7 @@ django.setup()
 from django.contrib.gis.geos import Point  # noqa
 from datasets.tellus_data.models import (Tellus, SnelheidsCategorie,
                                          LengteCategorie, TellusData)  # noqa
-from objectstore.objectstore import fetch_meta_data, fetch_last_tellus_data  # noqa
+from objectstore.objectstore import fetch_meta_data, fetch_tellus_data_file_object,fetch_tellus_data_file_names  # noqa
 
 log = logging.getLogger(__name__)
 
@@ -132,9 +132,9 @@ class TellusImporter(object):
             else:
                 log.info("Updated {}".format(str(db_row)))
 
-    def temp_tellus_data(self):
+    def temp_tellus_data(self, file_name):
         with open('/tmp/tellus/tellus.csv', 'wb') as f:
-            f.write(fetch_last_tellus_data())
+            f.write(fetch_tellus_data_file_object(file_name))
 
     def determineTellusObjectNumber(self, location, direction):
 
@@ -205,6 +205,7 @@ if __name__ == "__main__":
     importer.process_lengte_categorie()
     importer.process_snelheids_categorie()
     importer.process_tellus_locaties()
-    importer.temp_tellus_data()
-    importer.process_telling_data()
+    for file_name in fetch_tellus_data_file_names():
+        importer.temp_tellus_data(file_name)
+        importer.process_telling_data()
     log.info("Done importing tellus data")

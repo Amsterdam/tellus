@@ -67,14 +67,15 @@ def fetch_meta_data(file_name="AMS365_codeboek_v5.xlsx"):
     return get_conn().get_object("tellus", '{}/{}'.format(folder, file_name))[1]
 
 
-def fetch_last_tellus_data():
+def fetch_tellus_data_file_object(file_name):
+    log.info("Fetch file {}".format(file_name))
+    return get_conn().get_object("tellus", file_name)[1]
+
+def fetch_tellus_data_file_names():
     files = []
     folder = 'data'
     for file_object in get_full_container_list("tellus", prefix=folder):
         if file_object['content_type'] != 'application/directory':
-            path = file_object['name'].split('/')
-            file_name = path[-1]
-            files.append(file_name)
-    file_name = files[-1]
-    log.info("Fetch file {} in {}".format(file_name, folder))
-    return get_conn().get_object("tellus", '{}/{}'.format(folder, file_name))[1]
+            log.info("Found file {}".format(file_object['name']))
+            files.append(file_object['name'])
+    return files
