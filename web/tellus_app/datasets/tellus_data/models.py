@@ -68,6 +68,9 @@ class Tellus(models.Model):
 class TellusData(models.Model):
     """
     De tellingen per lus
+    C1 tot C60 zijn de geaggregeerde meetwaarden zoals ze per CSV aangeleverd worden door `Dufec`
+    Het 60 kolommen van (6 x 10) meetwaarden, lengtecategorie x snelheidscategorie.
+    In de pivot views worden deze verder gereed gemaakt vor verwerking met oa. `Tableau`
     """
     VALIDATION_CHOICES = ((0, "Geen data"),
                           (1, "Consistent, plausibel 100% compleet"),

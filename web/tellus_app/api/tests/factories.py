@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from random import randint
 
@@ -12,7 +11,7 @@ from datasets.tellus_data import models
 class LengteCategorieFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.LengteCategorie
-
+    
     klasse = 1
     l1 = fuzzy.FuzzyText(length=10)
     l2 = fuzzy.FuzzyText(length=10)
@@ -25,7 +24,7 @@ class LengteCategorieFactory(factory.DjangoModelFactory):
 class SnelheidsCategorieFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.SnelheidsCategorie
-
+    
     klasse = 1
     s1 = fuzzy.FuzzyText(length=10)
     s2 = fuzzy.FuzzyText(length=10)
@@ -42,7 +41,7 @@ class SnelheidsCategorieFactory(factory.DjangoModelFactory):
 class TellusFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Tellus
-
+    
     id = 1
     objnr_vor = 'TP0001'
     objnr_leverancier = 'AMST0001'
@@ -61,12 +60,12 @@ class TellusFactory(factory.DjangoModelFactory):
 class TellusDataFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.TellusData
-
+    
     id = 1
     tellus = factory.SubFactory(TellusFactory)
     snelheids_categorie_id = 1
     lengte_categorie = factory.SubFactory(LengteCategorieFactory)
-
+    
     tijd_van = fuzzy.BaseFuzzyDateTime(
         start_dt=datetime(2016, 1, 11, 0, 0, 0, 0, pytz.UTC),
         end_dt=datetime.now(pytz.UTC))
@@ -93,7 +92,7 @@ class TellusDataFactory(factory.DjangoModelFactory):
     c14 = randint(0, 1000)
     c15 = randint(0, 1000)
     c16 = randint(0, 1000)
-    c17= randint(0, 1000)
+    c17 = randint(0, 1000)
     c18 = randint(0, 1000)
     c19 = randint(0, 1000)
     c20 = randint(0, 1000)
@@ -103,7 +102,7 @@ class TellusDataFactory(factory.DjangoModelFactory):
     c24 = randint(0, 1000)
     c25 = randint(0, 1000)
     c26 = randint(0, 1000)
-    c27= randint(0, 1000)
+    c27 = randint(0, 1000)
     c28 = randint(0, 1000)
     c29 = randint(0, 1000)
     c30 = randint(0, 1000)
@@ -113,7 +112,7 @@ class TellusDataFactory(factory.DjangoModelFactory):
     c34 = randint(0, 1000)
     c35 = randint(0, 1000)
     c36 = randint(0, 1000)
-    c37= randint(0, 1000)
+    c37 = randint(0, 1000)
     c38 = randint(0, 1000)
     c39 = randint(0, 1000)
     c40 = randint(0, 1000)
@@ -123,7 +122,7 @@ class TellusDataFactory(factory.DjangoModelFactory):
     c44 = randint(0, 1000)
     c45 = randint(0, 1000)
     c46 = randint(0, 1000)
-    c47= randint(0, 1000)
+    c47 = randint(0, 1000)
     c48 = randint(0, 1000)
     c49 = randint(0, 1000)
     c50 = randint(0, 1000)
@@ -133,7 +132,7 @@ class TellusDataFactory(factory.DjangoModelFactory):
     c54 = randint(0, 1000)
     c55 = randint(0, 1000)
     c56 = randint(0, 1000)
-    c57= randint(0, 1000)
+    c57 = randint(0, 1000)
     c58 = randint(0, 1000)
     c59 = randint(0, 1000)
     c60 = randint(0, 1000)
