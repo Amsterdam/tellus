@@ -37,7 +37,8 @@ services:
                           -Fc \
                           -t tellus* \
                           -t geo*  \
-                          -T django*  \
+                          -t django_migrations  \
+                          -t django_site \
                           -T auth*    \
                           -U tellus \
                           -h db -p 5432 \
