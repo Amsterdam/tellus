@@ -65,6 +65,7 @@ class Tellus(models.Model):
     def __str__(self):
         return "{} - {}".format(self.objnr_leverancier, self.standplaats)
 
+
 class TellusData(models.Model):
     """
     De tellingen per lus

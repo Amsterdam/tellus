@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-flake8 --config=./flake.conf .
+flake8 --exclude=*/migrations --config=./flake.cfg .

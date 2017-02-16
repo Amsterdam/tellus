@@ -71,6 +71,7 @@ def fetch_tellus_data_file_object(file_name):
     log.info("Fetch file {}".format(file_name))
     return get_conn().get_object("tellus", file_name)[1]
 
+
 def fetch_tellus_data_file_names():
     files = []
     folder = 'data'

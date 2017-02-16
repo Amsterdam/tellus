@@ -11,7 +11,7 @@ from datasets.tellus_data import models
 class LengteCategorieFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.LengteCategorie
-    
+
     klasse = 1
     l1 = fuzzy.FuzzyText(length=10)
     l2 = fuzzy.FuzzyText(length=10)
@@ -24,7 +24,7 @@ class LengteCategorieFactory(factory.DjangoModelFactory):
 class SnelheidsCategorieFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.SnelheidsCategorie
-    
+
     klasse = 1
     s1 = fuzzy.FuzzyText(length=10)
     s2 = fuzzy.FuzzyText(length=10)
@@ -41,7 +41,7 @@ class SnelheidsCategorieFactory(factory.DjangoModelFactory):
 class TellusFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Tellus
-    
+
     id = 1
     objnr_vor = 'TP0001'
     objnr_leverancier = 'AMST0001'
@@ -60,12 +60,12 @@ class TellusFactory(factory.DjangoModelFactory):
 class TellusDataFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.TellusData
-    
+
     id = 1
     tellus = factory.SubFactory(TellusFactory)
     snelheids_categorie_id = 1
     lengte_categorie = factory.SubFactory(LengteCategorieFactory)
-    
+
     tijd_van = fuzzy.BaseFuzzyDateTime(
         start_dt=datetime(2016, 1, 11, 0, 0, 0, 0, pytz.UTC),
         end_dt=datetime.now(pytz.UTC))
