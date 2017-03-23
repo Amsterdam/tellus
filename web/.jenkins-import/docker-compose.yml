@@ -33,13 +33,7 @@ services:
     command: >
       bash -c "echo db:5432:tellus:tellus:insecure > ~/.pgpass \
               && chmod 600 ~/.pgpass \
-              && pg_dump --clean \
-                          -Fc \
-                          -t tellus* \
-                          -t geo*  \
-                          -t django_migrations  \
-                          -t django_site \
-                          -T auth*    \
+              && pg_dump -Fc \
                           -U tellus \
                           -h db -p 5432 \
                           tellus > /tmp/backups/database.dump"
