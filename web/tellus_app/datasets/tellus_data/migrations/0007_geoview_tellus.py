@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import migrations
 
 API_DOMAIN = 'API Domain'
@@ -16,7 +17,7 @@ class Migration(migrations.Migration):
                   tellus.objnr_leverancier as display,
                   cast('tellussen/tellus' as varchar(30)) as type,
                   tellus.standplaats,
-                  site.domain || 'tellus/tellus/' || tellus.id || '/' AS uri,
+                  {settings.DATAPUNT_API_URL} || 'tellus/tellus/' || tellus.id || '/' AS uri,
                   tellus.geometrie AS geometrie
                 FROM
                   tellus_data_tellus tellus , django_site site
