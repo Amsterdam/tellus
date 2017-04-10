@@ -8,4 +8,19 @@ class Migration(migrations.Migration):
         ('tellus_data', '0006_make_pivot_view_dynamic'),
     ]
 
-    operations = []
+    operations = [
+        migrations.RunSQL(
+            f"""
+                CREATE VIEW geo_tellus_point AS
+                SELECT
+                  tellus.objnr_leverancier as display,
+                  cast('tellussen/tellus' as varchar(30)) as type,
+                  tellus.standplaats,
+                  site.domain || 'tellus/tellus/' || tellus.id || '/' AS uri,
+                  tellus.geometrie AS geometrie
+                FROM
+                  tellus_data_tellus tellus , django_site site
+                WHERE
+                  tellus.geometrie IS NOT NULL and site.name = '{API_DOMAIN}';
+            """)
+    ]
