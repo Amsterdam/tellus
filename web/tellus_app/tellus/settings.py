@@ -79,18 +79,17 @@ PROJECT_APPS = [
     'datasets.tellus_data',
 ]
 
-DATAPUNT_API_URL = os.getenv(
-    'DATAPUNT_API_URL', 'https://api.datapunt.amsterdam.nl/')
+DATAPUNT_API_URL = os.getenv('DATAPUNT_API_URL', 'https://api.data.amsterdam.nl/')
+if DEBUG:
+    DATAPUNT_API_URL = 'http://localhost:8000/'
 
 # Application definition
 INSTALLED_APPS = [
-                     'django.contrib.admin',
                      'django.contrib.auth',
                      'django.contrib.contenttypes',
                      'django.contrib.sessions',
                      'django.contrib.messages',
                      'django.contrib.staticfiles',
-                     'django.contrib.sites',
 
                      'django_extensions',
 
@@ -105,8 +104,6 @@ INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 if DEBUG:
     INSTALLED_APPS += (
         'debug_toolbar', 'explorer')
-
-SITE_ID = int(os.getenv('DJANGO_SITE_ID', '1'))
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -131,7 +128,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -171,28 +167,6 @@ DATABASES = {
     'default': DATABASE_OPTIONS[get_database_key()]
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'NumericPasswordValidator',
-    },
-]
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -226,7 +200,6 @@ REST_FRAMEWORK = dict(
     ),
     DEFAULT_FILTER_BACKENDS=(
         'rest_framework.filters.DjangoFilterBackend',
-        # 'rest_framework.filters.OrderingFilter',
 
     ),
     COERCE_DECIMAL_TO_STRING=True,
@@ -234,7 +207,7 @@ REST_FRAMEWORK = dict(
 
 # SWAGGER
 
-swag_path = 'api-acc.datapunt.amsterdam.nl/tellus/docs'
+swag_path = '{}/tellus/docs'.format(DATAPUNT_API_URL)
 
 if DEBUG:
     swag_path = '127.0.0.1:8000/tellus/docs'
@@ -255,7 +228,7 @@ SWAGGER_SETTINGS = {
     'is_authenticated': False,
     'is_superuser': False,
 
-    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    'unauthenticated_user': 'Anonymous',
     'permission_denied_handler': None,
     'resource_access_handler': None,
 

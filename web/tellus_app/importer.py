@@ -12,7 +12,7 @@ django.setup()
 from django.contrib.gis.geos import Point  # noqa
 from datasets.tellus_data.models import (Tellus, SnelheidsCategorie,
                                          LengteCategorie, TellusData)  # noqa
-from objectstore.objectstore import fetch_meta_data, fetch_tellus_data_file_object,fetch_tellus_data_file_names  # noqa
+from objectstore.objectstore import fetch_meta_data, fetch_tellus_data_file_object, fetch_tellus_data_file_names  # noqa
 
 log = logging.getLogger(__name__)
 
