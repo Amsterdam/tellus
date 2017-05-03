@@ -1,11 +1,23 @@
+from authorization_django import levels as authorization_levels
 from rest_framework import serializers
 
 from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie, Tellus, TellusData
 from .rest import DataSetSerializerMixin, HALSerializer
 
 
+def authorized(request):
+    "Returns true when authorized"
+    return request.is_authorized_for(authorization_levels.LEVEL_EMPLOYEE_PLUS) or \
+           request.is_authorized_for(authorization_levels.LEVEL_EMPLOYEE)
+
+
 class TellusMixin(DataSetSerializerMixin):
     dataset = 'tellus_data'
+
+    def to_representation(self, obj):
+        if authorized(self.context.get('request')):
+            return super().to_representation(obj)
+        return []
 
 
 class TellusSerializer(TellusMixin, HALSerializer):

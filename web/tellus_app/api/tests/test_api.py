@@ -3,11 +3,12 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
 from api.tests.factories import TellusDataFactory
+from api.tests.authzsetup import AuthorizationSetup
 
 log = logging.getLogger(__name__)
 
 
-class TestAPIEndpoints(APITestCase):
+class TestAPIEndpoints(APITestCase, AuthorizationSetup):
     """
     Verifies that browsing the API works correctly.
     """
@@ -28,6 +29,8 @@ class TestAPIEndpoints(APITestCase):
 
     def setUp(self):
         TellusDataFactory.create()
+        self.setUpAuthorization()
+
 
     def valid_response(self, url, response):
         """
@@ -56,6 +59,9 @@ class TestAPIEndpoints(APITestCase):
             'Wrong Content-Type for {}'.format(url))
 
     def test_lists(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
+
         for url in self.reverse_list_urls:
             log.debug("test {} => {}".format(url, reverse(url)))
             response = self.client.get(reverse(url))
@@ -67,6 +73,9 @@ class TestAPIEndpoints(APITestCase):
                 0, 'Wrong result count for {}'.format(url))
 
     def test_details(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
+
         for url in self.reverse_detail_urls:
             log.debug("test {} => {}".format(url, reverse(url, [1])))
             self.valid_response(url, self.client.get(reverse(url, [1])))

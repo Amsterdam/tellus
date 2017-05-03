@@ -115,6 +115,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'authorization_django.authorization_middleware',
 ]
 
 ROOT_URLCONF = 'tellus.urls'
@@ -344,4 +345,9 @@ LOGGING = {
         },
 
     },
+}
+
+DATAPUNT_AUTHZ = {
+    'JWT_SECRET_KEY': os.getenv('JWT_SHARED_SECRET_KEY', 'ecuresniinsecure'),
+    'JWT_ALGORITHM': 'HS256'
 }
