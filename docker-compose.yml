@@ -24,11 +24,8 @@ services:
       - TELLUS_OBJECTSTORE_PASSWORD=insecure
       - CONSUL_HOST=${CONSUL_HOST:-notset}
       - CONSUL_PORT=${CONSUL_PORT:-8500}
-<<<<<<< HEAD
       - UWSGI_HTTP=0.0.0.0:8000"
       - UWSGI_MODULE=tellus.wsgi:application
       - UWSGI_MASTER=1
       - UWSGI_STATIC_MAP=/static=/static
-=======
-      - JWT_SHARED_SECRET_KEY: ${JWT_SHARED_SECRET_KEY: -ecuresniinsecure}
->>>>>>> feature/874-replace-datapunt-url
+      - JWT_SHARED_SECRET_KEY=${JWT_SHARED_SECRET_KEY: -ecuresniinsecure}
