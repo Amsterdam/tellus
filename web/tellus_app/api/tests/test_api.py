@@ -1,9 +1,9 @@
 import logging
+
+from api.tests.authzsetup import AuthorizationSetup
+from api.tests.factories import TellusDataFactory
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
-
-from api.tests.factories import TellusDataFactory
-from api.tests.authzsetup import AuthorizationSetup
 
 log = logging.getLogger(__name__)
 
@@ -30,7 +30,6 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
     def setUp(self):
         TellusDataFactory.create()
         self.setUpAuthorization()
-
 
     def valid_response(self, url, response):
         """
