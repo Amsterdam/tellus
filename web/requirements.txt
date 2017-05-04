@@ -30,4 +30,4 @@ factory-boy==2.7.0
 fake-factory==0.7.2
 flake8==3.3.0
 openapi-codec==1.2.1
-datapunt-authorization-django==1.10.3
+datapunt-authorization-django
