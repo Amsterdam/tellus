@@ -24,3 +24,4 @@ services:
       - TELLUS_OBJECTSTORE_PASSWORD=insecure
       - CONSUL_HOST=${CONSUL_HOST:-notset}
       - CONSUL_PORT=${CONSUL_PORT:-8500}
+      - JWT_SHARED_SECRET_KEY: ${JWT_SHARED_SECRET_KEY: -ecuresniinsecure}
