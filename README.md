@@ -32,6 +32,7 @@ Tellus API and import  module.
     ./web/tellus_app/manage.py migrate
     
     # start server
+    export JWT_SHARED_SECRET_KEY=insecureinsecureinsecure
     ./web/tellus_app/manage.py runserver  
    
    	# check out status using
@@ -40,7 +41,7 @@ Tellus API and import  module.
 
 ### Importeer de meest recente database van acceptatie:
 
-docker-compose exec database update-db.sh tellus
+    docker-compose exec database update-db.sh tellus
 
 ### Tellus import
 #### Location of the datafiles

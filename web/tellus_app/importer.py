@@ -18,24 +18,28 @@ log = logging.getLogger(__name__)
 
 OBJSTORE_METADATA = 'meta'
 
+functional_errors = []
+
 
 class TellusImporter(object):
-    def __init__(self, codebook_name="AMS365_codeboek_v5.xlsx"):
-        self.codebook_name = codebook_name
-        self.sheets = {}
-        self._import_meta()
 
-    def _import_meta(self):
+    tellus_number_cache = []
+
+    def __init__(self, codebook, codebook_addon):
+        self.codebook_sheets = self._import_meta(codebook)
+        self.codebook_addon_sheets = self._import_meta(codebook_addon)
+
+    def _import_meta(self, codebook_filename):
         """
         Function that retrieves the meta data from a Objectstore
         """
         os.makedirs("/tmp/tellus", exist_ok=True)
-        with open("/tmp/tellus/{}".format(self.codebook_name), 'wb') as f:
-            f.write(fetch_meta_data(self.codebook_name))
+        with open("/tmp/tellus/{}".format(codebook_filename), 'wb') as f:
+            f.write(fetch_meta_data(codebook_filename))
 
-        wb = openpyxl.load_workbook("/tmp/tellus/{}".format(self.codebook_name))
-        self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for
-                       sheet_name in wb.get_sheet_names()}
+        wb = openpyxl.load_workbook("/tmp/tellus/{}".format(codebook_filename))
+        return {sheet_name: wb.get_sheet_by_name(sheet_name) for
+                sheet_name in wb.get_sheet_names()}
 
     def decodedata(self, filebytes):
         """
@@ -66,8 +70,9 @@ class TellusImporter(object):
         :param first_col:
         :return:
         """
-        for row in self.sheets[sheet_name].iter_rows(min_row=title_row + 1,
-                                                     min_col=first_col):
+        for row in self.codebook_addon_sheets[sheet_name].iter_rows(
+                min_row=title_row + 1,
+                min_col=first_col):
             res = [cell.value for cell in row]
 
             if res[0]:  # probaly an empty row
@@ -95,9 +100,9 @@ class TellusImporter(object):
         :param first_col:
         :return:
         """
-        for row in self.sheets[sheet_name].iter_rows(min_row=title_row + 1,
-                                                     max_row=5,
-                                                     min_col=first_col):
+        for row in self.codebook_sheets[sheet_name].iter_rows(min_row=title_row + 1,
+                                                              max_row=5,
+                                                              min_col=first_col):
             res = [cell.value for cell in row]
 
             db_row, created = SnelheidsCategorie.objects.update_or_create(
@@ -118,9 +123,9 @@ class TellusImporter(object):
         :param first_col:
         :return:
         """
-        for row in self.sheets[sheet_name].iter_rows(min_row=title_row + 1,
-                                                     max_row=2,
-                                                     min_col=first_col):
+        for row in self.codebook_sheets[sheet_name].iter_rows(min_row=title_row + 1,
+                                                              max_row=2,
+                                                              min_col=first_col):
             res = [cell.value for cell in row]
 
             db_row, created = LengteCategorie.objects.update_or_create(
@@ -136,15 +141,35 @@ class TellusImporter(object):
         with open('/tmp/tellus/tellus.csv', 'wb') as f:
             f.write(fetch_tellus_data_file_object(file_name))
 
-    def determineTellusObjectNumber(self, location, direction):
-
+    def determine_tellus_number(self, location, direction):
         # lokaties, waarbij iedere richting een eigen tellus object heeft
         dual_locations = (12, 17, 22, 29)
         if direction == '2' and dual_locations.__contains__(int(location)):
             nr = int(location) + 1
         else:
             nr = int(location)
-        return 'TP' + str(nr).zfill(4)
+        return nr
+
+    def get_tellus(self, location, direction):
+        tellus_number = self.determine_tellus_number(location, direction)
+        if tellus_number in self.tellus_number_cache:
+            return tellus_number
+        try:
+            tellus = Tellus.objects.get(id=tellus_number)
+            self.tellus_number_cache += [tellus.id]
+            return tellus.id
+        except Tellus.DoesNotExist:
+            # Log not found message and continue
+            message = "Geen metadata gevonden voor: meetraai {}, richting {}, tellus nummer {}.".format(
+                location, direction, tellus_number
+            )
+            if message not in functional_errors:
+                functional_errors.append(message)
+            log.error(message)
+            Tellus.objects.update_or_create(id=tellus_number,
+                                            objnr_leverancier='AMSTD' + str(tellus_number).zfill(3))
+            self.tellus_number_cache += [tellus_number]
+            return tellus_number
 
     def process_telling_data(self):
 
@@ -153,15 +178,15 @@ class TellusImporter(object):
             next(my_reader, None)
             for trow in my_reader:
                 try:
-                    tellus_object_number = self.determineTellusObjectNumber(trow[0], trow[1])
-                    tellus_object = Tellus.objects.get(objnr_vor=tellus_object_number)
+                    tellus_id = self.get_tellus(trow[0], trow[1])
+
                     snelheids_categorie_object = SnelheidsCategorie.objects.get(klasse=int(trow[5]))
                     lengte_categorie_object = LengteCategorie.objects.get(klasse=1)
                     tijd_van = parse_date(trow[6]).replace(tzinfo=pytz.UTC)
                     tijd_tot = parse_date(trow[7]).replace(tzinfo=pytz.UTC)
 
                     db_row, created = TellusData.objects.update_or_create(
-                        tellus=tellus_object,
+                        tellus_id=tellus_id,
                         richting=trow[1],
                         tijd_van=tijd_van,
                         tijd_tot=tijd_tot,
@@ -176,7 +201,7 @@ class TellusImporter(object):
                         c49=trow[56], c50=trow[57], c51=trow[58], c52=trow[59], c53=trow[60], c54=trow[61],
                         c55=trow[62], c56=trow[63], c57=trow[64], c58=trow[65], c59=trow[66], c60=trow[67],
                         defaults={
-                            'tellus': tellus_object,
+                            'tellus_id': tellus_id,
                             'snelheids_categorie': snelheids_categorie_object,
                             'tijd_van': tijd_van,
                             'tijd_tot': tijd_tot,
@@ -201,11 +226,15 @@ if __name__ == "__main__":
     assert os.getenv('TELLUS_OBJECTSTORE_PASSWORD')
 
     os.makedirs('/tmp/tellus', exist_ok=True)
-    importer = TellusImporter()
+    importer = TellusImporter(codebook='"AMS365_codeboek_v5.xlsx"',
+                              codebook_addon="AMS365_codeboek_v5_aanvulling.xlsx")
     importer.process_lengte_categorie()
     importer.process_snelheids_categorie()
     importer.process_tellus_locaties()
     for file_name in fetch_tellus_data_file_names():
         importer.temp_tellus_data(file_name)
         importer.process_telling_data()
+    for e in functional_errors:
+        log.info(e)
+
     log.info("Done importing tellus data")
