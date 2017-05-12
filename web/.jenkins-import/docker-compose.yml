@@ -22,7 +22,9 @@ services:
     command: >
       bash -c "/app/docker-wait.sh \
               && python manage.py migrate \
-              && export DJANGO_SETTINGS_MODULE=tellus.settings && python importer.py"
+              && export DJANGO_SETTINGS_MODULE=tellus.settings \
+              && python importer.py\
+              && python import_validator.py"
 
   db-backup:
     image: build.datapunt.amsterdam.nl:5000/atlas/postgres
