@@ -212,7 +212,7 @@ class TellusImporter(object):
 
                 log.debug("Created {}".format(tellus_data))
                 if not tcount % 1000:
-                    log.debug("Import count: {}" + str(tcount))
+                    log.debug("Import count: {}".format(str(tcount)))
 
 
 if __name__ == "__main__":
