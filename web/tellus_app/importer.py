@@ -226,8 +226,8 @@ if __name__ == "__main__":
     assert os.getenv('TELLUS_OBJECTSTORE_PASSWORD')
 
     os.makedirs('/tmp/tellus', exist_ok=True)
-    importer = TellusImporter(codebook='"AMS365_codeboek_v5.xlsx"',
-                              codebook_addon="AMS365_codeboek_v5_aanvulling.xlsx")
+    importer = TellusImporter(codebook='AMS365_codeboek_v5.xlsx',
+                              codebook_addon='AMS365_codeboek_v5_aanvulling.xlsx')
     importer.process_lengte_categorie()
     importer.process_snelheids_categorie()
     importer.process_tellus_locaties()
