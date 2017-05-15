@@ -37,5 +37,7 @@ services:
               && chmod 600 ~/.pgpass \
               && pg_dump -Fc \
                           -U tellus \
+                          -t tellus* \
+                          -t geo* \
                           -h db -p 5432 \
                           tellus > /tmp/backups/database.dump"
