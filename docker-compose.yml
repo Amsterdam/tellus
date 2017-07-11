@@ -28,4 +28,4 @@ services:
       - UWSGI_MODULE=tellus.wsgi:application
       - UWSGI_MASTER=1
       - UWSGI_STATIC_MAP=/static=/static
-      - JWT_SHARED_SECRET_KEY=${JWT_SHARED_SECRET_KEY: -ecuresniinsecure}
+      - JWT_SHARED_SECRET_KEY=ecuresniinsecure
