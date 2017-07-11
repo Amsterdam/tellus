@@ -240,7 +240,7 @@ SWAGGER_SETTINGS = {
         'contact': 'atlas.basisinformatie@amsterdam.nl',
         'description': 'This is the Tellus API server.',
         'license': 'Not known yet',
-        'termsOfServiceUrl': 'https://atlas.amsterdam.nl/terms/',
+        'termsOfServiceUrl': 'https://data.amsterdam.nl/terms/',
         'title': 'Tellus',
     },
 
