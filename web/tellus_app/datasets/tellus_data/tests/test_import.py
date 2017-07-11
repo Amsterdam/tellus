@@ -14,20 +14,25 @@ class TestImport(TestCase):
         os.putenv('TELLUS_OBJECTSTORE_PASSWORD', 'insecure')
         assert patched_import_meta == TellusImporter._import_meta
 
-        def _import_meta(self):
+        def import_meta(self, codebook_filename):
+            print('HERE', codebook_filename)
             filepath = os.path.dirname(os.path.abspath(__file__))
             wb = openpyxl.load_workbook(
-                "{}/fixture_files/{}".format(filepath, self.codebook_name))
-            self.sheets = {sheet_name: wb.get_sheet_by_name(sheet_name) for
-                           sheet_name in wb.get_sheet_names()}
+                "{}/fixture_files/{}".format(filepath, codebook_filename))
+            return {
+                sheet_name: wb.get_sheet_by_name(sheet_name)
+                for sheet_name in wb.get_sheet_names()}
 
         # patch `_import_meta`
-        TellusImporter._import_meta = _import_meta
-        self.my_importer = TellusImporter(codebook_name="metadata.xlsx")
+        TellusImporter._import_meta = import_meta
+        self.my_importer = TellusImporter(
+            codebook="metadata.xlsx",
+            codebook_addon="metadata_aanvulling.xlsx")
 
     def test_import_meta(self):
         # check if _import_meta has loaded XLS file
-        assert len(self.my_importer.sheets) == 7
+        assert len(self.my_importer.codebook_addon_sheets) == 1
+        assert len(self.my_importer.codebook_sheets) == 7
 
     def test_process_tellus_import(self):
         self.my_importer.process_lengte_categorie()

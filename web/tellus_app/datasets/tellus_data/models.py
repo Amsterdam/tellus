@@ -50,16 +50,17 @@ class Tellus(models.Model):
     objnr_vor = models.CharField(max_length=10, unique=True)
     objnr_leverancier = models.CharField(max_length=10, unique=True)
     snelheids_klasse = models.ForeignKey(SnelheidsCategorie,
-                                         related_name='tellussen')
+                                         related_name='tellussen',
+                                         null=True)
     standplaats = models.CharField(max_length=80)
     zijstraat_a = models.CharField(max_length=80)
     zijstraat_b = models.CharField(max_length=80)
     richting_1 = models.CharField(max_length=80)
     richting_2 = models.CharField(max_length=80)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    rijksdriehoek_x = models.FloatField()
-    rijksdriehoek_y = models.FloatField()
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
+    rijksdriehoek_x = models.FloatField(null=True)
+    rijksdriehoek_y = models.FloatField(null=True)
     geometrie = models.PointField(null=True, srid=28992)
 
     def __str__(self):
@@ -84,7 +85,9 @@ class TellusData(models.Model):
                       (1, "Representatieve dag"),
                       (2, "Schoolvakantie"),
                       (3, "Feestdag"),
-                      (4, "Niet representatieve dag"))
+                      (4, "Niet representatieve dag"),
+                      (5, "data/onjuist onbruikbaar")
+                      )
 
     MEETRAAI = ((0, "Niet compleet"),
                 (1, "Compleet"),

@@ -22,7 +22,9 @@ services:
     command: >
       bash -c "/app/docker-wait.sh \
               && python manage.py migrate \
-              && export DJANGO_SETTINGS_MODULE=tellus.settings && python importer.py"
+              && export DJANGO_SETTINGS_MODULE=tellus.settings \
+              && python importer.py\
+              && python import_validator.py"
 
   db-backup:
     image: build.datapunt.amsterdam.nl:5000/atlas/postgres
@@ -35,5 +37,7 @@ services:
               && chmod 600 ~/.pgpass \
               && pg_dump -Fc \
                           -U tellus \
+                          -t tellus* \
+                          -t geo* \
                           -h db -p 5432 \
                           tellus > /tmp/backups/database.dump"
