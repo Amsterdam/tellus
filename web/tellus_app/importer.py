@@ -179,7 +179,7 @@ class TellusImporter(object):
             tcount = 0
             for trow in my_reader:
                 tcount += 1
-                tellus_id = self.get_tellus(trow[0].replace('T',''), trow[1])
+                tellus_id = self.get_tellus(trow[0].replace('T', ''), trow[1])
 
                 snelheids_categorie_object = SnelheidsCategorie.objects.get(klasse=int(trow[5]))
                 lengte_categorie_object = LengteCategorie.objects.get(klasse=1)
