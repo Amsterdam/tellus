@@ -141,8 +141,9 @@ class TellusImporter(object):
         with open('/tmp/tellus/tellus.csv', 'wb') as f:
             f.write(fetch_tellus_data_file_object(file_name))
 
-    def determine_tellus_number(self, location, direction):
+    def determine_tellus_number(self, location_str, direction):
         # lokaties, waarbij iedere richting een eigen tellus object heeft
+        location = location_str.replace('T', '').split("+")[0]
         dual_locations = (12, 17, 22, 29)
         if direction == '2' and dual_locations.__contains__(int(location)):
             nr = int(location) + 1
@@ -179,7 +180,7 @@ class TellusImporter(object):
             tcount = 0
             for trow in my_reader:
                 tcount += 1
-                tellus_id = self.get_tellus(trow[0].replace('T', ''), trow[1])
+                tellus_id = self.get_tellus(trow[0], trow[1])
 
                 snelheids_categorie_object = SnelheidsCategorie.objects.get(klasse=int(trow[5]))
                 lengte_categorie_object = LengteCategorie.objects.get(klasse=1)
