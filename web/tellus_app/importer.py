@@ -179,6 +179,9 @@ class TellusImporter(object):
             next(my_reader, None)
             tcount = 0
             for trow in my_reader:
+                if not trow[0]:
+                    log.debug('Ignoring empty row.')
+                    continue
                 tcount += 1
                 tellus_id = self.get_tellus(trow[0], trow[1])
 
