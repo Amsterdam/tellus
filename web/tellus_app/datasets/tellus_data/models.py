@@ -37,6 +37,39 @@ class SnelheidsCategorie(models.Model):
         return "SnelheidsCategorie {}".format(self.klasse)
 
 
+class RepresentatiefCategorie(models.Model):
+    """
+    De snelheids categorieen worden hier beschreven
+    """
+    representatief = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=30, default='nvt')
+
+    def __str__(self):
+        return f"RepresentatiefCategorie {self.representatief} - {self.label}"
+
+
+class ValidatieCategorie(models.Model):
+    """
+    De snelheids categorieen worden hier beschreven
+    """
+    validatie = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=30, default='nvt')
+
+    def __str__(self):
+        return f"ValidatieCategorie {self.validatie} - {self.label}"
+
+
+class MeetraaiCategorie(models.Model):
+    """
+    De snelheids categorieen worden hier beschreven
+    """
+    meetraai = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=30, default='nvt')
+
+    def __str__(self):
+        return f"MeetraaiCategorie {self.meetraai} - {self.label}"
+
+
 class Tellus(models.Model):
     """
     De geadministreerde tellussen die worden worden hier

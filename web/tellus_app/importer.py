@@ -10,8 +10,7 @@ from dateutil.parser import parse as parse_date
 django.setup()
 
 from django.contrib.gis.geos import Point  # noqa
-from datasets.tellus_data.models import (Tellus, SnelheidsCategorie,
-                                         LengteCategorie, TellusData)  # noqa
+from datasets.tellus_data import models  # noqa
 from objectstore.objectstore import fetch_meta_data, fetch_tellus_data_file_object, fetch_tellus_data_file_names  # noqa
 
 log = logging.getLogger(__name__)
@@ -76,7 +75,7 @@ class TellusImporter(object):
             res = [cell.value for cell in row]
 
             if res[0]:  # probaly an empty row
-                db_row, created = Tellus.objects.update_or_create(
+                db_row, created = models.Tellus.objects.update_or_create(
                     id=int(res[1][5:]),  # format = 'AMSTDxxx'
                     objnr_vor=res[0], objnr_leverancier=res[1],
                     standplaats=res[2],
@@ -105,10 +104,43 @@ class TellusImporter(object):
                                                               min_col=first_col):
             res = [cell.value for cell in row]
 
-            db_row, created = SnelheidsCategorie.objects.update_or_create(
+            db_row, created = models.SnelheidsCategorie.objects.update_or_create(
                 klasse=int(res[0]),
                 s1=res[1], s2=res[2], s3=res[3], s4=res[4], s5=res[5],
                 s6=res[6], s7=res[7], s8=res[8], s9=res[9], s10=res[10])
+            if created:
+                log.info("Created {}".format(str(db_row)))
+            else:
+                log.info("Updated {}".format(str(db_row)))
+
+    def process_meetraai_categorie(self):
+        for row in self.codebook_sheets['Meetraai'].iter_rows(min_row=1, max_row=3, min_col=1):
+            res = [cell.value for cell in row]
+            db_row, created = models.MeetraaiCategorie.objects.update_or_create(
+                meetraai=res[0],
+                label=res[1])
+            if created:
+                log.info("Created {}".format(str(db_row)))
+            else:
+                log.info("Updated {}".format(str(db_row)))
+
+    def process_representatief_categorie(self):
+        for row in self.codebook_sheets['Representatief'].iter_rows(min_row=1, max_row=6, min_col=1):
+            res = [cell.value for cell in row]
+            db_row, created = models.RepresentatiefCategorie.objects.update_or_create(
+                representatief=res[0],
+                label=res[1])
+            if created:
+                log.info("Created {}".format(str(db_row)))
+            else:
+                log.info("Updated {}".format(str(db_row)))
+
+    def process_validatie_categorie(self):
+        for row in self.codebook_sheets['Validatie'].iter_rows(min_row=1, max_row=6, min_col=1):
+            res = [cell.value for cell in row]
+            db_row, created = models.ValidatieCategorie.objects.update_or_create(
+                validatie=res[0],
+                label=res[1])
             if created:
                 log.info("Created {}".format(str(db_row)))
             else:
@@ -128,7 +160,7 @@ class TellusImporter(object):
                                                               min_col=first_col):
             res = [cell.value for cell in row]
 
-            db_row, created = LengteCategorie.objects.update_or_create(
+            db_row, created = models.LengteCategorie.objects.update_or_create(
                 klasse=int(res[0]),
                 l1=res[1], l2=res[2], l3=res[3], l4=res[4], l5=res[5],
                 l6=res[6])
@@ -156,10 +188,10 @@ class TellusImporter(object):
         if tellus_number in self.tellus_number_cache:
             return tellus_number
         try:
-            tellus = Tellus.objects.get(id=tellus_number)
+            tellus = models.Tellus.objects.get(id=tellus_number)
             self.tellus_number_cache += [tellus.id]
             return tellus.id
-        except Tellus.DoesNotExist:
+        except models.Tellus.DoesNotExist:
             # Log not found message and continue
             message = "Geen metadata gevonden voor: meetraai {}, richting {}, tellus nummer {}.".format(
                 location, direction, tellus_number
@@ -167,7 +199,7 @@ class TellusImporter(object):
             if message not in functional_errors:
                 functional_errors.append(message)
             log.error(message)
-            Tellus.objects.update_or_create(id=tellus_number,
+            models.Tellus.objects.update_or_create(id=tellus_number,
                                             objnr_leverancier='AMSTD' + str(tellus_number).zfill(3))
             self.tellus_number_cache += [tellus_number]
             return tellus_number
@@ -185,12 +217,12 @@ class TellusImporter(object):
                 tcount += 1
                 tellus_id = self.get_tellus(trow[0], trow[1])
 
-                snelheids_categorie_object = SnelheidsCategorie.objects.get(klasse=int(trow[5]))
-                lengte_categorie_object = LengteCategorie.objects.get(klasse=1)
+                snelheids_categorie_object = models.SnelheidsCategorie.objects.get(klasse=int(trow[5]))
+                lengte_categorie_object = models.LengteCategorie.objects.get(klasse=1)
                 tijd_van = parse_date(trow[6]).replace(tzinfo=pytz.UTC)
                 tijd_tot = parse_date(trow[7]).replace(tzinfo=pytz.UTC)
 
-                tellus_data = TellusData(
+                tellus_data = models.TellusData(
                     tellus_id=tellus_id,
                     richting=trow[1],
                     tijd_van=tijd_van,
@@ -227,8 +259,11 @@ if __name__ == "__main__":
                               codebook_addon='AMS365_codeboek_v6_aanvulling.xlsx')
     importer.process_lengte_categorie()
     importer.process_snelheids_categorie()
+    importer.process_meetraai_categorie()
+    importer.process_representatief_categorie()
+    importer.process_validatie_categorie()
     importer.process_tellus_locaties()
-    TellusData.objects.all().delete()
+    models.TellusData.objects.all().delete()
     for file_name in fetch_tellus_data_file_names():
         importer.temp_tellus_data(file_name)
         importer.process_telling_data()
