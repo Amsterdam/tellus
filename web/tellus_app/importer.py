@@ -200,7 +200,7 @@ class TellusImporter(object):
                 functional_errors.append(message)
             log.error(message)
             models.Tellus.objects.update_or_create(id=tellus_number,
-                                            objnr_leverancier='AMSTD' + str(tellus_number).zfill(3))
+                                                   objnr_leverancier='AMSTD' + str(tellus_number).zfill(3))
             self.tellus_number_cache += [tellus_number]
             return tellus_number
 
