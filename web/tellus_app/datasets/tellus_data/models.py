@@ -202,4 +202,5 @@ class TellusData(models.Model):
             self.tellus, self.richting, self.tijd_van.strftime('%d-%m-%Y %H:%M'), self.tijd_tot.strftime('%H:%M'))
 
     class Meta:
+        ordering = ['id', 'tijd_van', 'tijd_tot', 'richting']
         unique_together = ("tellus", "richting", "tijd_van", "tijd_tot")
