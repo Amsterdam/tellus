@@ -15,9 +15,9 @@ class Migration(migrations.Migration):
         migrations.RunSQL("""
             -- View: public.tellus_data_tellus_expanded
 
-            DROP VIEW public.tellus_data_tellus_expanded;
+            DROP VIEW IF EXISTS public.tellus_data_tellus_expanded;
 
-            DROP VIEW public.tellus_data_tellus_expanded_source;
+            DROP VIEW IF EXISTS public.tellus_data_tellus_expanded_source;
 
             create view public.tellus_data_tellus_expanded_source
             as
