@@ -37,5 +37,3 @@ urlpatterns = [
     url(r'^tellusdata/$', views.TellusDataList.as_view(), name='tellusdata-list'),
     url(r'^tellusdata/(?P<pk>[0-9]+)/$', views.TellusDataDetail.as_view(), name='tellusdata-detail'),
 ]
-
-
