@@ -62,7 +62,7 @@ class MeetraaiCategorieDetail(mixins.RetrieveModelMixin, generics.GenericAPIView
         return self.retrieve(request, *args, **kwargs)
 
 
-class RepresentatiefCategorieList(mixins.ListModelMixin,generics.GenericAPIView):
+class RepresentatiefCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
     queryset = models.RepresentatiefCategorie.objects.all()
     serializer_class = serializers.RepresentatiefCategorieSerializer
 
