@@ -1,4 +1,4 @@
-from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie, Tellus, TellusData
+from datasets.tellus_data import models
 from rest_framework import mixins, generics
 from api import serializers
 from django.contrib.gis.measure import D
@@ -9,7 +9,7 @@ class LengteCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
     """
     Returns all `LengteCategorie instances`, ordered by id
     """
-    queryset = LengteCategorie.objects.all().order_by('pk')
+    queryset = models.LengteCategorie.objects.all().order_by('pk')
     serializer_class = serializers.LengteCategorieSerializer
 
     def get(self, request, *args, **kwargs):
@@ -20,7 +20,7 @@ class LengteCategorieDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
     """
     Returns `LengteCategorie` instance by id
     """
-    queryset = Tellus.objects.all()
+    queryset = models.Tellus.objects.all()
     serializer_class = serializers.LengteCategorieSerializer
 
     def get(self, request, *args, **kwargs):
@@ -31,7 +31,7 @@ class SnelheidsCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
     """
     Returns all `SnelheidsCategorie instances`, ordered by id
     """
-    queryset = SnelheidsCategorie.objects.all().order_by('pk')
+    queryset = models.SnelheidsCategorie.objects.all().order_by('pk')
     serializer_class = serializers.SnelheidsCategorieSerializer
 
     def get(self, request, *args, **kwargs):
@@ -39,15 +39,63 @@ class SnelheidsCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
 
 
 class SnelheidsCategorieDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
-    queryset = SnelheidsCategorie.objects.all()
+    queryset = models.SnelheidsCategorie.objects.all()
     serializer_class = serializers.SnelheidsCategorieSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
 
+class MeetraaiCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
+    queryset = models.MeetraaiCategorie.objects.all()
+    serializer_class = serializers.MeetraaiCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class MeetraaiCategorieDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = models.MeetraaiCategorie.objects.all()
+    serializer_class = serializers.MeetraaiCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
+class RepresentatiefCategorieList(mixins.ListModelMixin,generics.GenericAPIView):
+    queryset = models.RepresentatiefCategorie.objects.all()
+    serializer_class = serializers.RepresentatiefCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class RepresentatiefCategorieDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = models.RepresentatiefCategorie.objects.all()
+    serializer_class = serializers.RepresentatiefCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
+class ValidatieCategorieList(mixins.ListModelMixin, generics.GenericAPIView):
+    queryset = models.ValidatieCategorie.objects.all()
+    serializer_class = serializers.ValidatieCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class ValidatieCategorieDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = models.ValidatieCategorie.objects.all()
+    serializer_class = serializers.ValidatieCategorieSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
 class TellusList(mixins.ListModelMixin, generics.GenericAPIView):
-    queryset = Tellus.objects.all().order_by('pk')
+    queryset = models.Tellus.objects.all().order_by('pk')
     serializer_class = serializers.TellusSerializer
 
     # pagination_class = HALPagination
@@ -65,9 +113,9 @@ class TellusList(mixins.ListModelMixin, generics.GenericAPIView):
         radius = self.request.query_params.get('radius', None)
         if lat is not None and lon is not None and radius is not None:
             pnt = Point(float(lon), float(lat), srid=4326)
-            return Tellus.objects.filter(geometrie__distance_lte=(pnt, D(m=int(radius))))
+            return models.Tellus.objects.filter(geometrie__distance_lte=(pnt, D(m=int(radius))))
         else:
-            return Tellus.objects.all()
+            return models.Tellus.objects.all()
 
 
 class TellusDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
@@ -84,14 +132,14 @@ class TellusDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
         Get using pk
         """
         pk = self.kwargs['pk']
-        return Tellus.objects.get(pk=pk)
+        return models.Tellus.objects.get(pk=pk)
 
 
 class TellusDataList(mixins.ListModelMixin, generics.GenericAPIView):
     """
     Returns a list of `TellusData` objects.
     """
-    queryset = TellusData.objects.all()
+    queryset = models.TellusData.objects.all()
     serializer_class = serializers.TellusDataSerializer
 
     def get(self, request, *args, **kwargs):
@@ -102,7 +150,7 @@ class TellusDataDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
     """
     Returns a `TellusData detail` object by id
     """
-    queryset = TellusData.objects.all()
+    queryset = models.TellusData.objects.all()
     serializer_class = serializers.TellusDataSerializer
 
     def get(self, request, *args, **kwargs):

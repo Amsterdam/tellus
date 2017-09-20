@@ -1,5 +1,5 @@
 from authorization_django import levels as authorization_levels
-from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie, Tellus, TellusData
+from datasets.tellus_data import models
 from rest_framework import serializers
 
 from .rest import DataSetSerializerMixin, HALSerializer
@@ -23,7 +23,7 @@ class TellusSerializer(TellusMixin, HALSerializer):
     _display = serializers.SerializerMethodField()
 
     class Meta:
-        model = Tellus
+        model = models.Tellus
         fields = (
             '_display',
             'id',
@@ -48,7 +48,7 @@ class TellusSerializer(TellusMixin, HALSerializer):
 
 class LengteCategorieSerializer(TellusMixin, HALSerializer):
     class Meta:
-        model = LengteCategorie
+        model = models.LengteCategorie
         fields = (
             'klasse',
             'l1',
@@ -60,9 +60,36 @@ class LengteCategorieSerializer(TellusMixin, HALSerializer):
         )
 
 
+class MeetraaiCategorieSerializer(TellusMixin, HALSerializer):
+    class Meta:
+        model = models.MeetraaiCategorie
+        fields = (
+            'meetraai',
+            'label',
+        )
+
+
+class RepresentatiefCategorieSerializer(TellusMixin, HALSerializer):
+    class Meta:
+        model = models.RepresentatiefCategorie
+        fields = (
+            'representatief',
+            'label',
+        )
+
+
+class ValidatieCategorieSerializer(TellusMixin, HALSerializer):
+    class Meta:
+        model = models.ValidatieCategorie
+        fields = (
+            'validatie',
+            'label',
+        )
+
+
 class SnelheidsCategorieSerializer(TellusMixin, HALSerializer):
     class Meta:
-        model = SnelheidsCategorie
+        model = models.SnelheidsCategorie
         fields = (
             'klasse',
             's1',
@@ -82,7 +109,7 @@ class TellusDataSerializer(TellusMixin, HALSerializer):
     _display = serializers.SerializerMethodField()
 
     class Meta:
-        model = TellusData
+        model = models.TellusData
         fields = (
             '_display',
             'tellus',
@@ -104,8 +131,11 @@ class TellusDataSerializer(TellusMixin, HALSerializer):
         )
         extra_kwargs = {
             'tellus': {'view_name': 'tellus-detail', 'lookup_field': 'pk'},
+            'lengte_categorie': {'view_name': 'lengtecategorie-detail', 'lookup_field': 'pk'},
             'snelheids_categorie': {'view_name': 'snelheidscategorie-detail', 'lookup_field': 'pk'},
-            'lengte_categorie': {'view_name': 'lengtecategorie-detail', 'lookup_field': 'pk'}
+            'validatie': {'view_name': 'validatiecategorie-detail', 'lookup_field': 'pk'},
+            'representatief': {'view_name': 'representatiefcategorie-detail', 'lookup_field': 'pk'},
+            'meetraai': {'view_name': 'meetraaicategorie-detail', 'lookup_field': 'pk'}
         }
 
     def get__display(self, obj):
