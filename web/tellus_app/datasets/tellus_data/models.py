@@ -39,7 +39,7 @@ class SnelheidsCategorie(models.Model):
 
 class RepresentatiefCategorie(models.Model):
     """
-    De snelheids categorieen worden hier beschreven
+    De representatief categorieen worden hier beschreven
     """
     representatief = models.IntegerField(primary_key=True)
     label = models.CharField(max_length=40, default='nvt')
@@ -50,7 +50,7 @@ class RepresentatiefCategorie(models.Model):
 
 class ValidatieCategorie(models.Model):
     """
-    De snelheids categorieen worden hier beschreven
+    De validatie categorieen worden hier beschreven
     """
     validatie = models.IntegerField(primary_key=True)
     label = models.CharField(max_length=40, default='nvt')
@@ -61,7 +61,7 @@ class ValidatieCategorie(models.Model):
 
 class MeetraaiCategorie(models.Model):
     """
-    De snelheids categorieen worden hier beschreven
+    De meetraai categorieen worden hier beschreven
     """
     meetraai = models.IntegerField(primary_key=True)
     label = models.CharField(max_length=40, default='nvt')
@@ -107,35 +107,16 @@ class TellusData(models.Model):
     Het 60 kolommen van (6 x 10) meetwaarden, lengtecategorie x snelheidscategorie.
     In de pivot views worden deze verder gereed gemaakt vor verwerking met oa. `Tableau`
     """
-    VALIDATION_CHOICES = ((0, "Geen data"),
-                          (1, "Consistent, plausibel 100% compleet"),
-                          (2, "Consistent, plausibel >98% compleet"),
-                          (3, "Consistent, plausibel <98% compleet"),
-                          (4, "Niet consistent"),
-                          (5, "Niet plausibel"))
-
-    REPRESENTATIVE = ((0, 'Geen data'),
-                      (1, "Representatieve dag"),
-                      (2, "Schoolvakantie"),
-                      (3, "Feestdag"),
-                      (4, "Niet representatieve dag"),
-                      (5, "data/onjuist onbruikbaar")
-                      )
-
-    MEETRAAI = ((0, "Niet compleet"),
-                (1, "Compleet"),
-                (2, "Niet compleet, data wel bruikbaar"))
-
     tellus = models.ForeignKey(Tellus)
     snelheids_categorie = models.ForeignKey(SnelheidsCategorie)
     lengte_categorie = models.ForeignKey(LengteCategorie)
+    validatie = models.ForeignKey(ValidatieCategorie, to_field='validatie')
+    representatief = models.ForeignKey(RepresentatiefCategorie, to_field='representatief')
+    meetraai = models.ForeignKey(MeetraaiCategorie, to_field='meetraai')
 
     tijd_van = models.DateTimeField()
     tijd_tot = models.DateTimeField()
     richting = models.IntegerField()
-    validatie = models.IntegerField(choices=VALIDATION_CHOICES)
-    representatief = models.IntegerField(choices=REPRESENTATIVE)
-    meetraai = models.IntegerField(choices=MEETRAAI)
     c1 = models.IntegerField(null=False, blank=False, default=0)
     c2 = models.IntegerField(null=False, blank=False, default=0)
     c3 = models.IntegerField(null=False, blank=False, default=0)

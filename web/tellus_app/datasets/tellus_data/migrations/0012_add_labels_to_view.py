@@ -21,125 +21,125 @@ class Migration(migrations.Migration):
 
             create view public.tellus_data_tellus_expanded_source
             as
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c1 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's1' as snelheid_interval, (select s1 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c1 as meetwaarde, 'l1' as lengte_interval, 's1' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c2 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's2' as snelheid_interval, (select s2 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c2 as meetwaarde, 'l1' as lengte_interval, 's2' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c3 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's3' as snelheid_interval, (select s3 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c3 as meetwaarde, 'l1' as lengte_interval, 's3' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c4 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's4' as snelheid_interval, (select s4 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c4 as meetwaarde, 'l1' as lengte_interval, 's4' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c5 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's5' as snelheid_interval, (select s5 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c5 as meetwaarde, 'l1' as lengte_interval, 's5' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c6 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's6' as snelheid_interval, (select s6 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c6 as meetwaarde, 'l1' as lengte_interval, 's6' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c7 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's7' as snelheid_interval, (select s7 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c7 as meetwaarde, 'l1' as lengte_interval, 's7' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c8 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's8' as snelheid_interval, (select s8 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c8 as meetwaarde, 'l1' as lengte_interval, 's8' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c9 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's9' as snelheid_interval, (select s9 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c9 as meetwaarde, 'l1' as lengte_interval, 's9' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c10 as meetwaarde, 'l1' as lengte_interval, (select l1 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's10' as snelheid_interval, (select s10 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c10 as meetwaarde, 'l1' as lengte_interval, 's10' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c11 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's1' as snelheid_interval, (select s1 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c11 as meetwaarde, 'l2' as lengte_interval, 's1' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c12 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's2' as snelheid_interval, (select s2 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c12 as meetwaarde, 'l2' as lengte_interval, 's2' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c13 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's3' as snelheid_interval, (select s3 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c13 as meetwaarde, 'l2' as lengte_interval, 's3' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c14 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's4' as snelheid_interval, (select s4 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c14 as meetwaarde, 'l2' as lengte_interval, 's4' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c15 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's5' as snelheid_interval, (select s5 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c15 as meetwaarde, 'l2' as lengte_interval, 's5' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c16 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's6' as snelheid_interval, (select s6 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c16 as meetwaarde, 'l2' as lengte_interval, 's6' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c17 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's7' as snelheid_interval, (select s7 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c17 as meetwaarde, 'l2' as lengte_interval, 's7' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c18 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's8' as snelheid_interval, (select s8 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c18 as meetwaarde, 'l2' as lengte_interval, 's8' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c19 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's9' as snelheid_interval, (select s9 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c19 as meetwaarde, 'l2' as lengte_interval, 's9' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c20 as meetwaarde, 'l2' as lengte_interval, (select l2 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's10' as snelheid_interval, (select s10 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c20 as meetwaarde, 'l2' as lengte_interval, 's10' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c21 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's1' as snelheid_interval, (select s1 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c21 as meetwaarde, 'l3' as lengte_interval, 's1' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c22 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's2' as snelheid_interval, (select s2 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c22 as meetwaarde, 'l3' as lengte_interval, 's2' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c23 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's3' as snelheid_interval, (select s3 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c23 as meetwaarde, 'l3' as lengte_interval, 's3' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c24 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's4' as snelheid_interval, (select s4 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c24 as meetwaarde, 'l3' as lengte_interval, 's4' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c25 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's5' as snelheid_interval, (select s5 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c25 as meetwaarde, 'l3' as lengte_interval, 's5' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c26 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's6' as snelheid_interval, (select s6 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c26 as meetwaarde, 'l3' as lengte_interval, 's6' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c27 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's7' as snelheid_interval, (select s7 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c27 as meetwaarde, 'l3' as lengte_interval, 's7' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c28 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's8' as snelheid_interval, (select s8 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c28 as meetwaarde, 'l3' as lengte_interval, 's8' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c29 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's9' as snelheid_interval, (select s9 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c29 as meetwaarde, 'l3' as lengte_interval, 's9' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c30 as meetwaarde, 'l3' as lengte_interval, (select l3 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's10' as snelheid_interval, (select s10 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c30 as meetwaarde, 'l3' as lengte_interval, 's10' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c31 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's1' as snelheid_interval, (select s1 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c31 as meetwaarde, 'l4' as lengte_interval, 's1' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c32 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's2' as snelheid_interval, (select s2 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c32 as meetwaarde, 'l4' as lengte_interval, 's2' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c33 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's3' as snelheid_interval, (select s3 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c33 as meetwaarde, 'l4' as lengte_interval, 's3' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c34 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's4' as snelheid_interval, (select s4 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c34 as meetwaarde, 'l4' as lengte_interval, 's4' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c35 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's5' as snelheid_interval, (select s5 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c35 as meetwaarde, 'l4' as lengte_interval, 's5' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c36 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's6' as snelheid_interval, (select s6 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c36 as meetwaarde, 'l4' as lengte_interval, 's6' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c37 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's7' as snelheid_interval, (select s7 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c37 as meetwaarde, 'l4' as lengte_interval, 's7' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c38 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's8' as snelheid_interval, (select s8 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c38 as meetwaarde, 'l4' as lengte_interval, 's8' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c39 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's9' as snelheid_interval, (select s9 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c39 as meetwaarde, 'l4' as lengte_interval, 's9' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c40 as meetwaarde, 'l4' as lengte_interval, (select l4 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's10' as snelheid_interval, (select s10 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c40 as meetwaarde, 'l4' as lengte_interval, 's10' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c41 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's1' as snelheid_interval, (select s1 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c41 as meetwaarde, 'l5' as lengte_interval, 's1' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c42 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's2' as snelheid_interval, (select s2 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c42 as meetwaarde, 'l5' as lengte_interval, 's2' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c43 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's3' as snelheid_interval, (select s3 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c43 as meetwaarde, 'l5' as lengte_interval, 's3' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c44 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's4' as snelheid_interval, (select s4 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c44 as meetwaarde, 'l5' as lengte_interval, 's4' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c45 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's5' as snelheid_interval, (select s5 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c45 as meetwaarde, 'l5' as lengte_interval, 's5' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c46 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's6' as snelheid_interval, (select s6 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c46 as meetwaarde, 'l5' as lengte_interval, 's6' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c47 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's7' as snelheid_interval, (select s7 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c47 as meetwaarde, 'l5' as lengte_interval, 's7' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c48 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's8' as snelheid_interval, (select s8 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c48 as meetwaarde, 'l5' as lengte_interval, 's8' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c49 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's9' as snelheid_interval, (select s9 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c49 as meetwaarde, 'l5' as lengte_interval, 's9' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c50 as meetwaarde, 'l5' as lengte_interval, (select l5 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's10' as snelheid_interval, (select s10 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c50 as meetwaarde, 'l5' as lengte_interval, 's10' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c51 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's1' as snelheid_interval, (select s1 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c51 as meetwaarde, 'l6' as lengte_interval, 's1' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c52 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's2' as snelheid_interval, (select s2 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c52 as meetwaarde, 'l6' as lengte_interval, 's2' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c53 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's3' as snelheid_interval, (select s3 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c53 as meetwaarde, 'l6' as lengte_interval, 's3' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c54 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's4' as snelheid_interval, (select s4 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c54 as meetwaarde, 'l6' as lengte_interval, 's4' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c55 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's5' as snelheid_interval, (select s5 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c55 as meetwaarde, 'l6' as lengte_interval, 's5' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c56 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's6' as snelheid_interval, (select s6 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c56 as meetwaarde, 'l6' as lengte_interval, 's6' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c57 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's7' as snelheid_interval, (select s7 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c57 as meetwaarde, 'l6' as lengte_interval, 's7' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c58 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's8' as snelheid_interval, (select s8 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c58 as meetwaarde, 'l6' as lengte_interval, 's8' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c59 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's9' as snelheid_interval, (select s9 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label  from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c59 as meetwaarde, 'l6' as lengte_interval, 's9' as snelheid_interval  from tellus_data_tellusdata
             union all
-            select id, tijd_van, tijd_tot,richting,validatie, representatief, meetraai, lengte_categorie_id, snelheids_categorie_id, tellus_id, c60 as meetwaarde, 'l6' as lengte_interval, (select l6 from tellus_data_lengtecategorie where klasse=1) as lengte_label,  's10' as snelheid_interval, (select s10 from tellus_data_snelheidscategorie where klasse=snelheids_categorie_id) as snelheid_label from tellus_data_tellusdata
+            select id, tijd_van, tijd_tot,richting,validatie, representatief,meetraai,lengte_categorie_id,snelheids_categorie_id,tellus_id, c60 as meetwaarde, 'l6' as lengte_interval, 's10' as snelheid_interval  from tellus_data_tellusdata
 
             order by id, tijd_van, tijd_tot, richting, lengte_interval, snelheid_interval;
             
@@ -149,7 +149,11 @@ class Migration(migrations.Migration):
                    tdtdes.tijd_van,
                    tdtdes.tijd_tot,
                    tdtdes.richting,
-                   case when tdtdes.richting = 1 then tdt.richting_1 when tdtdes.richting = 2 then tdt.richting_2 else null end as richting_label,
+                   case 
+                        when tdtdes.richting = 1 then tdt.richting_1 
+                        when tdtdes.richting = 2 then tdt.richting_2 
+                        else 'nvt' 
+                   end as richting_label,
                    tdtdes.validatie, 
                    tdvc.label as validatie_label,
                    tdtdes.representatief,
@@ -157,24 +161,48 @@ class Migration(migrations.Migration):
                    tdtdes.meetraai, 
                    tdmc.label as meetraai_label,
                    tdtdes.lengte_categorie_id, 
-                   tdtdes.lengte_label,
+                   case
+                        when tdtdes.lengte_interval = 'l1' then tdlc.l1 
+                        when tdtdes.lengte_interval = 'l2' then tdlc.l2 
+                        when tdtdes.lengte_interval = 'l3' then tdlc.l3 
+                        when tdtdes.lengte_interval = 'l4' then tdlc.l4 
+                        when tdtdes.lengte_interval = 'l5' then tdlc.l5 
+                        when tdtdes.lengte_interval = 'l6' then tdlc.l6 
+                        else 'nvt' 
+                   end as lengte_label,
                    tdtdes.snelheids_categorie_id,
                    tdtdes.tellus_id,
                    tdtdes.meetwaarde,
                    tdtdes.lengte_interval,
                    tdtdes.snelheid_interval,
-                   tdtdes.snelheid_label
+                   case
+                        when tdtdes.snelheid_interval = 's1' then tdsc.s1 
+                        when tdtdes.snelheid_interval = 's2' then tdsc.s2 
+                        when tdtdes.snelheid_interval = 's3' then tdsc.s3 
+                        when tdtdes.snelheid_interval = 's4' then tdsc.s4 
+                        when tdtdes.snelheid_interval = 's5' then tdsc.s5 
+                        when tdtdes.snelheid_interval = 's6' then tdsc.s6 
+                        when tdtdes.snelheid_interval = 's7' then tdsc.s7 
+                        when tdtdes.snelheid_interval = 's8' then tdsc.s8 
+                        when tdtdes.snelheid_interval = 's9' then tdsc.s9 
+                        when tdtdes.snelheid_interval = 's10' then tdsc.s10 
+                        else 'nvt' 
+                   end as snelheid_label
             from
                    tellus_data_tellus_expanded_source tdtdes,
                    tellus_data_tellus tdt,
                    tellus_data_validatiecategorie tdvc,
                    tellus_data_representatiefcategorie tdrc,
-                   tellus_data_meetraaicategorie tdmc
+                   tellus_data_meetraaicategorie tdmc,
+                   tellus_data_snelheidscategorie tdsc,
+                   tellus_data_lengtecategorie tdlc
             where 
                    tdtdes.tellus_id = tdt.id 
                    and tdtdes.validatie = tdvc.validatie
                    and tdtdes.representatief = tdrc.representatief
                    and tdtdes.meetraai = tdmc.meetraai
+                   and tdtdes.snelheids_categorie_id = tdsc.klasse
+                   and tdlc.klasse=1
             order by id, tijd_van, tijd_tot, richting, lengte_interval, snelheid_interval;
 
         """),
