@@ -219,6 +219,10 @@ class TellusImporter(object):
 
                 snelheids_categorie_object = models.SnelheidsCategorie.objects.get(klasse=int(trow[5]))
                 lengte_categorie_object = models.LengteCategorie.objects.get(klasse=1)
+                validatie_object = models.ValidatieCategorie.objects.get(validatie=int(trow[2]))
+                representatief_object = models.RepresentatiefCategorie.objects.get(representatief=trow[3])
+                meetraai_object = models.MeetraaiCategorie.objects.get(meetraai=trow[4])
+
                 tijd_van = parse_date(trow[6]).replace(tzinfo=pytz.UTC)
                 tijd_tot = parse_date(trow[7]).replace(tzinfo=pytz.UTC)
 
@@ -239,10 +243,9 @@ class TellusImporter(object):
                     c55=trow[62], c56=trow[63], c57=trow[64], c58=trow[65], c59=trow[66], c60=trow[67],
                     snelheids_categorie=snelheids_categorie_object,
                     lengte_categorie=lengte_categorie_object,
-                    validatie=trow[2],
-                    representatief=trow[3],
-                    meetraai=trow[4],
-
+                    validatie=validatie_object,
+                    representatief=representatief_object,
+                    meetraai=meetraai_object,
                 )
                 tellus_data.save()
 
