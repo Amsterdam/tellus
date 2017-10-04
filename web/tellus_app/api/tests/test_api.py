@@ -52,51 +52,31 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
         self.assertEqual(
             200, response.status_code,
             'Wrong response code for {}'.format(url))
-
         self.assertEqual(
+
             'text/html; charset=utf-8', response['Content-Type'],
             'Wrong Content-Type for {}'.format(url))
 
-    def test_lists_employee(self):
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
+    def test_lists(self):
+        for token in (self.token_employee, self.token_employee_plus, self.token_scope_tlls_r):
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
 
-        for url in self.reverse_list_urls:
-            log.debug("test {} => {}".format(url, reverse(url)))
-            response = self.client.get(reverse(url))
-            self.valid_response(url, response)
-            self.assertIn(
-                'count', response.data, 'No count attribute in {}'.format(url))
-            self.assertNotEqual(
-                response.data['count'],
-                0, 'Wrong result count for {}'.format(url))
+            for url in self.reverse_list_urls:
+                log.debug("test {} => {}".format(url, reverse(url)))
+                response = self.client.get(reverse(url))
+                self.valid_response(url, response)
+                self.assertIn(
+                    'count', response.data, 'No count attribute in {}'.format(url))
+                self.assertNotEqual(
+                    response.data['count'],
+                    0, 'Wrong result count for {}'.format(url))
 
-    def test_lists_employee_plus(self):
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee_plus))
+    def test_details(self):
+        for token in (self.token_employee, self.token_employee_plus, self.token_scope_tlls_r):
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
 
-        for url in self.reverse_list_urls:
-            log.debug("test {} => {}".format(url, reverse(url)))
-            response = self.client.get(reverse(url))
-            self.valid_response(url, response)
-            self.assertIn(
-                'count', response.data, 'No count attribute in {}'.format(url))
-            self.assertNotEqual(
-                response.data['count'],
-                0, 'Wrong result count for {}'.format(url))
-
-    def test_details_employee(self):
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-
-        for url in self.reverse_detail_urls:
-            log.debug("test {} => {}".format(url, reverse(url, [1])))
-            self.valid_response(url, self.client.get(reverse(url, [1])))
-
-    def test_details_employee_plus(self):
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee_plus))
-
-        for url in self.reverse_detail_urls:
-            log.debug("test {} => {}".format(url, reverse(url, [1])))
-            self.valid_response(url, self.client.get(reverse(url, [1])))
+            for url in self.reverse_detail_urls:
+                log.debug("test {} => {}".format(url, reverse(url, [1])))
+                self.valid_response(url, self.client.get(reverse(url, [1])))

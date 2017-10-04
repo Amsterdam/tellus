@@ -47,7 +47,11 @@ class AuthorizationSetup(object):
         token_employee_plus = jwt.encode({
             'authz': authorization_levels.LEVEL_EMPLOYEE_PLUS,
             'iat': now, 'exp': now + 600}, key, algorithm=algorithm)
+        token_scope_tlls_r = jwt.encode({
+            'scopes': [authorization_levels.SCOPE_TLLS_R],
+            'iat': now, 'exp': now + 600}, key, algorithm=algorithm)
 
         self.token_default = str(token_default, 'utf-8')
         self.token_employee = str(token_employee, 'utf-8')
         self.token_employee_plus = str(token_employee_plus, 'utf-8')
+        self.token_scope_tlls_r = str(token_scope_tlls_r, 'utf-8')
