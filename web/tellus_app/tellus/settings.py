@@ -85,7 +85,6 @@ if DEBUG:
 
 # Application definition
 INSTALLED_APPS = [
-                     'django.contrib.auth',
                      'django.contrib.contenttypes',
                      'django.contrib.sessions',
                      'django.contrib.messages',
@@ -110,9 +109,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'authorization_django.authorization_middleware',
@@ -187,6 +184,9 @@ TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 REST_FRAMEWORK = dict(
     PAGE_SIZE=100,
+
+    UNAUTHENTICATED_USER={},
+    UNAUTHENTICATED_TOKEN={},
 
     MAX_PAGINATE_BY=100,
     DEFAULT_AUTHENTICATION_CLASSES=(
