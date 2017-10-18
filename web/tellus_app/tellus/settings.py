@@ -86,11 +86,7 @@ if DEBUG:
 # Application definition
 INSTALLED_APPS = [
                      'django.contrib.contenttypes',
-                     'django.contrib.sessions',
-                     'django.contrib.messages',
                      'django.contrib.staticfiles',
-
-                     'django_extensions',
 
                      'django.contrib.gis',
                      'rest_framework',
@@ -99,21 +95,19 @@ INSTALLED_APPS = [
                  ] + PROJECT_APPS
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
+MIDDLEWARE = [
+    'authorization_django.authorization_middleware',
+]
+
 
 if DEBUG:
     INSTALLED_APPS += (
-        'debug_toolbar', 'explorer')
+        'django_extensions',
+        'debug_toolbar',)
+    MIDDLEWARE += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'authorization_django.authorization_middleware',
-]
 
 ROOT_URLCONF = 'tellus.urls'
 
