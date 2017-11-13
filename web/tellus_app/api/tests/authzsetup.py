@@ -59,6 +59,6 @@ class AuthorizationSetup(object):
         token_scope_tlls_r = jwt.encode({
             'scopes': [authorization_levels.SCOPE_TLLS_R],
             'iat': now, 'exp': now + 600}, key.key, algorithm=key.alg,
-             headers= {'kid': kid})
+             headers={'kid': kid})
 
         self.token_scope_tlls_r = str(token_scope_tlls_r, 'utf-8')
