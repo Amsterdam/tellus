@@ -1,4 +1,4 @@
-from authorization_django import levels as authorization_levels
+import authorization_levels
 from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie, Tellus, TellusData
 from rest_framework import serializers
 
