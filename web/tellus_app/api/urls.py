@@ -17,7 +17,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^docs', schema_view, name='docs'),
-    url(r'^tellus/$', views.TellusList.as_view(), name='tellus-list'),
+    url(r'^tellus$', views.TellusList.as_view(), name='tellus-list'),
     url(r'^tellus/(?P<pk>[0-9]+)/', views.TellusDetail.as_view(), name='tellus-detail'),
     url(r'^lengtecategorie/$', views.LengteCategorieList.as_view(), name='lengtecategorie-list'),
     url(r'^lengtecategorie/(?P<pk>[0-9]+)/', views.SnelheidsCategorieDetail.as_view(), name='lengtecategorie-detail'),
