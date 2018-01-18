@@ -5,8 +5,6 @@ info:
   title: Tellus API
   description: The tellus Rest API
 
-basePath: /tellus
-
 schemes:
   - http
 
