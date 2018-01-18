@@ -328,5 +328,8 @@ DATAPUNT_AUTHZ = {
     'FORCED_ANONYMOUS_ROUTES': (
         '/status/',
         '/tellus/static/',
+        '/tellus/tellus',
+        '/tellus/lengtecategorie/',
+        '/tellus/snelheidscategorie/'
     )
 }
