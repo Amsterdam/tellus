@@ -92,7 +92,6 @@ INSTALLED_APPS = [
                      'django.contrib.gis',
                      'rest_framework',
                      'rest_framework_gis',
-                     'rest_framework_swagger',
                  ] + PROJECT_APPS
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
@@ -201,46 +200,6 @@ REST_FRAMEWORK = dict(
     COERCE_DECIMAL_TO_STRING=True,
 )
 
-# SWAGGER
-
-swag_path = '{}/tellus/docs'.format(DATAPUNT_API_URL)
-
-if DEBUG:
-    swag_path = '127.0.0.1:8000/tellus/docs'
-
-SWAGGER_SETTINGS = {
-    'exclude_namespaces': [],
-    'api_version': '0.1',
-    'api_path': '/',
-
-    'enabled_methods': [
-        'get',
-    ],
-
-    'api_key': '',
-    'USE_SESSION_AUTH': False,
-    'VALIDATOR_URL': None,
-
-    'is_authenticated': False,
-    'is_superuser': False,
-
-    'unauthenticated_user': 'Anonymous',
-    'permission_denied_handler': None,
-    'resource_access_handler': None,
-
-    'protocol': 'https' if not DEBUG else '',
-    'base_path': swag_path,
-
-    'info': {
-        'contact': 'atlas.basisinformatie@amsterdam.nl',
-        'description': 'This is the Tellus API server.',
-        'license': 'Not known yet',
-        'termsOfServiceUrl': 'https://data.amsterdam.nl/terms/',
-        'title': 'Tellus',
-    },
-
-    'doc_expansion': 'list',
-}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -364,5 +323,10 @@ JWKS_TEST_KEY = """
 """
 
 DATAPUNT_AUTHZ = {
-    'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY)
+    'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
+    'MIN_SCOPE': 'TLLS/R',
+    'FORCED_ANONYMOUS_ROUTES': (
+        '/status/',
+        '/tellus/static/',
+    )
 }
