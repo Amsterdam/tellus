@@ -109,6 +109,9 @@ paths:
   /tellus/tellusdata/:
     get:
       description: Returns tellus measurements per hour
+      security:
+        - OAuth2:
+            - TLLS/R
       produces:
         - application/json
       parameters:
@@ -141,6 +144,9 @@ paths:
   /tellus/telusdata/{id}:
     get:
       description: Returns a tellus data object for id
+      security:
+        - OAuth2:
+            - TLLS/R
       produces:
         - application/json
 
