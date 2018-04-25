@@ -58,7 +58,7 @@ def split_prefix(lst):
     return '_'.join(lst.split('_')[:-1])
 
 
-def fetch_meta_data(file_name="AMS365_codeboek_v5.xlsx"):
+def fetch_meta_data(file_name="AMS365_codeboek_v7.xlsx"):
     """
     :return: return the xls file object
     """
