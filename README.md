@@ -32,7 +32,6 @@ Tellus API and import  module.
     ./web/tellus_app/manage.py migrate
     
     # start server
-    export JWT_SHARED_SECRET_KEY=insecureinsecureinsecure
     ./web/tellus_app/manage.py runserver  
    
    	# check out status using
