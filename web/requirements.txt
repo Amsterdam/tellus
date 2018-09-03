@@ -14,6 +14,7 @@ django-sql-explorer
 Django
 djangorestframework-gis
 djangorestframework
+drf_amsterdam==0.1.5
 drf-extensions
 drf-hal-json
 factory-boy
