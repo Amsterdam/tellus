@@ -1,32 +1,38 @@
-from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie, Tellus, TellusData
-from api import serializers
+from datapunt_api.rest import DatapuntViewSet
 
-from datapunt_api import rest
+from datasets.tellus_data.models import LengteCategorie
+from datasets.tellus_data.models import SnelheidsCategorie
+from datasets.tellus_data.models import Tellus
+from datasets.tellus_data.models import TellusData
+
+from api.serializers import LengteCategorieSerializer
+from api.serializers import SnelheidsCategorieSerializer
+from api.serializers import TellusSerializer
+from api.serializers import TellusDataSerializer
 
 
-class LengteCategorieViewSet(rest.DatapuntViewSet):
+class LengteCategorieViewSet(DatapuntViewSet):
     """
     Returns all `LengteCategorie instances`, ordered by id
     """
     queryset = LengteCategorie.objects.all().order_by('pk')
-    serializer_class = serializers.LengteCategorieSerializer
-    serializer_detailed_class = serializers.LengteCategorieSerializer
+    serializer_class = LengteCategorieSerializer
+    serializer_detail_class = LengteCategorieSerializer
 
 
-class SnelheidsCategorieViewSet(rest.DatapuntViewSet):
+class SnelheidsCategorieViewSet(DatapuntViewSet):
     """
     Returns all `SnelheidsCategorie instances`, ordered by id
     """
     queryset = SnelheidsCategorie.objects.all().order_by('pk')
-    serializer_class = serializers.SnelheidsCategorieSerializer
-    serializer_detail_class = serializers.SnelheidsCategorieSerializer
+    serializer_class = SnelheidsCategorieSerializer
+    serializer_detail_class = SnelheidsCategorieSerializer
 
 
-
-class TellusViewSet(rest.DatapuntViewSet):
+class TellusViewSet(DatapuntViewSet):
     queryset = Tellus.objects.all().order_by('pk')
-    serializer_class = serializers.TellusSerializer
-    serializer_detail_class = serializers.TellusSerializer
+    serializer_class = TellusSerializer
+    serializer_detail_class = TellusSerializer
 
     # def get_queryset(self):
     #     """
@@ -43,10 +49,10 @@ class TellusViewSet(rest.DatapuntViewSet):
     #         return Tellus.objects.all()
 
 
-class TellusDataViewSet(rest.DatapuntViewSet):
+class TellusDataViewSet(DatapuntViewSet):
     """
     Returns a list of `TellusData` objects.
     """
     queryset = TellusData.objects.all()
-    serializer_class = serializers.TellusDataSerializer
-    serializer_detail_class = serializers.TellusDataSerializer
+    serializer_class = TellusDataSerializer
+    serializer_detail_class = TellusDataSerializer
