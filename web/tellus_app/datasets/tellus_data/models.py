@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+from django.db.models import SET_NULL, CASCADE
 
 
 class LengteCategorie(models.Model):
@@ -82,9 +83,10 @@ class Tellus(models.Model):
 
     objnr_vor = models.CharField(max_length=10, unique=True)
     objnr_leverancier = models.CharField(max_length=10, unique=True)
-    snelheids_klasse = models.ForeignKey(SnelheidsCategorie,
-                                         related_name='tellussen',
-                                         null=True)
+    snelheids_klasse = models.ForeignKey(
+        SnelheidsCategorie,
+        related_name='tellussen',
+        null=True, on_delete=SET_NULL)
     standplaats = models.CharField(max_length=80)
     zijstraat_a = models.CharField(max_length=80)
     zijstraat_b = models.CharField(max_length=80)
@@ -126,9 +128,10 @@ class TellusData(models.Model):
                 (1, "Compleet"),
                 (2, "Niet compleet, data wel bruikbaar"))
 
-    tellus = models.ForeignKey(Tellus)
-    snelheids_categorie = models.ForeignKey(SnelheidsCategorie)
-    lengte_categorie = models.ForeignKey(LengteCategorie)
+    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
+    snelheids_categorie = models.ForeignKey(
+        SnelheidsCategorie, on_delete=CASCADE)
+    lengte_categorie = models.ForeignKey(LengteCategorie, on_delete=CASCADE)
 
     tijd_van = models.DateTimeField()
     tijd_tot = models.DateTimeField()

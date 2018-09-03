@@ -17,8 +17,8 @@ from django.conf import settings
 from django.conf.urls import url, include
 
 urlpatterns = [
-    url(r'^status/', include('health.urls', namespace='health')),
-    url(r'^tellus/', include('api.urls'), name='api'),
+    url(r'^status/', include('health.urls')),
+    url(r'^tellus/', include('api.urls')),
 ]
 
 if settings.DEBUG:

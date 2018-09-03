@@ -75,35 +75,54 @@ DEBUG = SECRET_KEY == insecure_key
 ALLOWED_HOSTS = ['*']
 
 PROJECT_APPS = [
+    'datapunt_api',
     'api',
     'tellus',
     'datasets.tellus_data',
 ]
 
-DATAPUNT_API_URL = os.getenv('DATAPUNT_API_URL', 'https://api.data.amsterdam.nl/')
+
+DATAPUNT_API_URL = os.getenv(
+    'DATAPUNT_API_URL', 'https://api.data.amsterdam.nl/')
+
 if DEBUG:
     DATAPUNT_API_URL = 'http://localhost:8000/'
 
 # Application definition
-INSTALLED_APPS = [
-                     'django.contrib.contenttypes',
-                     'django.contrib.staticfiles',
 
-                     'django.contrib.gis',
-                     'rest_framework',
-                     'rest_framework_gis',
-                 ] + PROJECT_APPS
+
+INSTALLED_APPS = [
+    'django.contrib.contenttypes',
+    'django.contrib.staticfiles',
+
+    'datapunt_api',
+    'api',
+    'tellus',
+    'datasets.tellus_data',
+
+
+    "django_filters",
+    'django.contrib.gis',
+    'rest_framework',
+    'rest_framework_gis',
+]
+
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
+
 MIDDLEWARE = [
-    'authorization_django.authorization_middleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    # "authorization_django.authorization_middleware",
 ]
 
 
 if DEBUG:
     INSTALLED_APPS += (
         'django_extensions',
-        'debug_toolbar',)
+        'debug_toolbar',
+    )
+
     MIDDLEWARE += (
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
@@ -194,8 +213,7 @@ REST_FRAMEWORK = dict(
         'rest_framework.renderers.BrowsableAPIRenderer'
     ),
     DEFAULT_FILTER_BACKENDS=(
-        'rest_framework.filters.DjangoFilterBackend',
-
+        'django_filters.rest_framework.DjangoFilterBackend',
     ),
     COERCE_DECIMAL_TO_STRING=True,
 )
@@ -300,6 +318,7 @@ LOGGING = {
 
     },
 }
+
 
 # The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256
 # This is a test public/private key def and added for testing .
