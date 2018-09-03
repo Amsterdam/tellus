@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import include
 from rest_framework import routers
 from django.urls import path
 
@@ -7,21 +7,14 @@ from api import views
 
 class TellusView(routers.APIRootView):
     """
-    List Signals and their related information.
+    Counted cars of all our permanent road counting apparatus.
+    These consists of counted cars per hour per speed/type and are updated monthly.
 
-    These API endpoints are part of the Signalen Informatievoorziening Amsterdam
-    (SIA) application. SIA can be used by citizens and interested parties to inform
-    the Amsterdam municipality of problems in public spaces (like noise complaints,
-    broken street lights etc.) These signals (signalen in Dutch) are then followed
-    up on by the appropriate municipal services.
-
-    The code for this application (and associated web front-end) is available from:
-    - https://github.com/Amsterdam/signals
-    - https://github.com/Amsterdam/signals-frontend
+    The code for this application is available from:
+    - https://github.com/Amsterdam/tellus
 
     Note:
-    Most of these endpoints require authentication. The only fully public endpoint
-    is /signals/signal where new signals can be POSTed.
+    These endpoints require authentication using the Employee login for example.
     """
 
 
