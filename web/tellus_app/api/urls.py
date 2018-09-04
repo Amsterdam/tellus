@@ -1,19 +1,45 @@
-from django.conf.urls import url, include
+"""
+API urls
+"""
+from django.conf.urls import include
 from rest_framework import routers
+from django.urls import path
 
+from django.conf.urls import include
+from django.urls import path
+from rest_framework import routers
 from api import views
 
-router = routers.DefaultRouter()
+
+class TellusView(routers.APIRootView):
+    """
+    Counted cars of all our permanent road counting apparatus.
+    These consists of counted cars per hour per speed/type and are updated monthly.
+
+    The code for this application is available from:
+    - https://github.com/Amsterdam/tellus
+
+    Note:
+
+    These endpoints require authentication using the Employee login for example.
+    """  # noqa
+
+
+class TellusRouter(routers.DefaultRouter):
+    APIRootView = TellusView
+
+
+router = TellusRouter()
+
+
+router.register(r'tellus', views.TellusViewSet)
+router.register(r'lengtecategorie', views.LengteCategorieViewSet)
+
+router.register(r'snelheidscategorie', views.SnelheidsCategorieViewSet)
+
+router.register(r'tellusdata', views.TellusDataViewSet)
+
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^tellus$', views.TellusList.as_view(), name='tellus-list'),
-    url(r'^tellus/(?P<pk>[0-9]+)/', views.TellusDetail.as_view(), name='tellus-detail'),
-    url(r'^lengtecategorie/$', views.LengteCategorieList.as_view(), name='lengtecategorie-list'),
-    url(r'^lengtecategorie/(?P<pk>[0-9]+)/', views.SnelheidsCategorieDetail.as_view(), name='lengtecategorie-detail'),
-    url(r'^snelheidscategorie/$', views.LengteCategorieList.as_view(), name='snelheidcategorie-list'),
-    url(r'^snelheidscategorie/(?P<pk>[0-9]+)/', views.SnelheidsCategorieDetail.as_view(),
-        name='snelheidscategorie-detail'),
-    url(r'^tellusdata/$', views.TellusDataList.as_view(), name='tellusdata-list'),
-    url(r'^tellusdata/(?P<pk>[0-9]+)/$', views.TellusDataDetail.as_view(), name='tellusdata-detail'),
+    path('', include(router.urls)),
 ]
