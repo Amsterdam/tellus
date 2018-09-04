@@ -7,6 +7,9 @@ from datasets.tellus_data.models import LengteCategorie, SnelheidsCategorie
 
 from api import serializers
 
+from django.contrib.gis.geos import Point  # noqa
+from django.contrib.gis.measure import Distance
+
 from datapunt_api import rest
 
 
@@ -43,7 +46,7 @@ class TellusViewSet(rest.DatapuntViewSet):
         if lat is not None and lon is not None and radius is not None:
             pnt = Point(float(lon), float(lat), srid=4326)
             return Tellus.objects.filter(
-                geometrie__distance_lte=(pnt, D(m=int(radius))))
+                geometrie__distance_lte=(pnt, Distance(m=int(radius))))
 
         return Tellus.objects.all()
 
