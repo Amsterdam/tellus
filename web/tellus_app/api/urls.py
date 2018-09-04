@@ -1,7 +1,10 @@
-from django.conf.urls import url, include
-from rest_framework import routers
-from django.urls import path
+"""
+API urls
+"""
 
+from django.conf.urls import include
+from django.urls import path
+from rest_framework import routers
 from api import views
 
 
@@ -22,7 +25,7 @@ class TellusView(routers.APIRootView):
     Note:
     Most of these endpoints require authentication. The only fully public endpoint
     is /signals/signal where new signals can be POSTed.
-    """
+    """   # noqa
 
 
 class TellusRouter(routers.DefaultRouter):
@@ -32,12 +35,12 @@ class TellusRouter(routers.DefaultRouter):
 router = TellusRouter()
 
 
-router.register(r'^tellus', views.TellusViewSet)
-router.register(r'^lengtecategorie', views.LengteCategorieViewSet)
+router.register(r'tellus', views.TellusViewSet)
+router.register(r'lengtecategorie', views.LengteCategorieViewSet)
 
-router.register(r'^snelheidscategorie', views.LengteCategorieViewSet)
+router.register(r'snelheidscategorie', views.SnelheidsCategorieViewSet)
 
-router.register(r'^tellusdata', views.TellusDataViewSet)
+router.register(r'tellusdata', views.TellusDataViewSet)
 
 
 urlpatterns = [

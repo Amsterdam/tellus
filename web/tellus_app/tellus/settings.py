@@ -40,7 +40,7 @@ def in_docker():
     try:
         cgroup = open('/proc/1/cgroup', 'r').read()
         return ':/docker/' in cgroup or ':/docker-ce/' in cgroup
-    except:
+    except:  # noqa
         return False
 
 
@@ -320,7 +320,8 @@ LOGGING = {
 }
 
 
-# The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256
+# The following JWKS data was obtained in the authz project :
+# jwkgen -create -alg ES256
 # This is a test public/private key def and added for testing .
 JWKS_TEST_KEY = """
     {
@@ -347,7 +348,7 @@ DATAPUNT_AUTHZ = {
     'FORCED_ANONYMOUS_ROUTES': (
         '/status/',
         '/tellus/static/',
-        '/tellus/tellus',
+        '/tellus/tellus/',
         '/tellus/lengtecategorie/',
         '/tellus/snelheidscategorie/'
     )

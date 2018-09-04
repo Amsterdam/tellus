@@ -1,3 +1,6 @@
+"""Tests
+"""
+
 import logging
 
 from api.tests.authzsetup import AuthorizationSetup
@@ -17,7 +20,7 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
         # 'docs',
         'tellus-list',
         'lengtecategorie-list',
-        'snelheidcategorie-list',
+        'snelheidscategorie-list',
         'tellusdata-list',
     ]
     reverse_detail_urls = [

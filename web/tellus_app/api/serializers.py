@@ -4,11 +4,11 @@ from rest_framework import serializers
 from datapunt_api.rest import DataSetSerializerMixin, HALSerializer
 
 
-class TellusMixin(DataSetSerializerMixin):
+class TellusSerializer(HALSerializer):
+    """Tellus details
+    """
+
     dataset = 'tellus_data'
-
-
-class TellusSerializer(TellusMixin, HALSerializer):
     _display = serializers.SerializerMethodField()
 
     class Meta:
@@ -35,7 +35,10 @@ class TellusSerializer(TellusMixin, HALSerializer):
         return str(obj)
 
 
-class LengteCategorieSerializer(TellusMixin, HALSerializer):
+class LengteCategorieSerializer(HALSerializer):
+    """Lengte Categorien
+    """
+    dataset = 'tellus_data'
     class Meta:
         model = LengteCategorie
         fields = (
@@ -49,7 +52,10 @@ class LengteCategorieSerializer(TellusMixin, HALSerializer):
         )
 
 
-class SnelheidsCategorieSerializer(TellusMixin, HALSerializer):
+class SnelheidsCategorieSerializer(HALSerializer):
+    """Categorien.
+    """
+    dataset = 'tellus_data'
     class Meta:
         model = SnelheidsCategorie
         fields = (
@@ -67,7 +73,10 @@ class SnelheidsCategorieSerializer(TellusMixin, HALSerializer):
         )
 
 
-class TellusDataSerializer(TellusMixin, HALSerializer):
+class TellusDataSerializer(HALSerializer):
+    """Tellus tellingen.
+    """
+    dataset = 'tellus_data'
     _display = serializers.SerializerMethodField()
 
     class Meta:
