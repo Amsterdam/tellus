@@ -16,4 +16,5 @@ mkdir -p ${DIR}/backups
 
 dc build
 dc run --rm importer
-dc run --rm db-backup
+
+dc exec -T database backup-db.sh tellus
