@@ -25,19 +25,3 @@ services:
               && export DJANGO_SETTINGS_MODULE=tellus.settings \
               && python importer.py\
               && python import_validator.py"
-
-  db-backup:
-    image: amsterdam/postgres
-    links:
-      - database:db
-    volumes:
-      - ./backups:/tmp/backups
-    command: >
-      bash -c "echo db:5432:tellus:tellus:insecure > ~/.pgpass \
-              && chmod 600 ~/.pgpass \
-              && pg_dump -Fc \
-                          -U tellus \
-                          -t tellus* \
-                          -t geo* \
-                          -h db -p 5432 \
-                          tellus > /tmp/backups/database.dump"
