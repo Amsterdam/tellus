@@ -5,6 +5,8 @@ services:
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: tellus
+    volumes:
+      - ./backups:/tmp/backups
 
   importer:
     image: build.datapunt.amsterdam.nl:5000/datapunt/tellus:${ENVIRONMENT}
@@ -18,7 +20,8 @@ services:
       DATABASE_HOST_OVERRIDE: database
       DATABASE_PORT_OVERRIDE: 5432
       DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
-
+    volumes:
+      - ./backups/elasticsearch:/tmp/backups
     command: >
       bash -c "/app/docker-wait.sh \
               && python manage.py migrate \
