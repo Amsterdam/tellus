@@ -1,15 +1,17 @@
 from rest_framework import serializers
 
-from datapunt_api.rest import DataSetSerializerMixin, HALSerializer
+from datapunt_api.rest import HALSerializer
 
 from datasets.tellus_data.models import LengteCategorie
 from datasets.tellus_data.models import SnelheidsCategorie
 from datasets.tellus_data.models import Tellus
 from datasets.tellus_data.models import TellusData
+from datasets.tellus_data.models import TellusDataCarsPerHourPerDay
 
 
 class TellusSerializer(HALSerializer):
-    """Tellus details
+    """
+    Tellus details
     """
 
     dataset = 'tellus_data'
@@ -40,9 +42,11 @@ class TellusSerializer(HALSerializer):
 
 
 class LengteCategorieSerializer(HALSerializer):
-    """Lengte Categorien
+    """
+    Lengte Categoriëen.
     """
     dataset = 'tellus_data'
+
     class Meta(object):
         model = LengteCategorie
         fields = (
@@ -60,6 +64,7 @@ class SnelheidsCategorieSerializer(HALSerializer):
     """Categorien.
     """
     dataset = 'tellus_data'
+
     class Meta(object):
         model = SnelheidsCategorie
         fields = (
@@ -78,7 +83,8 @@ class SnelheidsCategorieSerializer(HALSerializer):
 
 
 class TellusDataSerializer(HALSerializer):
-    """Tellus tellingen.
+    """
+    Tellus tellingen.
     """
     dataset = 'tellus_data'
     _display = serializers.SerializerMethodField()
@@ -109,6 +115,29 @@ class TellusDataSerializer(HALSerializer):
             "snelheids_categorie": {"view_name": "snelheidscategorie-detail", "lookup_field": "pk"},
             "lengte_categorie": {"view_name": "lengtecategorie-detail", "lookup_field": "pk"}
         }
+
+    def get__display(self, obj):
+        return str(obj)
+
+
+class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
+    """
+    Tellus Werkdag, Weekdag totalen
+    """
+    dataset = 'tellus_data_cars_per_hour_per_day'
+
+    class Meta(object):
+        model = TellusDataCarsPerHourPerDay
+        fields = (
+            "id",
+            "id_tellus",
+            "dag_uur_gemeten",
+            "dag_type",
+            "aantal"
+        )
+        #extra_kwargs = {
+        #    "id_tellus": {"view_name": "tellus-detail", "lookup_field": "pk"},
+        #}
 
     def get__display(self, obj):
         return str(obj)

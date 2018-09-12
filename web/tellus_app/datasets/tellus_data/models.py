@@ -207,3 +207,24 @@ class TellusData(models.Model):
     class Meta:
         ordering = ['id', 'tijd_van', 'tijd_tot', 'richting']
         unique_together = ("tellus", "richting", "tijd_van", "tijd_tot")
+
+
+class TellusDataCarsPerHourPerDay(models.Model):
+    """
+    Aggregated Model for:
+    - Every Tellus
+    - Every day
+    - Every hour
+    - Type of day
+    - Sum of all cars passing within that hour slot
+    """
+    id_tellus = models.IntegerField(blank=True, null=True)
+    dag_uur_gemeten = models.DateTimeField(blank=True, null=True)
+    dag_type = models.CharField(max_length=80)
+    aantal = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tellus_data_cars_per_hour_per_day'
+        ordering = ['id_tellus', 'dag_uur_gemeten']
+        unique_together = (('id_tellus', 'dag_uur_gemeten'),)

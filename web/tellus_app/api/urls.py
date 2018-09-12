@@ -5,9 +5,6 @@ from django.conf.urls import include
 from rest_framework import routers
 from django.urls import path
 
-from django.conf.urls import include
-from django.urls import path
-from rest_framework import routers
 from api import views
 
 
@@ -21,7 +18,7 @@ class TellusView(routers.APIRootView):
 
     Note:
 
-    These endpoints require authentication using the Employee login for example.
+    The tellusdata endpoints require authentication using the Employee login.
     """  # noqa
 
 
@@ -31,14 +28,11 @@ class TellusRouter(routers.DefaultRouter):
 
 router = TellusRouter()
 
-
-router.register(r'tellus', views.TellusViewSet)
 router.register(r'lengtecategorie', views.LengteCategorieViewSet)
-
 router.register(r'snelheidscategorie', views.SnelheidsCategorieViewSet)
-
+router.register(r'tellus', views.TellusViewSet)
 router.register(r'tellusdata', views.TellusDataViewSet)
-
+router.register(r'tellusdata_totaal_uur_dag', views.TellusDataCarsPerHourPerDayViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
