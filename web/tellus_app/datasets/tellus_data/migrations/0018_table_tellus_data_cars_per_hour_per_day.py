@@ -17,36 +17,41 @@ class Migration(migrations.Migration):
             CREATE TABLE public.tellus_data_cars_per_hour_per_day(
                 id SERIAL PRIMARY KEY,
                 id_tellus INT,
+                id_richting TEXT,
                 dag_uur_gemeten TIMESTAMP,
                 dag_type TEXT,
                 aantal INT);
-             INSERT INTO public.tellus_data_cars_per_hour_per_day (
+
+            INSERT INTO public.tellus_data_cars_per_hour_per_day (
                 id_tellus,
+                id_richting,
                 dag_uur_gemeten,
                 dag_type,
                 aantal)
-                 (SELECT
-                   id_tellus,
-                   tijd_van,
-                (CASE 
+                (SELECT
+                  tellus_id,
+                  tellus_id::TEXT || '-' || richting::TEXT,
+                  tijd_van,
+                  (CASE
                   WHEN
-                    DATE_PART('day', tijd_van) > 0 AND 
-                    DATE_PART('day', tijd_van) < 6
+                    DATE_PART('day', tijd_van) NOT IN (0,6)
                   THEN 'Werkdag'
                   WHEN
-                    DATE_PART('day', tijd_van) IN (0,7)
+                    DATE_PART('day', tijd_van) IN (0,6)
                   THEN
                     'Weekend'
-                END) AS dag_type,
-                   ROUND(sum(meetwaarde), 0)::INT as sum_meetwaarde
-                 FROM tellus_data_expanded
-                 WHERE representatief = 1 AND validatie = 1 --AND tellus_id = 2
-            GROUP BY
-              id_tellus,
-              tijd_van
-            ORDER BY
-              id_tellus,
-              tijd_van);
+                  END) AS dag_type,
+                  sum(meetwaarde) as aantal
+                FROM tellus_data_tellus_expanded
+                WHERE representatief = 1 AND validatie = 1
+                GROUP BY 
+                  tellus_id,
+                  richting,
+                  tijd_van
+                ORDER BY
+                  tellus_id,
+                  richting,
+                  tijd_van);
 
             ALTER TABLE public.tellus_data_cars_per_hour_per_day
               OWNER TO tellus;

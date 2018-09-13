@@ -13,11 +13,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunSQL("""
-            -- View: public.tellus_data_expanded
-
             DROP TABLE IF EXISTS tellus_data_expanded;
             CREATE TABLE tellus_data_expanded (
-             id SERIAL PRIMARY KEY,
              id_tellus_data INT,
              tijd_van TIMESTAMP,
              tijd_tot TIMESTAMP,
@@ -30,7 +27,8 @@ class Migration(migrations.Migration):
              id_tellus INT,
              meetwaarde INT,
              lengte_interval TEXT,
-             snelheid_interval TEXT
+             snelheid_interval TEXT,
+             CONSTRAINT pk_tellus_data_expanded PRIMARY KEY (id_tellus, richting)
             );
 
             INSERT INTO tellus_data_expanded (
