@@ -87,7 +87,7 @@ class Tellus(models.Model):
         SnelheidsCategorie,
         related_name='tellussen',
         null=True, on_delete=SET_NULL)
-    standplaats_id = models.IntegerField(null=True)
+    standplaats_id = models.IntegerField(null=True, blank=True)
     standplaats = models.CharField(max_length=80)
     zijstraat_a = models.CharField(max_length=80)
     zijstraat_b = models.CharField(max_length=80)
