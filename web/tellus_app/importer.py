@@ -90,6 +90,7 @@ class TellusImporter(object):
                 db_row, created = Tellus.objects.update_or_create(
                     id=int(res[1][5:]),  # format = 'AMSTDxxx'
                     objnr_vor=res[0], objnr_leverancier=res[1],
+                    standplaats_id=res[12], # meetlocatie id
                     standplaats=res[2],
                     zijstraat_a=res[3], zijstraat_b=res[4],
                     richting_1=res[5], richting_2=res[6],
@@ -281,7 +282,7 @@ if __name__ == "__main__":
     os.makedirs('/tmp/tellus', exist_ok=True)
     importer = TellusImporter(
         codebook='AMS365_codeboek_v5.xlsx',
-        codebook_addon='AMS365_codeboek_v7_aanvulling.xlsx')
+        codebook_addon='AMS365_codeboek_v8_aanvulling.xlsx')
     importer.process_lengte_categorie()
     importer.process_snelheids_categorie()
     importer.process_meetraai_categorie()
