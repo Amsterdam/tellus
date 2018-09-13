@@ -12,12 +12,14 @@ from datapunt_api.rest import DatapuntViewSet
 from datasets.tellus_data.models import LengteCategorie
 from datasets.tellus_data.models import SnelheidsCategorie
 from datasets.tellus_data.models import Tellus
+from datasets.tellus_data.models import TellusRichting
 from datasets.tellus_data.models import TellusData
 from datasets.tellus_data.models import TellusDataCarsPerHourPerDay
 
 from api.serializers import LengteCategorieSerializer
 from api.serializers import SnelheidsCategorieSerializer
 from api.serializers import TellusSerializer
+from api.serializers import TellusRichtingSerializer
 from api.serializers import TellusDataSerializer
 from api.serializers import TellusDataCarsPerHourPerDaySerializer
 
@@ -67,6 +69,15 @@ class TellusDataViewSet(DatapuntViewSet):
     queryset = TellusData.objects.all()
     serializer_class = TellusDataSerializer
     serializer_detail_class = TellusDataSerializer
+
+
+class TellusRichtingViewSet(DatapuntViewSet):
+    """
+    Returns all `LengteCategorie instances`, ordered by id
+    """
+    queryset = TellusRichting.objects.all().order_by('pk')
+    serializer_class = TellusRichtingSerializer
+    serializer_detail_class =TellusRichtingSerializer
 
 
 class TellusDataCarsPerHourPerDayViewSet(DatapuntViewSet):

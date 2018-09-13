@@ -5,6 +5,7 @@ from datapunt_api.rest import HALSerializer
 from datasets.tellus_data.models import LengteCategorie
 from datasets.tellus_data.models import SnelheidsCategorie
 from datasets.tellus_data.models import Tellus
+from datasets.tellus_data.models import TellusRichting
 from datasets.tellus_data.models import TellusData
 from datasets.tellus_data.models import TellusDataCarsPerHourPerDay
 
@@ -25,6 +26,7 @@ class TellusSerializer(HALSerializer):
             "objnr_vor",
             "objnr_leverancier",
             "snelheids_klasse",
+            "standplaats_id",
             "standplaats",
             "zijstraat_a",
             "zijstraat_b",
@@ -120,24 +122,44 @@ class TellusDataSerializer(HALSerializer):
         return str(obj)
 
 
+class TellusRichtingSerializer(HALSerializer):
+    """
+    Tellus Werkdag, Weekdag totalen
+    """
+    dataset = 'tellus_data'
+    _display = serializers.SerializerMethodField()
+
+    class Meta(object):
+        model = TellusRichting
+        fields = (
+            "_display",
+            "tellus",
+            "richting",
+            "naam_richting"
+        )
+
+    def get__display(self, obj):
+        return str(obj)
+
+
 class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
     """
     Tellus Werkdag, Weekdag totalen
     """
-    dataset = 'tellus_data_cars_per_hour_per_day'
+    dataset = 'tellus_data'
+    _display = serializers.SerializerMethodField()
 
     class Meta(object):
         model = TellusDataCarsPerHourPerDay
         fields = (
+            "_display",
             "id",
-            "id_tellus",
+            "tellus",
+            "richting",
             "dag_uur_gemeten",
             "dag_type",
             "aantal"
         )
-        #extra_kwargs = {
-        #    "id_tellus": {"view_name": "tellus-detail", "lookup_field": "pk"},
-        #}
 
     def get__display(self, obj):
         return str(obj)
