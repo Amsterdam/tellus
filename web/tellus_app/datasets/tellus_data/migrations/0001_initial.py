@@ -49,6 +49,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('objnr_vor', models.CharField(max_length=10, unique=True)),
                 ('objnr_leverancier', models.CharField(max_length=10, unique=True)),
+                ('standplaats_id', models.IntegerField()),
                 ('standplaats', models.CharField(max_length=80)),
                 ('zijstraat_a', models.CharField(max_length=80)),
                 ('zijstraat_b', models.CharField(max_length=80)),

@@ -23,7 +23,7 @@ def check_import():
     log.info('Checking import')
     log.info('Checking database count')
 
-    assert_count(20, Tellus.objects.count(), 'Tellus count')
+    assert_count(30, Tellus.objects.count(), 'Tellus count')
     assert_count(300000, TellusData.objects.count(), 'TellusData count')
     assert_count(4, SnelheidsCategorie.objects.count(), 'SnelheidsCategorie count')
     assert_count(1, LengteCategorie.objects.count(), 'SnelheidsCategorie count')

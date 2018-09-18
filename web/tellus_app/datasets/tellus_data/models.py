@@ -87,6 +87,7 @@ class Tellus(models.Model):
         SnelheidsCategorie,
         related_name='tellussen',
         null=True, on_delete=SET_NULL)
+    standplaats_id = models.IntegerField(null=True, blank=True)
     standplaats = models.CharField(max_length=80)
     zijstraat_a = models.CharField(max_length=80)
     zijstraat_b = models.CharField(max_length=80)
@@ -100,6 +101,20 @@ class Tellus(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.objnr_leverancier, self.standplaats)
+
+
+class TellusRichting(models.Model):
+    richting = models.CharField(max_length=5, primary_key=True)
+    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
+    naam_richting = models.CharField(max_length=80, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tellus_data_tellus_richting'
+        ordering = ["tellus", "richting",]
+
+    def __str__(self):
+        return "{} ({})".format(self.naam_richting, self.richting)
 
 
 class TellusData(models.Model):
@@ -207,3 +222,32 @@ class TellusData(models.Model):
     class Meta:
         ordering = ['id', 'tijd_van', 'tijd_tot', 'richting']
         unique_together = ("tellus", "richting", "tijd_van", "tijd_tot")
+
+
+class TellusDataCarsPerHourPerDay(models.Model):
+    """
+    Aggregated Model for:
+    - Every Tellus
+    - Every day
+    - Every hour
+    - Type of day
+    - Sum of all cars passing within that hour slot
+    """
+
+    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
+    richting = models.ForeignKey(TellusRichting, on_delete=CASCADE)
+    dag_uur_gemeten = models.DateTimeField(blank=True, null=True)
+    dag_type = models.CharField(max_length=80)
+    aantal = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return "{} - {} 1 uur lang vanaf {} op dag {} gemeten".format(
+            self.tellus, self.richting,
+            self.dag_uur_gemeten.strftime('%H:%M'),
+            self.dag_uur_gemeten.strftime('%d-%m-%Y'))
+
+    class Meta:
+        managed = False
+        db_table = 'tellus_data_cars_per_hour_per_day'
+        ordering = ['tellus', 'dag_uur_gemeten']
+        unique_together = (('tellus', 'dag_uur_gemeten'),)
