@@ -249,5 +249,5 @@ class TellusDataCarsPerHourPerDay(models.Model):
     class Meta:
         managed = False
         db_table = 'tellus_data_cars_per_hour_per_day'
-        ordering = ['tellus', 'dag_uur_gemeten']
-        unique_together = (('tellus', 'dag_uur_gemeten'),)
+        ordering = ['tellus_id', 'richting', 'dag_uur_gemeten']
+        unique_together = (('tellus', 'richting', 'dag_uur_gemeten'),)

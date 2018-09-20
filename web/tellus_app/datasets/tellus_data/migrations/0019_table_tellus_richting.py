@@ -16,19 +16,11 @@ class Migration(migrations.Migration):
           DROP TABLE IF EXISTS tellus_data_tellus_richting;
 
           CREATE TABLE tellus_data_tellus_richting (
-            id_richting VARCHAR(5) PRIMARY KEY,
-            id_tellus INT,
+            richting VARCHAR(5) PRIMARY KEY,
+            tellus_id INT,
             naam_richting VARCHAR(80));
-          INSERT INTO tellus_data_tellus_richting (id_richting, id_tellus, naam_richting)
-            (SELECT
-               unnest(array[id::TEXT || '-' ||'1',id::TEXT || '-' || '2']),
-               id,
-               -- unnest(array[1,2]) as id_richting,
-               unnest(array[richting_1,richting_2])
-            FROM 
-                public.tellus_data_tellus);
 
-            ALTER TABLE public.tellus_data_cars_per_hour_per_day
+            ALTER TABLE public.tellus_data_tellus_richting
               OWNER TO tellus;
         """),
     ]

@@ -123,7 +123,9 @@ if DEBUG:
         'debug_toolbar',
     )
 
-    MIDDLEWARE += (
+    MIDDLEWARE = (
+        "django.middleware.security.SecurityMiddleware",
+        "django.middleware.common.CommonMiddleware",
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 
