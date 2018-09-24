@@ -142,12 +142,23 @@ class TellusRichtingSerializer(HALSerializer):
         return str(obj)
 
 
+class RichtingModelSerializer(serializers.ModelSerializer):
+    """Serializer used by TelusDataCarsPerHourPerDaySerializer
+    """
+
+    class Meta:
+        model = TellusRichting
+        fields = '__all__'
+
+
 class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
     """
     Tellus Werkdag, Weekdag totalen
     """
     dataset = 'tellus_data'
+
     _display = serializers.SerializerMethodField()
+    richting = RichtingModelSerializer()
 
     class Meta(object):
         model = TellusDataCarsPerHourPerDay
