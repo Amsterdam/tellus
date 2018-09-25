@@ -151,6 +151,18 @@ class RichtingModelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TellusModelSerializer(serializers.ModelSerializer):
+    """Serializer used by TelusDataCarsPerHourPerDaySerializer
+    """
+
+    class Meta:
+        model = Tellus
+        fields = (
+            "id",
+            "standplaats"
+        )
+
+
 class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
     """
     Tellus Werkdag, Weekdag totalen
@@ -158,6 +170,7 @@ class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
     dataset = 'tellus_data'
 
     _display = serializers.SerializerMethodField()
+    tellus = TellusModelSerializer()
     richting = RichtingModelSerializer()
 
     class Meta(object):
