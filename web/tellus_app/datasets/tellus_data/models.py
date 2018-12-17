@@ -185,7 +185,7 @@ class TellusDataCarsPerHourPerDay(models.Model):
         db_table = 'tellus_data_cars_per_hour'
 
 
-class TellusDataCarsPerHourLength(models.Model):  # TODO: try to get inheritance working
+class TellusDataCarsPerHourLength(TellusDataCarsPerHourPerDay):
     """
     Aggregated Model for:
     - Every Tellus
@@ -195,21 +195,15 @@ class TellusDataCarsPerHourLength(models.Model):  # TODO: try to get inheritance
     - Type of day
     - Sum of all cars passing within that hour slot (merge speeds)
     """
-    id = models.IntegerField(primary_key=True)
-    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
-    richting_id = models.IntegerField()
-    dag_uur = models.DateTimeField()  # Start of hourly time window
-    dag_type = models.CharField(max_length=80, choices=DAY_TYPES)
     lengte_interval = models.ForeignKey(LengteInterval, on_delete=CASCADE)
-    label = models.CharField(max_length=40, unique=True)
-    aantal = models.IntegerField()
+    lengte_label = models.CharField(max_length=40, unique=True)
 
     class Meta:
         managed = False
         db_table = 'tellus_data_cars_per_hour_length'
 
 
-class TellusDataCarsPerHourSpeed(models.Model):
+class TellusDataCarsPerHourSpeed(TellusDataCarsPerHourPerDay):
     """
     Aggregated Model for:
     - Every Tellus
@@ -219,14 +213,8 @@ class TellusDataCarsPerHourSpeed(models.Model):
     - Type of day
     - Sum of all cars passing within that hour slot (merge lengths)
     """
-    id = models.IntegerField(primary_key=True)
-    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
-    richting_id = models.IntegerField()
-    dag_uur = models.DateTimeField()  # Start of hourly time window
-    dag_type = models.CharField(max_length=80, choices=DAY_TYPES)
     snelheids_interval = models.ForeignKey(SnelheidsInterval, on_delete=CASCADE)
-    label = models.CharField(max_length=40, unique=True)
-    aantal = models.IntegerField()
+    snelheids_label = models.CharField(max_length=40, unique=True)
 
     class Meta:
         managed = False

@@ -35,7 +35,7 @@ class TestImport(TestCase):
         assert len(self.my_importer.codebook_sheets) == 7
 
     def test_process_tellus_import(self):
-        self.my_importer.process_lengte_categorie()
+        self.my_importer.process_lengte_interval()
         self.my_importer.process_snelheids_categorie()
         assert SnelheidsCategorie.objects.count() == 4
         # import the `tellus_locaties`

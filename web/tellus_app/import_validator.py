@@ -4,8 +4,11 @@ import django
 
 django.setup()
 
-from datasets.tellus_data.models import (Tellus, SnelheidsCategorie,
-                                         LengteCategorie, TellusData)  # noqa
+from datasets.tellus_data.models import (Tellus,
+                                         SnelheidsInterval,
+                                         LengteInterval,
+                                         Telling
+                                         )  # noqa
 
 log = logging.getLogger(__name__)
 
@@ -24,15 +27,14 @@ def check_import():
     log.info('Checking database count')
 
     assert_count(30, Tellus.objects.count(), 'Tellus count')
-    assert_count(300000, TellusData.objects.count(), 'TellusData count')
-    assert_count(4, SnelheidsCategorie.objects.count(), 'SnelheidsCategorie count')
-    assert_count(1, LengteCategorie.objects.count(), 'SnelheidsCategorie count')
+    assert_count(300000, Telling.objects.count(), 'Tellingen count')
+    assert_count(20, SnelheidsInterval.objects.count(), 'SnelheidsInterval count')
+    assert_count(6, LengteInterval.objects.count(), 'LengteInterval count')
 
     log.info('Check done')
 
 
 if __name__ == "__main__":
-
     log.info("Check import")
     check_import()
     log.info("Check import done")
