@@ -1,27 +1,24 @@
 """Import tellus csv's."""
 import csv
-import functools
 import logging
 import os
-import time
 
 import django
 import openpyxl
-import pytz
-from dateutil.parser import parse as parse_date
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import connection
+
 
 django.setup()
 
-from importer_lib.parser import parse_speed_interval, parse_length_interval
+from importer_lib.speed_processor import create_speed_intervals, create_speed_category  # noqa
+from importer_lib.length_processor import create_length_intervals  # noqa
+from importer_lib.telling_processor import process_telling_sheet  # noqa
+
 from django.contrib.gis.geos import Point  # noqa
 
-from datasets.tellus_data.models import SnelheidsInterval, Telling, SnelheidsCategorie  # noqa
+from datasets.tellus_data.models import Telling  # noqa
 from datasets.tellus_data.models import MeetraaiCategorie  # noqa
 from datasets.tellus_data.models import RepresentatiefCategorie  # noqa
 from datasets.tellus_data.models import ValidatieCategorie  # noqa
-from datasets.tellus_data.models import LengteInterval  # noqa
 from datasets.tellus_data.models import Meetlocatie  # noqa
 from datasets.tellus_data.models import Tellus  # noqa
 from datasets.tellus_data.models import TelRichting  # noqa
@@ -32,69 +29,6 @@ from objectstore.objectstore import fetch_tellus_data_file_object  # noqa
 log = logging.getLogger(__name__)
 
 
-def memoize(func):
-    """
-    Wraps (pure) function so results are cached per input
-    """
-    cache = func.cache = {}
-
-    @functools.wraps(func)
-    def memoized_func(*args, **kwargs):
-        key = str(args) + str(kwargs)
-        if key not in cache:
-            cache[key] = func(*args, **kwargs)
-        return cache[key]
-
-    return memoized_func
-
-
-@memoize
-def get_speed_interval_id(categorie, id):
-    return SnelheidsCategorie.objects.get(categorie=categorie, index=id).interval_id
-
-
-@memoize
-def get_length_interval(id):
-    return LengteInterval.objects.get(id=id)
-
-
-@memoize
-def get_validation_category(id):
-    return ValidatieCategorie.objects.get(id=id)
-
-
-@memoize
-def get_meetraai_category(id):
-    return MeetraaiCategorie.objects.get(id=id)
-
-
-@memoize
-def get_representatief_category(id):
-    return RepresentatiefCategorie.objects.get(id=id)
-
-
-@memoize
-def get_tel_richting(meetlocatie_str, richting_id):
-    # meetlocatie_str, e.g.: 2, T02 or T12+13
-    try:
-        # case meetlocatie_str is integer
-        location_id = int(meetlocatie_str)
-    except ValueError:
-        # Case where meetlocatie_str must first be unpacked
-        # T02 -> 2
-        # T12+13 -> 12
-        try:
-            location_id = int(meetlocatie_str[1:3])
-        except Exception as e:
-            print(f"failure to convert string to id: {meetlocatie_str}")
-            raise e
-
-    return TelRichting.objects.get(
-        richting=richting_id,
-        tellus__meetlocatie__id=location_id
-    )
-
-
 def process_tel_richting(tellus, richting, naam, zijstraat):
     tel_richting, _ = TelRichting.objects.update_or_create(
         tellus=tellus,
@@ -102,36 +36,6 @@ def process_tel_richting(tellus, richting, naam, zijstraat):
         naam=naam,
         zijstraat=zijstraat
     )
-
-
-def decodedata(filebytes):
-    """
-    The csv can be in UTF-8 or LATIN- 1, 2, or 3 depending on the producing
-    machine.
-
-    :param filebytes:
-    :return: decoded string
-    """
-    encodings = ('UTF-8', 'LATIN-1', 'LATIN-2', 'LATIN-3')
-    stringdata = None
-    for encode in encodings:
-        try:
-            stringdata = filebytes.decode(encode)
-            break
-        except UnicodeDecodeError:
-            pass
-    if not stringdata:
-        raise UnicodeDecodeError
-    return stringdata
-
-
-def insert_telling_batch(cursor, batch_list):
-    args_str = ','.join(batch_list)
-    cursor.execute("INSERT INTO tellus_data_telling " +
-                   "(tel_richting_id, tijd_van, tijd_tot, aantal, lengte_interval_id, " +
-                   "snelheids_interval_id, validatie_categorie_id," +
-                   "meetraai_categorie_id, representatief_categorie_id" +
-                   ") VALUES" + args_str)
 
 
 class TellusImporter(object):
@@ -177,7 +81,7 @@ class TellusImporter(object):
             )
 
             # Tellus
-            objnr_vor=res[0]  # e.g.: TP0001
+            objnr_vor = res[0]  # e.g.: TP0001
             tellus_id = int(objnr_vor[2:])  # e.g.: 1
 
             tellus, _ = Tellus.objects.update_or_create(
@@ -209,7 +113,6 @@ class TellusImporter(object):
         :param first_col:
         :return:
         """
-        EMPTY_CELL = 'nvt'
         for row in self.codebook_sheets[sheet_name].iter_rows(
                 min_row=title_row + 1,
                 max_row=5,
@@ -219,39 +122,10 @@ class TellusImporter(object):
             values = res[1:]                    # ['< 30 km/u', '31 - 40 km/u', ..., '> 100 km/u']
 
             # Identify all unique intervals:
-            for (index, interval_str) in enumerate(values):
-                if interval_str == EMPTY_CELL:
-                    continue
-                [speed_min, speed_max] = parse_speed_interval(interval_str)
-                db_row, created = SnelheidsInterval.objects.update_or_create(
-                    label=interval_str,
-                    min_kmph=speed_min,
-                    max_kmph=speed_max
-                )
-
-                if created:
-                    log.info("SnelheidsInterval created {}".format(str(db_row)))
-                else:
-                    log.info("SnelheidsInterval updated {}".format(str(db_row)))
+            create_speed_intervals(values)
 
             # Store reference from "Snelheid categorie" to interval.
-            for (index, interval_str) in enumerate(values):
-                if interval_str == EMPTY_CELL:
-                    continue
-                try:
-                    interval = SnelheidsInterval.objects.get(label=interval_str)
-                except ObjectDoesNotExist as e:
-                    print(f"SnelheidsInterval not found for {interval_str}")
-                    raise e
-                db_row, created = SnelheidsCategorie.objects.update_or_create(
-                    index=index + 1,    # called s1, s2, etc in source documents
-                    categorie=categorie,
-                    interval=interval
-                )
-                if created:
-                    log.info("SnelheidsCategorie created {}".format(str(db_row)))
-                else:
-                    log.info("SnelheidsCategorie updated {}".format(str(db_row)))
+            create_speed_category(categorie, values)
 
     def process_meetraai_categorie(self):
         for row in self.codebook_sheets['Meetraai'].iter_rows(
@@ -306,18 +180,7 @@ class TellusImporter(object):
             res = [cell.value for cell in row]  # [1, '0 - 5,1 m', ..., '> 12,2 m']
             values = res[1:]  # ['0 - 5,1 m', ..., '> 12,2 m']
 
-            for (index, value) in enumerate(values):
-                [min_cm, max_cm] = parse_length_interval(value)
-                db_row, created = LengteInterval.objects.update_or_create(
-                    id=index + 1,
-                    label=value,
-                    min_cm=min_cm,
-                    max_cm=max_cm
-                )
-                if created:
-                    log.info("Created {}".format(str(db_row)))
-                else:
-                    log.info("Updated {}".format(str(db_row)))
+            create_length_intervals(values)
 
     def download_tellus_data(self, obj_store_path):
         filename = os.path.basename(obj_store_path)
@@ -331,82 +194,9 @@ class TellusImporter(object):
         return target_path
 
     def process_tellingen(self, csv_file_path):
-        t0 = time.time()
-
-        skipped_row_cnt = 0
-
-        # Insertion into database is done in batches for performance reasons
-        batch_idx = 0
-        batch_insert_count = 2000
-        batch_list = [None] * batch_insert_count  # preallocate array
-
-        range60 = list(range(0, 60))
-
-        with connection.cursor() as cursor:
-            with open(csv_file_path) as csv_file:
-                csvReader = csv.reader(csv_file, dialect='excel', delimiter=';')
-                next(csvReader, None)
-                row_cnt = 0
-                item_cnt = 0
-                for trow in csvReader:
-                    if not trow[0]:
-                        log.debug('Ignoring empty row.')
-                        continue
-
-                    tijd_van = parse_date(trow[6]).replace(tzinfo=pytz.UTC)
-                    tijd_tot = parse_date(trow[7]).replace(tzinfo=pytz.UTC)
-                    validatie_category = get_validation_category(trow[2])
-                    representatief_category = get_representatief_category(trow[3])
-                    meetraai_category = get_meetraai_category(trow[4])
-
-                    try:
-                        tel_richting = get_tel_richting(trow[0], trow[1])
-                    except ObjectDoesNotExist:
-                        # Source file should describe all "tellussen" for both directions,
-                        # but sometimes a direction is missing in the tellus description file.
-                        # Even though, there are actual counts for this direction.
-                        # e.g.: T32 direction 2 is sometimes measured, even though
-                        # there is no reference to it.
-                        # T32 is measuring a one way street. So any counts in the opposite direction are
-                        # illogical and we'll skip them during this import.
-                        log.debug(f"TelRichting not found for : {trow[0]}, {trow[1]}, skipping")
-                        skipped_row_cnt += 1
-                        continue
-                    except Exception as e:
-                        log.debug(f"Error querying database: {trow[0]}, {trow[1]}")
-                        raise e
-
-                    snelheids_categorie = tel_richting.tellus.snelheids_categorie
-
-                    for idx in range60:
-                        count_idx = 8 + idx  # Index of L1S1 cell + idx
-                        speed_id = idx % 10 + 1  # Run from S1 to S10
-                        length_id = int(idx / 10) + 1  # Run from L1 to L6
-
-                        snelheids_interval_id = get_speed_interval_id(snelheids_categorie, speed_id)
-                        lengte_interval = get_length_interval(length_id)
-                        aantal = int(trow[count_idx])
-                        query = f"({tel_richting.id},'{tijd_van}','{tijd_tot}',{aantal}," \
-                                f"{lengte_interval.id},{snelheids_interval_id},{validatie_category.id}," \
-                                f"{meetraai_category.id},{representatief_category.id})"
-                        batch_list[batch_idx] = query
-
-                        batch_idx += 1
-                        if not batch_idx % batch_insert_count:  # TODO don't forget insert last few
-                            insert_telling_batch(cursor, batch_list)
-                            item_cnt += batch_insert_count
-
-                            difference = time.time() - t0  # in seconds
-                            log.debug(f"Import count: "
-                                      f"{str(item_cnt)}items, "
-                                      f"elapsed {int(difference)}s, "
-                                      f"speed: {item_cnt / difference} items/s")
-                            batch_idx = 0
-
-                    row_cnt += 1
-
-                # Insert last (partial) batch
-                insert_telling_batch(cursor, batch_list[:batch_idx])
+        with open(csv_file_path) as csv_file:
+            csvReader = csv.reader(csv_file, dialect='excel', delimiter=';')
+            process_telling_sheet(csvReader)
 
 
 if __name__ == "__main__":

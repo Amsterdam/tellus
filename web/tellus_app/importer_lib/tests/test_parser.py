@@ -28,4 +28,3 @@ class TestParser(TestCase):
     def test_length_min_only(self):
         self.assertEqual(parse_length_interval("> 12,2 m"), [1220, None])
         self.assertEqual(parse_length_interval("> 12 m"), [1200, None])
-
