@@ -2,21 +2,133 @@ from rest_framework import serializers
 
 from datapunt_api.rest import HALSerializer
 
-from datasets.tellus_data.models import LengteCategorie
-from datasets.tellus_data.models import SnelheidsCategorie
+from datasets.tellus_data.models import LengteInterval, Telling, TellusDataCarsPerHourPerDay, SnelheidsInterval, \
+    SnelheidsCategorie, Meetlocatie, MeetraaiCategorie, ValidatieCategorie, RepresentatiefCategorie, \
+    TellusDataCarsPerHourLength, TellusDataCarsPerHourSpeed
 from datasets.tellus_data.models import Tellus
-from datasets.tellus_data.models import TellusRichting
-from datasets.tellus_data.models import TellusData
-from datasets.tellus_data.models import TellusDataCarsPerHourPerDay
+from datasets.tellus_data.models import TelRichting
+
+
+class MeetlocatieSerializer(HALSerializer):
+    dataset = 'tellus_data'
+
+    class Meta(object):
+        model = Meetlocatie
+        fields = (
+            "id",
+            "name"
+        )
+
+
+class LengteIntervalSerializer(HALSerializer):
+    """
+    Lengte interval.
+    """
+    dataset = 'tellus_data'
+
+    class Meta(object):
+        model = LengteInterval
+        fields = (
+            "id",
+            "label",
+            "min_cm",
+            "max_cm"
+        )
+
+
+class SnelheidsIntervalSerializer(HALSerializer):
+    """
+    Snelheids interval.
+    """
+    dataset = 'tellus_data'
+
+    class Meta(object):
+        model = SnelheidsInterval
+        fields = (
+            "id",
+            "label",
+            "min_kmph",
+            "max_kmph"
+        )
+
+
+class SnelheidsCategorieSerializer(HALSerializer):
+    dataset = 'tellus_data'
+
+    interval = SnelheidsIntervalSerializer()
+
+    class Meta(object):
+        model = SnelheidsCategorie
+        fields = (
+            "categorie",
+            "index",
+            "interval",
+        )
+
+
+class RepresentatiefCategorieSerializer(HALSerializer):
+    dataset = 'tellus_data'
+
+    class Meta(object):
+        model = RepresentatiefCategorie
+        fields = (
+            "id",
+            "label"
+        )
+
+
+class ValidatieCategorieSerializer(HALSerializer):
+    dataset = 'tellus_data'
+
+    class Meta(object):
+        model = ValidatieCategorie
+        fields = (
+            "id",
+            "label"
+        )
+
+
+class MeetraaiCategorieSerializer(HALSerializer):
+    dataset = 'tellus_data'
+
+    class Meta(object):
+        model = MeetraaiCategorie
+        fields = (
+            "id",
+            "label"
+        )
+
+
+class TelRichtingSerializer(HALSerializer):
+    """
+    Tellus Werkdag, Weekdag totalen
+    """
+    dataset = 'tellus_data'
+    _display = serializers.SerializerMethodField()
+    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta(object):
+        model = TelRichting
+        fields = (
+            "_display",
+            "tellus",
+            "richting",
+            "naam",
+            "zijstraat"
+        )
+
+    def get__display(self, obj):
+        return str(obj)
 
 
 class TellusSerializer(HALSerializer):
     """
     Tellus details
     """
-
     dataset = 'tellus_data'
     _display = serializers.SerializerMethodField()
+    meetlocatie = MeetlocatieSerializer()
+    tel_richtingen = TelRichtingSerializer(many=True)
 
     class Meta(object):
         model = Tellus
@@ -25,13 +137,9 @@ class TellusSerializer(HALSerializer):
             "id",
             "objnr_vor",
             "objnr_leverancier",
-            "snelheids_klasse",
-            "standplaats_id",
-            "standplaats",
-            "zijstraat_a",
-            "zijstraat_b",
-            "richting_1",
-            "richting_2",
+            "snelheids_categorie",
+            "meetlocatie",
+            "tel_richtingen",
             "latitude",
             "longitude",
             "rijksdriehoek_x",
@@ -43,116 +151,39 @@ class TellusSerializer(HALSerializer):
         return str(obj)
 
 
-class LengteCategorieSerializer(HALSerializer):
-    """
-    Lengte Categoriëen.
-    """
-    dataset = 'tellus_data'
-
-    class Meta(object):
-        model = LengteCategorie
-        fields = (
-            "klasse",
-            "l1",
-            "l2",
-            "l3",
-            "l4",
-            "l5",
-            "l6",
-        )
-
-
-class SnelheidsCategorieSerializer(HALSerializer):
-    """Categorien.
-    """
-    dataset = 'tellus_data'
-
-    class Meta(object):
-        model = SnelheidsCategorie
-        fields = (
-            "klasse",
-            "s1",
-            "s2",
-            "s3",
-            "s4",
-            "s5",
-            "s6",
-            "s7",
-            "s8",
-            "s9",
-            "s10",
-        )
-
-
-class TellusDataSerializer(HALSerializer):
+class TellingSerializer(HALSerializer):
     """
     Tellus tellingen.
     """
     dataset = 'tellus_data'
     _display = serializers.SerializerMethodField()
+    validatie_categorie = ValidatieCategorieSerializer()
+    representatief_categorie = RepresentatiefCategorieSerializer()
+    meetraai_categorie = MeetraaiCategorieSerializer()
 
     class Meta(object):
-        model = TellusData
+        model = Telling
+
         fields = (
             "_display",
-            "tellus",
-            "snelheids_categorie",
-            "lengte_categorie",
             "tijd_van",
             "tijd_tot",
-            "richting",
-            "validatie",
-            "representatief",
-            "meetraai",
-            "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9",
-            "c10", "c11", "c12", "c13", "c14", "c15", "c16", "c17", "c18", "c19",
-            "c20", "c21", "c22", "c23", "c24", "c25", "c26", "c27", "c28", "c29",
-            "c30", "c31", "c32", "c33", "c34", "c35", "c36", "c37", "c38", "c39",
-            "c40", "c41", "c42", "c43", "c44", "c45", "c46", "c47", "c48", "c49",
-            "c50", "c51", "c52", "c53", "c54", "c55", "c56", "c57", "c58", "c59",
-            "c60",
-        )
-        extra_kwargs = {
-            "tellus": {"view_name": "tellus-detail", "lookup_field": "pk"},
-            "snelheids_categorie": {"view_name": "snelheidscategorie-detail", "lookup_field": "pk"},
-            "lengte_categorie": {"view_name": "lengtecategorie-detail", "lookup_field": "pk"}
-        }
-
-    def get__display(self, obj):
-        return str(obj)
-
-
-class TellusRichtingSerializer(HALSerializer):
-    """
-    Tellus Werkdag, Weekdag totalen
-    """
-    dataset = 'tellus_data'
-    _display = serializers.SerializerMethodField()
-
-    class Meta(object):
-        model = TellusRichting
-        fields = (
-            "_display",
-            "tellus",
-            "richting",
-            "naam_richting"
+            "aantal",
+            "tel_richting",
+            "snelheids_interval",
+            "lengte_interval",
+            "validatie_categorie",
+            "representatief_categorie",
+            "meetraai_categorie"
         )
 
     def get__display(self, obj):
         return str(obj)
-
-
-class RichtingModelSerializer(serializers.ModelSerializer):
-    """Serializer used by TelusDataCarsPerHourPerDaySerializer
-    """
-
-    class Meta:
-        model = TellusRichting
-        fields = '__all__'
 
 
 class TellusModelSerializer(serializers.ModelSerializer):
-    """Serializer used by TelusDataCarsPerHourPerDaySerializer
+    """
+    Serializer used by TelusDataCarsPerHourPerDaySerializer
     """
 
     class Meta:
@@ -168,22 +199,57 @@ class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
     Tellus Werkdag, Weekdag totalen
     """
     dataset = 'tellus_data'
-
-    _display = serializers.SerializerMethodField()
-    tellus = TellusModelSerializer()
-    richting = RichtingModelSerializer()
+    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(object):
         model = TellusDataCarsPerHourPerDay
         fields = (
-            "_display",
             "id",
             "tellus",
-            "richting",
-            "dag_uur_gemeten",
+            "richting_id",
+            "dag_uur",
             "dag_type",
             "aantal"
         )
 
-    def get__display(self, obj):
-        return str(obj)
+
+class TellusDataCarsPerHourLengthSerializer(HALSerializer):
+    """
+    Tellus Werkdag, Weekdag totalen
+    """
+    dataset = 'tellus_data'
+    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta(object):
+        model = TellusDataCarsPerHourLength
+        fields = (
+            "id",
+            "tellus",
+            "richting_id",
+            "dag_uur",
+            "dag_type",
+            "lengte_interval_id",
+            "label",
+            "aantal"
+        )
+
+
+class TellusDataCarsPerHourSpeedSerializer(HALSerializer):
+    """
+    Tellus Werkdag, Weekdag totalen
+    """
+    dataset = 'tellus_data'
+    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta(object):
+        model = TellusDataCarsPerHourSpeed
+        fields = (
+            "id",
+            "tellus",
+            "richting_id",
+            "dag_uur",
+            "dag_type",
+            "snelheids_interval_id",
+            "label",
+            "aantal"
+        )

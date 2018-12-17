@@ -1,227 +1,154 @@
 from django.contrib.gis.db import models
-from django.db.models import SET_NULL, CASCADE
+from django.db.models import CASCADE
+
+DAY_TYPES = (
+    ("Weekend", "Weekend"),
+    ("Werkdag", "Werkdag")
+)
 
 
-class LengteCategorie(models.Model):
+class LengteInterval(models.Model):
     """
-    De lengte categorieen worden hier beschreven
+    Een lengte interval omvat een bereik van voertuig lengtes.
+    Indien de min of max lengte niet is ingevuld dan is het bereik onbegrensd, e.g.: < 3m.
     """
-    klasse = models.IntegerField(primary_key=True)
-    l1 = models.CharField(max_length=30, default='')
-    l2 = models.CharField(max_length=30, default='')
-    l3 = models.CharField(max_length=30, default='')
-    l4 = models.CharField(max_length=30, default='')
-    l5 = models.CharField(max_length=30, default='')
-    l6 = models.CharField(max_length=30, default='')
+    id = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=40, unique=True)
+    min_cm = models.IntegerField(null=True)
+    max_cm = models.IntegerField(null=True)
 
     def __str__(self):
-        return "LengteCategorie {}".format(self.klasse)
+        return "LengteInterval {}: {}".format(self.label, self.label)
+
+
+class SnelheidsInterval(models.Model):
+    """
+    Een snelheids interval omvat een bereik van snelheden.
+    Indien de min of max snelheid niet is ingevuld dan is het bereik onbegrensd, e.g.: < 30 km/h.
+    """
+    label = models.CharField(max_length=40, unique=True)
+    min_kmph = models.IntegerField(null=True)
+    max_kmph = models.IntegerField(null=True)
+
+    def __str__(self):
+        return "SnelheidsInterval {}: {}".format(self.id, self.label)
 
 
 class SnelheidsCategorie(models.Model):
     """
-    De snelheids categorieen worden hier beschreven
+    Snelheids categorieën voor verschillende type wegen.
+    e.g.: categorie 1: < 30 km/u, 31 - 40 km/u, ... , 91 - 100 km/u, > 100 km/u
     """
-    klasse = models.IntegerField(primary_key=True)
-    s1 = models.CharField(max_length=30, default='nvt')
-    s2 = models.CharField(max_length=30, default='nvt')
-    s3 = models.CharField(max_length=30, default='nvt')
-    s4 = models.CharField(max_length=30, default='nvt')
-    s5 = models.CharField(max_length=30, default='nvt')
-    s6 = models.CharField(max_length=30, default='nvt')
-    s7 = models.CharField(max_length=30, default='nvt')
-    s8 = models.CharField(max_length=30, default='nvt')
-    s9 = models.CharField(max_length=30, default='nvt')
-    s10 = models.CharField(max_length=30, default='nvt')
+    categorie = models.IntegerField()
+    index = models.IntegerField()
+    interval = models.ForeignKey(SnelheidsInterval, on_delete=CASCADE)
 
     def __str__(self):
-        return "SnelheidsCategorie {}".format(self.klasse)
+        return "SnelheidsCategorie {}, s{}: {}".format(self.categorie, self.index, self.interval.label)
+
+    class Meta:
+        unique_together = ("categorie", "index", )
 
 
 class RepresentatiefCategorie(models.Model):
     """
-    De representatief categorieen worden hier beschreven
+    De representatief categorieën worden hier beschreven
     """
-    representatief = models.IntegerField(primary_key=True)
-    label = models.CharField(max_length=40, default='nvt')
+    id = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=40, unique=True)
 
     def __str__(self):
-        return f"RepresentatiefCategorie {self.representatief} - {self.label}"
+        return f"RepresentatiefCategorie {self.id} - {self.label}"
 
 
 class ValidatieCategorie(models.Model):
     """
-    De validatie categorieen worden hier beschreven
+    De validatie categorieën worden hier beschreven
     """
-    validatie = models.IntegerField(primary_key=True)
-    label = models.CharField(max_length=40, default='nvt')
+    id = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=40, unique=True)
 
     def __str__(self):
-        return f"ValidatieCategorie {self.validatie} - {self.label}"
+        return f"ValidatieCategorie {self.id} - {self.label}"
 
 
 class MeetraaiCategorie(models.Model):
     """
-    De meetraai categorieen worden hier beschreven
+    De meetraai categorieën worden hier beschreven
     """
-    meetraai = models.IntegerField(primary_key=True)
-    label = models.CharField(max_length=40, default='nvt')
+    id = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=40)
 
     def __str__(self):
-        return f"MeetraaiCategorie {self.meetraai} - {self.label}"
+        return f"MeetraaiCategorie {self.id} - {self.label}"
+
+
+class Meetlocatie(models.Model):
+    """
+    Een meetlocatie is een plek waar 1 of meer tellussen staan.
+    """
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=80)
+
+    def __str__(self):
+        return self.name
 
 
 class Tellus(models.Model):
     """
-    De geadministreerde tellussen die worden worden hier
-    gedefinieerd (= Meta info).
-
-    Meta info kan wijzigen. Als dat het geval is, dan wordt
-    een NIEUWE tellus aangemaakt, en wordt voor het bestaande
-    telpunt een einddatum ingevuld
+    Tellus met leverancier en Vekeer en Openbare Ruimte (vor) nummer.
     """
-
     objnr_vor = models.CharField(max_length=10, unique=True)
     objnr_leverancier = models.CharField(max_length=10, unique=True)
-    snelheids_klasse = models.ForeignKey(
-        SnelheidsCategorie,
-        related_name='tellussen',
-        null=True, on_delete=SET_NULL)
-    standplaats_id = models.IntegerField(null=True, blank=True)
-    standplaats = models.CharField(max_length=80)
-    zijstraat_a = models.CharField(max_length=80)
-    zijstraat_b = models.CharField(max_length=80)
-    richting_1 = models.CharField(max_length=80)
-    richting_2 = models.CharField(max_length=80)
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
-    rijksdriehoek_x = models.FloatField(null=True)
-    rijksdriehoek_y = models.FloatField(null=True)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    rijksdriehoek_x = models.FloatField()
+    rijksdriehoek_y = models.FloatField()
     geometrie = models.PointField(null=True, srid=28992)
+    snelheids_categorie = models.IntegerField()
+    meetlocatie = models.ForeignKey(Meetlocatie, on_delete=CASCADE)
 
     def __str__(self):
-        return "{} - {}".format(self.objnr_leverancier, self.standplaats)
+        return "{} - {}".format(self.objnr_leverancier, self.meetlocatie)
 
 
-class TellusRichting(models.Model):
-    richting = models.CharField(max_length=5, primary_key=True)
-    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
-    naam_richting = models.CharField(max_length=80, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'tellus_data_tellus_richting'
-        ordering = ["tellus", "richting",]
+class TelRichting(models.Model):
+    """
+    Tel richting behorende bij een tellus.
+    """
+    richting = models.IntegerField()
+    tellus = models.ForeignKey(Tellus, related_name="tel_richtingen", on_delete=CASCADE)
+    naam = models.CharField(max_length=80)
+    zijstraat = models.CharField(max_length=80)
 
     def __str__(self):
-        return "{} ({})".format(self.naam_richting, self.richting)
+        return "{} - {}".format(self.tellus, self.naam)
 
 
-class TellusData(models.Model):
+class Telling(models.Model):
     """
-    De tellingen per lus
-    C1 tot C60 zijn de geaggregeerde meetwaarden zoals ze per CSV aangeleverd worden door `Dufec`
-    Het 60 kolommen van (6 x 10) meetwaarden, lengtecategorie x snelheidscategorie.
-    In de pivot views worden deze verder gereed gemaakt vor verwerking met oa. `Tableau`
+    Telling van een lengte en snelheids interval over een tijdsperiode.
     """
-    VALIDATION_CHOICES = ((0, "Geen data"),
-                          (1, "Consistent, plausibel 100% compleet"),
-                          (2, "Consistent, plausibel >98% compleet"),
-                          (3, "Consistent, plausibel <98% compleet"),
-                          (4, "Niet consistent"),
-                          (5, "Niet plausibel"))
+    tel_richting = models.ForeignKey(TelRichting, on_delete=CASCADE)
+    snelheids_interval = models.ForeignKey(SnelheidsInterval, on_delete=CASCADE)
+    lengte_interval = models.ForeignKey(LengteInterval, on_delete=CASCADE)
 
-    REPRESENTATIVE = ((0, 'Geen data'),
-                      (1, "Representatieve dag"),
-                      (2, "Schoolvakantie"),
-                      (3, "Feestdag"),
-                      (4, "Niet representatieve dag"),
-                      (5, "data/onjuist onbruikbaar")
-                      )
-
-    MEETRAAI = ((0, "Niet compleet"),
-                (1, "Compleet"),
-                (2, "Niet compleet, data wel bruikbaar"))
-
-    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
-    snelheids_categorie = models.ForeignKey(
-        SnelheidsCategorie, on_delete=CASCADE)
-    lengte_categorie = models.ForeignKey(LengteCategorie, on_delete=CASCADE)
+    validatie_categorie = models.ForeignKey(ValidatieCategorie, on_delete=CASCADE)
+    representatief_categorie = models.ForeignKey(RepresentatiefCategorie, on_delete=CASCADE)
+    meetraai_categorie = models.ForeignKey(MeetraaiCategorie, on_delete=CASCADE)
 
     tijd_van = models.DateTimeField()
     tijd_tot = models.DateTimeField()
-    richting = models.IntegerField()
-    validatie = models.IntegerField(choices=VALIDATION_CHOICES)
-    representatief = models.IntegerField(choices=REPRESENTATIVE)
-    meetraai = models.IntegerField(choices=MEETRAAI)
-    c1 = models.IntegerField(null=False, blank=False, default=0)
-    c2 = models.IntegerField(null=False, blank=False, default=0)
-    c3 = models.IntegerField(null=False, blank=False, default=0)
-    c4 = models.IntegerField(null=False, blank=False, default=0)
-    c5 = models.IntegerField(null=False, blank=False, default=0)
-    c6 = models.IntegerField(null=False, blank=False, default=0)
-    c7 = models.IntegerField(null=False, blank=False, default=0)
-    c8 = models.IntegerField(null=False, blank=False, default=0)
-    c9 = models.IntegerField(null=False, blank=False, default=0)
-    c10 = models.IntegerField(null=False, blank=False, default=0)
-    c11 = models.IntegerField(null=False, blank=False, default=0)
-    c12 = models.IntegerField(null=False, blank=False, default=0)
-    c13 = models.IntegerField(null=False, blank=False, default=0)
-    c14 = models.IntegerField(null=False, blank=False, default=0)
-    c15 = models.IntegerField(null=False, blank=False, default=0)
-    c16 = models.IntegerField(null=False, blank=False, default=0)
-    c17 = models.IntegerField(null=False, blank=False, default=0)
-    c18 = models.IntegerField(null=False, blank=False, default=0)
-    c19 = models.IntegerField(null=False, blank=False, default=0)
-    c20 = models.IntegerField(null=False, blank=False, default=0)
-    c21 = models.IntegerField(null=False, blank=False, default=0)
-    c22 = models.IntegerField(null=False, blank=False, default=0)
-    c23 = models.IntegerField(null=False, blank=False, default=0)
-    c24 = models.IntegerField(null=False, blank=False, default=0)
-    c25 = models.IntegerField(null=False, blank=False, default=0)
-    c26 = models.IntegerField(null=False, blank=False, default=0)
-    c27 = models.IntegerField(null=False, blank=False, default=0)
-    c28 = models.IntegerField(null=False, blank=False, default=0)
-    c29 = models.IntegerField(null=False, blank=False, default=0)
-    c30 = models.IntegerField(null=False, blank=False, default=0)
-    c31 = models.IntegerField(null=False, blank=False, default=0)
-    c32 = models.IntegerField(null=False, blank=False, default=0)
-    c33 = models.IntegerField(null=False, blank=False, default=0)
-    c34 = models.IntegerField(null=False, blank=False, default=0)
-    c35 = models.IntegerField(null=False, blank=False, default=0)
-    c36 = models.IntegerField(null=False, blank=False, default=0)
-    c37 = models.IntegerField(null=False, blank=False, default=0)
-    c38 = models.IntegerField(null=False, blank=False, default=0)
-    c39 = models.IntegerField(null=False, blank=False, default=0)
-    c40 = models.IntegerField(null=False, blank=False, default=0)
-    c41 = models.IntegerField(null=False, blank=False, default=0)
-    c42 = models.IntegerField(null=False, blank=False, default=0)
-    c43 = models.IntegerField(null=False, blank=False, default=0)
-    c44 = models.IntegerField(null=False, blank=False, default=0)
-    c45 = models.IntegerField(null=False, blank=False, default=0)
-    c46 = models.IntegerField(null=False, blank=False, default=0)
-    c47 = models.IntegerField(null=False, blank=False, default=0)
-    c48 = models.IntegerField(null=False, blank=False, default=0)
-    c49 = models.IntegerField(null=False, blank=False, default=0)
-    c50 = models.IntegerField(null=False, blank=False, default=0)
-    c51 = models.IntegerField(null=False, blank=False, default=0)
-    c52 = models.IntegerField(null=False, blank=False, default=0)
-    c53 = models.IntegerField(null=False, blank=False, default=0)
-    c54 = models.IntegerField(null=False, blank=False, default=0)
-    c55 = models.IntegerField(null=False, blank=False, default=0)
-    c56 = models.IntegerField(null=False, blank=False, default=0)
-    c57 = models.IntegerField(null=False, blank=False, default=0)
-    c58 = models.IntegerField(null=False, blank=False, default=0)
-    c59 = models.IntegerField(null=False, blank=False, default=0)
-    c60 = models.IntegerField(null=False, blank=False, default=0)
+
+    aantal = models.IntegerField()
 
     def __str__(self):
-        return "{} - {} van {} tot {}".format(
-            self.tellus, self.richting, self.tijd_van.strftime('%d-%m-%Y %H:%M'), self.tijd_tot.strftime('%H:%M'))
+        return "{} - van {} tot {}: {}".format(
+            self.tel_richting, self.tijd_van.strftime('%d-%m-%Y %H:%M'), self.tijd_tot.strftime('%H:%M'), self.aantal)
 
     class Meta:
-        ordering = ['id', 'tijd_van', 'tijd_tot', 'richting']
-        unique_together = ("tellus", "richting", "tijd_van", "tijd_tot")
+        ordering = ['id', 'tijd_van', 'tijd_tot']
+        unique_together = ("tel_richting", "tijd_van", "tijd_tot", "snelheids_interval", "lengte_interval")
 
 
 class TellusDataCarsPerHourPerDay(models.Model):
@@ -231,23 +158,76 @@ class TellusDataCarsPerHourPerDay(models.Model):
     - Every day
     - Every hour
     - Type of day
-    - Sum of all cars passing within that hour slot
+    - Sum of all cars passing within that hour slot (merge speeds and lengtes)
     """
-
+    id = models.IntegerField(primary_key=True)
     tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
-    richting = models.ForeignKey(TellusRichting, on_delete=CASCADE)
-    dag_uur_gemeten = models.DateTimeField(blank=True, null=True)
-    dag_type = models.CharField(max_length=80)
-    aantal = models.IntegerField(blank=True, null=True)
+    richting_id = models.IntegerField()
+    dag_uur = models.DateTimeField()  # Start of hourly time window
+    dag_type = models.CharField(max_length=80, choices=DAY_TYPES)
+    aantal = models.IntegerField()
+
+    # Disallow changes to this database through Django ORM!
+    def save(self, *args, **kwargs):
+        raise NotImplementedError
+
+    def delete(self, *args, **kwargs):
+        raise NotImplementedError
 
     def __str__(self):
-        return "{} - {} 1 uur lang vanaf {} op dag {} gemeten".format(
-            self.tellus, self.richting,
-            self.dag_uur_gemeten.strftime('%H:%M'),
-            self.dag_uur_gemeten.strftime('%d-%m-%Y'))
+        return "{} 1 uur lang vanaf {} op dag {} gemeten".format(
+            self.tel_richting,
+            self.dag_uur.strftime('%H:%M'),
+            self.dag_uur.strftime('%d-%m-%Y'))
 
     class Meta:
         managed = False
-        db_table = 'tellus_data_cars_per_hour_per_day'
-        ordering = ['tellus_id', 'richting', 'dag_uur_gemeten']
-        unique_together = (('tellus', 'richting', 'dag_uur_gemeten'),)
+        db_table = 'tellus_data_cars_per_hour'
+
+
+class TellusDataCarsPerHourLength(models.Model):  # TODO: try to get inheritance working
+    """
+    Aggregated Model for:
+    - Every Tellus
+    - Every day
+    - Every hour
+    - Every length
+    - Type of day
+    - Sum of all cars passing within that hour slot (merge speeds)
+    """
+    id = models.IntegerField(primary_key=True)
+    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
+    richting_id = models.IntegerField()
+    dag_uur = models.DateTimeField()  # Start of hourly time window
+    dag_type = models.CharField(max_length=80, choices=DAY_TYPES)
+    lengte_interval = models.ForeignKey(LengteInterval, on_delete=CASCADE)
+    label = models.CharField(max_length=40, unique=True)
+    aantal = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'tellus_data_cars_per_hour_length'
+
+
+class TellusDataCarsPerHourSpeed(models.Model):
+    """
+    Aggregated Model for:
+    - Every Tellus
+    - Every day
+    - Every hour
+    - Every speed
+    - Type of day
+    - Sum of all cars passing within that hour slot (merge lengths)
+    """
+    id = models.IntegerField(primary_key=True)
+    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
+    richting_id = models.IntegerField()
+    dag_uur = models.DateTimeField()  # Start of hourly time window
+    dag_type = models.CharField(max_length=80, choices=DAY_TYPES)
+    snelheids_interval = models.ForeignKey(SnelheidsInterval, on_delete=CASCADE)
+    label = models.CharField(max_length=40, unique=True)
+    aantal = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'tellus_data_cars_per_hour_speed'

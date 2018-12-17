@@ -2,50 +2,85 @@
 Tellus views
 """
 
-# from api import serializers
+from api import serializers
 
 from django.contrib.gis.geos import Point  # noqa
 from django.contrib.gis.measure import Distance
 
 from datapunt_api.rest import DatapuntViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 
-from datasets.tellus_data.models import LengteCategorie
-from datasets.tellus_data.models import SnelheidsCategorie
+from datasets.tellus_data import models
 from datasets.tellus_data.models import Tellus
-from datasets.tellus_data.models import TellusRichting
-from datasets.tellus_data.models import TellusData
-from datasets.tellus_data.models import TellusDataCarsPerHourPerDay
-
-from api.serializers import LengteCategorieSerializer
-from api.serializers import SnelheidsCategorieSerializer
-from api.serializers import TellusSerializer
-from api.serializers import TellusRichtingSerializer
-from api.serializers import TellusDataSerializer
-from api.serializers import TellusDataCarsPerHourPerDaySerializer
 
 
-class LengteCategorieViewSet(DatapuntViewSet):
+class MeetlocatieViewSet(DatapuntViewSet):
     """
-    Returns all `LengteCategorie instances`, ordered by id
+    Returns all `LengteInterval instances`, ordered by id
     """
-    queryset = LengteCategorie.objects.all().order_by('pk')
-    serializer_class = LengteCategorieSerializer
-    serializer_detail_class = LengteCategorieSerializer
+    queryset = models.Meetlocatie.objects.all().order_by('pk')
+    serializer_class = serializers.MeetlocatieSerializer
+    serializer_detail_class = serializers.MeetlocatieSerializer
+
+
+class LengteIntervalViewSet(DatapuntViewSet):
+    """
+    Returns all `LengteInterval instances`, ordered by id
+    """
+    queryset = models.LengteInterval.objects.all().order_by('pk')
+    serializer_class = serializers.LengteIntervalSerializer
+    serializer_detail_class = serializers.LengteIntervalSerializer
+
+
+class SnelheidsIntervalViewSet(DatapuntViewSet):
+    """
+    Returns all `SnelheidsInterval instances`, ordered by id
+    """
+    queryset = models.SnelheidsInterval.objects.all().order_by('pk')
+    serializer_class = serializers.SnelheidsIntervalSerializer
+    serializer_detail_class = serializers.SnelheidsIntervalSerializer
 
 
 class SnelheidsCategorieViewSet(DatapuntViewSet):
     """
     Returns all `SnelheidsCategorie instances`, ordered by id
     """
-    queryset = SnelheidsCategorie.objects.all().order_by('pk')
-    serializer_class = SnelheidsCategorieSerializer
-    serializer_detail_class = SnelheidsCategorieSerializer
+    queryset = models.SnelheidsCategorie.objects.all().order_by('pk')
+    serializer_class = serializers.SnelheidsCategorieSerializer
+    serializer_detail_class = serializers.SnelheidsCategorieSerializer
+
+
+class RepresentatiefCategorieViewSet(DatapuntViewSet):
+    """
+    Returns all `RepresentatiefCategorie instances`, ordered by id
+    """
+    queryset = models.RepresentatiefCategorie.objects.all().order_by('pk')
+    serializer_class = serializers.RepresentatiefCategorieSerializer
+    serializer_detail_class = serializers.RepresentatiefCategorieSerializer
+
+
+class ValidatieCategorieViewSet(DatapuntViewSet):
+    """
+    Returns all `ValidatieCategorie instances`, ordered by id
+    """
+    queryset = models.ValidatieCategorie.objects.all().order_by('pk')
+    serializer_class = serializers.ValidatieCategorieSerializer
+    serializer_detail_class = serializers.ValidatieCategorieSerializer
+
+
+class MeetraaiCategorieViewSet(DatapuntViewSet):
+    """
+    Returns all `MeetraaiCategorie instances`, ordered by id
+    """
+    queryset = models.MeetraaiCategorie.objects.all().order_by('pk')
+    serializer_class = serializers.MeetraaiCategorieSerializer
+    serializer_detail_class = serializers.MeetraaiCategorieSerializer
 
 
 class TellusViewSet(DatapuntViewSet):
-    queryset = Tellus.objects.all().order_by('pk')
-    serializer_class = TellusSerializer
-    serializer_detail_class = TellusSerializer
+    queryset = models.Tellus.objects.all().order_by('pk')
+    serializer_class = serializers.TellusSerializer
+    serializer_detail_class = serializers.TellusSerializer
 
     def get_queryset(self):
         """
@@ -59,25 +94,25 @@ class TellusViewSet(DatapuntViewSet):
             return Tellus.objects.filter(
                 geometrie__distance_lte=(pnt, Distance(m=int(radius))))
 
-        return Tellus.objects.all()
+        return Tellus.objects.all().order_by('pk')
 
 
-class TellusDataViewSet(DatapuntViewSet):
+class TellingViewSet(DatapuntViewSet):
     """
-    Returns a list of `TellusData` objects.
+    Returns a list of `Telling` objects.
     """
-    queryset = TellusData.objects.all()
-    serializer_class = TellusDataSerializer
-    serializer_detail_class = TellusDataSerializer
+    queryset = models.Telling.objects.all().order_by('pk')
+    serializer_class = serializers.TellingSerializer
+    serializer_detail_class = serializers.TellingSerializer
 
 
-class TellusRichtingViewSet(DatapuntViewSet):
+class TelRichtingViewSet(DatapuntViewSet):
     """
-    Returns all `LengteCategorie instances`, ordered by id
+    Returns a list of `TelRichting instances`, ordered by id
     """
-    queryset = TellusRichting.objects.all().order_by('pk')
-    serializer_class = TellusRichtingSerializer
-    serializer_detail_class =TellusRichtingSerializer
+    queryset = models.TelRichting.objects.all().order_by('pk')
+    serializer_class = serializers.TelRichtingSerializer
+    serializer_detail_class = serializers.TelRichtingSerializer
 
 
 class TellusDataCarsPerHourPerDayViewSet(DatapuntViewSet):
@@ -90,6 +125,40 @@ class TellusDataCarsPerHourPerDayViewSet(DatapuntViewSet):
     * Type of day
     * Sum of all cars passing within that hour slot
     """
-    queryset = TellusDataCarsPerHourPerDay.objects.all()
-    serializer_class = TellusDataCarsPerHourPerDaySerializer
-    serializer_detail_class = TellusDataCarsPerHourPerDaySerializer
+    queryset = models.TellusDataCarsPerHourPerDay.objects.all().order_by('pk')
+    serializer_class = serializers.TellusDataCarsPerHourPerDaySerializer
+    serializer_detail_class = serializers.TellusDataCarsPerHourPerDaySerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('dag_type', )
+
+
+class TellusDataCarsPerHourLengthViewSet(DatapuntViewSet):
+    """
+    Returns a list of `TellusDataCarsPerHourPerDay` objects for:
+
+    * Every Tellus
+    * Every day
+    * Every hour
+    * Every length
+    * Type of day
+    * Sum of all cars passing within that hour slot
+    """
+    queryset = models.TellusDataCarsPerHourLength.objects.all().order_by('pk')
+    serializer_class = serializers.TellusDataCarsPerHourLengthSerializer
+    serializer_detail_class = serializers.TellusDataCarsPerHourLengthSerializer
+
+
+class TellusDataCarsPerHourSpeedViewSet(DatapuntViewSet):
+    """
+    Returns a list of `TellusDataCarsPerHourPerDay` objects for:
+
+    * Every Tellus
+    * Every day
+    * Every hour
+    * Every length
+    * Type of day
+    * Sum of all cars passing within that hour slot
+    """
+    queryset = models.TellusDataCarsPerHourSpeed.objects.all().order_by('pk')
+    serializer_class = serializers.TellusDataCarsPerHourSpeedSerializer
+    serializer_detail_class = serializers.TellusDataCarsPerHourSpeedSerializer

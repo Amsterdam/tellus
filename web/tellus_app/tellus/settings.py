@@ -228,7 +228,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
 
-HEALTH_MODEL = 'tellus_data.TellusData'
+HEALTH_MODEL = 'tellus_data.Telling'
 
 LOGGING = {
     'version': 1,

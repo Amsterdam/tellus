@@ -18,8 +18,9 @@ class TellusView(routers.APIRootView):
 
     Note:
 
-    The tellusdata endpoints require authentication using the Employee login.
-    """  # noqa
+    The actual telling and aggregate endpoints require authentication using the Employee login.
+    """
+    pass
 
 
 class TellusRouter(routers.DefaultRouter):
@@ -28,12 +29,19 @@ class TellusRouter(routers.DefaultRouter):
 
 router = TellusRouter()
 
-router.register(r'lengtecategorie', views.LengteCategorieViewSet)
-router.register(r'snelheidscategorie', views.SnelheidsCategorieViewSet)
+router.register(r'meetlocatie', views.MeetlocatieViewSet)
+router.register(r'lengte_interval', views.LengteIntervalViewSet)
+router.register(r'snelheids_interval', views.SnelheidsIntervalViewSet)
+router.register(r'snelheids_categorie', views.SnelheidsCategorieViewSet)
+router.register(r'representatief_categorie', views.RepresentatiefCategorieViewSet)
+router.register(r'validatie_categorie', views.ValidatieCategorieViewSet)
+router.register(r'meetraai_categorie', views.MeetraaiCategorieViewSet)
 router.register(r'tellus', views.TellusViewSet)
-router.register(r'tellusrichting', views.TellusRichtingViewSet)
-router.register(r'tellusdata', views.TellusDataViewSet)
-router.register(r'tellusdata_totaal_uur_dag', views.TellusDataCarsPerHourPerDayViewSet)
+router.register(r'tel_richting', views.TelRichtingViewSet)
+router.register(r'telling', views.TellingViewSet)
+router.register(r'telling_totaal_uur_dag', views.TellusDataCarsPerHourPerDayViewSet)
+router.register(r'telling_totaal_uur_lengte_dag', views.TellusDataCarsPerHourLengthViewSet)
+router.register(r'telling_totaal_uur_snelheid_dag', views.TellusDataCarsPerHourSpeedViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
