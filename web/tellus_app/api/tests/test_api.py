@@ -4,9 +4,11 @@
 import logging
 
 from api.tests.authzsetup import AuthorizationSetup
-from api.tests.factories import TellusDataFactory
+from api.tests.factories import TellingFactory
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
+
+from datasets.tellus_data.models import SnelheidsInterval, LengteInterval, TelRichting, Tellus, Meetlocatie
 
 log = logging.getLogger(__name__)
 
@@ -16,22 +18,45 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
     Verifies that browsing the API works correctly.
     """
 
+    fixtures = [
+        'meetlocatie.json',
+        'lengte_interval.json',
+        'snelheids_interval.json',
+        'representatief_categorie.json',
+        'validatie_categorie.json',
+        'meetraai_categorie.json',
+        'tellus.json',
+        'tel_richting.json'
+    ]
+
     reverse_list_urls = [
-        # 'docs',
+        'meetlocatie-list',
+        'lengteinterval-list',
+        'snelheidsinterval-list',
+        'representatiefcategorie-list',
+        'validatiecategorie-list',
+        'meetraaicategorie-list',
         'tellus-list',
-        'lengtecategorie-list',
-        'snelheidscategorie-list',
-        'tellusdata-list',
+        'telrichting-list',
+        # 'telling-list',
+        # 'telling_totaal_uur_dag-list',
+        # 'telling_totaal_uur_lengte_dag-list',
+        # 'telling_totaal_uur_snelheid_da-listg'
     ]
     reverse_detail_urls = [
         'tellus-detail',
-        'lengtecategorie-detail',
-        'snelheidscategorie-detail',
-        'tellusdata-detail',
+        # 'meetlocatie-detail',
+        'lengteinterval-detail',
+        'snelheidsinterval-detail',
+        'representatiefcategorie-detail',
+        'validatiecategorie-detail',
+        'meetraaicategorie-detail',
+        'tellus-detail',
+        'telrichting-detail',
     ]
 
     def setUp(self):
-        TellusDataFactory.create()
+        # TelRichtingFactory.create()
         self.setUpAuthorization()
 
     def valid_response(self, url, response):
@@ -47,18 +72,12 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
             'application/json', response['Content-Type'],
             'Wrong Content-Type for {}'.format(url))
 
-    def valid_html_response(self, url, response):
-        """
-        Helper method to check common status/json
-        """
-
-        self.assertEqual(
-            200, response.status_code,
-            'Wrong response code for {}'.format(url))
-        self.assertEqual(
-
-            'text/html; charset=utf-8', response['Content-Type'],
-            'Wrong Content-Type for {}'.format(url))
+    def test_setup(self):
+        self.assertEqual(LengteInterval.objects.count(), 6)
+        self.assertEqual(SnelheidsInterval.objects.count(), 20)
+        self.assertEqual(Meetlocatie.objects.count(), 26)
+        self.assertEqual(Tellus.objects.count(), 30)
+        self.assertEqual(TelRichting.objects.count(), 51)
 
     def test_lists(self):
         self.client.credentials(
@@ -68,12 +87,12 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
             log.debug("test {} => {}".format(url, reverse(url)))
             response = self.client.get(reverse(url))
             self.valid_response(url, response)
-            self.assertIn(
-                'count', response.data, 'No count attribute in {}'.format(url))
-            self.assertNotEqual(
+            self.assertIn('count', response.data, 'No count attribute in {}'.format(url))
+            self.assertGreater(
                 response.data['count'],
-                0, 'Wrong result count for {}'.format(url))
-
+                0, 'Wrong result count for {}'.format(url)
+            )
+    #
     def test_details(self):
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_tlls_r))

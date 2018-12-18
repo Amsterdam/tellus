@@ -18,7 +18,7 @@ class LengteInterval(models.Model):
     max_cm = models.IntegerField(null=True)
 
     def __str__(self):
-        return "LengteInterval {}: {}".format(self.label, self.label)
+        return "LengteInterval {}: {}".format(self.id, self.label)
 
 
 class SnelheidsInterval(models.Model):
