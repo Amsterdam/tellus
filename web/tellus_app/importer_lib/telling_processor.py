@@ -89,7 +89,7 @@ def insert_telling_batch(cursor, batch_list):
                    ") VALUES" + args_str)
 
 
-def process_telling_sheet(csvReader):
+def process_telling_sheet(csv_reader):
     t0 = time.time()
 
     skipped_row_cnt = 0
@@ -101,10 +101,10 @@ def process_telling_sheet(csvReader):
 
     range60 = list(range(0, 60))
     with connection.cursor() as cursor:
-        next(csvReader, None)
+        next(csv_reader, None)
         row_cnt = 0
         item_cnt = 0
-        for trow in csvReader:
+        for trow in csv_reader:
             if not trow[0]:
                 log.debug('Ignoring empty row.')
                 continue
