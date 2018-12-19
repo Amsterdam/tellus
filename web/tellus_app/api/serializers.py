@@ -2,9 +2,9 @@ from rest_framework import serializers
 
 from datapunt_api.rest import HALSerializer
 
-from datasets.tellus_data.models import LengteInterval, Telling, TellusDataCarsPerHourPerDay, SnelheidsInterval, \
+from datasets.tellus_data.models import LengteInterval, Telling, TellingCarsPerHourPerDay, SnelheidsInterval, \
     SnelheidsCategorie, Meetlocatie, MeetraaiCategorie, ValidatieCategorie, RepresentatiefCategorie, \
-    TellusDataCarsPerHourLength, TellusDataCarsPerHourSpeed
+    TellingCarsPerHourLength, TellingCarsPerHourSpeed
 from datasets.tellus_data.models import Tellus
 from datasets.tellus_data.models import TelRichting
 
@@ -194,7 +194,7 @@ class TellusModelSerializer(serializers.ModelSerializer):
         )
 
 
-class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
+class TellingCarsPerHourPerDaySerializer(HALSerializer):
     """
     Tellus Werkdag, Weekdag totalen
     """
@@ -202,7 +202,7 @@ class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
     tellus = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(object):
-        model = TellusDataCarsPerHourPerDay
+        model = TellingCarsPerHourPerDay
         fields = (
             "id",
             "tellus",
@@ -213,7 +213,7 @@ class TellusDataCarsPerHourPerDaySerializer(HALSerializer):
         )
 
 
-class TellusDataCarsPerHourLengthSerializer(HALSerializer):
+class TellingCarsPerHourLengthSerializer(HALSerializer):
     """
     Tellus Werkdag, Weekdag totalen
     """
@@ -221,7 +221,7 @@ class TellusDataCarsPerHourLengthSerializer(HALSerializer):
     tellus = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(object):
-        model = TellusDataCarsPerHourLength
+        model = TellingCarsPerHourLength
         fields = (
             "id",
             "tellus",
@@ -229,12 +229,12 @@ class TellusDataCarsPerHourLengthSerializer(HALSerializer):
             "dag_uur",
             "dag_type",
             "lengte_interval_id",
-            "label",
+            "lengte_label",
             "aantal"
         )
 
 
-class TellusDataCarsPerHourSpeedSerializer(HALSerializer):
+class TellingCarsPerHourSpeedSerializer(HALSerializer):
     """
     Tellus Werkdag, Weekdag totalen
     """
@@ -242,7 +242,7 @@ class TellusDataCarsPerHourSpeedSerializer(HALSerializer):
     tellus = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(object):
-        model = TellusDataCarsPerHourSpeed
+        model = TellingCarsPerHourSpeed
         fields = (
             "id",
             "tellus",
@@ -250,6 +250,6 @@ class TellusDataCarsPerHourSpeedSerializer(HALSerializer):
             "dag_uur",
             "dag_type",
             "snelheids_interval_id",
-            "label",
+            "snelheids_label",
             "aantal"
         )

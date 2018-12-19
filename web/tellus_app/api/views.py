@@ -125,9 +125,9 @@ class TellusDataCarsPerHourPerDayViewSet(DatapuntViewSet):
     * Type of day
     * Sum of all cars passing within that hour slot
     """
-    queryset = models.TellusDataCarsPerHourPerDay.objects.all().order_by('pk')
-    serializer_class = serializers.TellusDataCarsPerHourPerDaySerializer
-    serializer_detail_class = serializers.TellusDataCarsPerHourPerDaySerializer
+    queryset = models.TellingCarsPerHourPerDay.objects.all().order_by('pk')
+    serializer_class = serializers.TellingCarsPerHourPerDaySerializer
+    serializer_detail_class = serializers.TellingCarsPerHourPerDaySerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('dag_type', )
 
@@ -143,9 +143,9 @@ class TellusDataCarsPerHourLengthViewSet(DatapuntViewSet):
     * Type of day
     * Sum of all cars passing within that hour slot
     """
-    queryset = models.TellusDataCarsPerHourLength.objects.all().order_by('pk')
-    serializer_class = serializers.TellusDataCarsPerHourLengthSerializer
-    serializer_detail_class = serializers.TellusDataCarsPerHourLengthSerializer
+    queryset = models.TellingCarsPerHourLength.objects.all().order_by('pk')
+    serializer_class = serializers.TellingCarsPerHourLengthSerializer
+    serializer_detail_class = serializers.TellingCarsPerHourLengthSerializer
 
 
 class TellusDataCarsPerHourSpeedViewSet(DatapuntViewSet):
@@ -159,6 +159,6 @@ class TellusDataCarsPerHourSpeedViewSet(DatapuntViewSet):
     * Type of day
     * Sum of all cars passing within that hour slot
     """
-    queryset = models.TellusDataCarsPerHourSpeed.objects.all().order_by('pk')
-    serializer_class = serializers.TellusDataCarsPerHourSpeedSerializer
-    serializer_detail_class = serializers.TellusDataCarsPerHourSpeedSerializer
+    queryset = models.TellingCarsPerHourSpeed.objects.all().order_by('pk')
+    serializer_class = serializers.TellingCarsPerHourSpeedSerializer
+    serializer_detail_class = serializers.TellingCarsPerHourSpeedSerializer

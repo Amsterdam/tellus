@@ -151,14 +151,9 @@ class Telling(models.Model):
         unique_together = ("tel_richting", "tijd_van", "tijd_tot", "snelheids_interval", "lengte_interval")
 
 
-class TellusDataCarsPerHourPerDay(models.Model):
+class TellingAggregate(models.Model):
     """
-    Aggregated Model for:
-    - Every Tellus
-    - Every day
-    - Every hour
-    - Type of day
-    - Sum of all cars passing within that hour slot (merge speeds and lengtes)
+    Common model for several aggregate models.
     """
     id = models.IntegerField(primary_key=True)
     tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
@@ -181,11 +176,24 @@ class TellusDataCarsPerHourPerDay(models.Model):
             self.dag_uur.strftime('%d-%m-%Y'))
 
     class Meta:
+        abstract = True
+
+
+class TellingCarsPerHourPerDay(TellingAggregate):
+    """
+    Aggregated Model for:
+    - Every Tellus
+    - Every day
+    - Every hour
+    - Type of day
+    - Sum of all cars passing within that hour slot (merge speeds and lengtes)
+    """
+    class Meta:
         managed = False
         db_table = 'tellus_data_cars_per_hour'
 
 
-class TellusDataCarsPerHourLength(TellusDataCarsPerHourPerDay):
+class TellingCarsPerHourLength(TellingAggregate):
     """
     Aggregated Model for:
     - Every Tellus
@@ -203,7 +211,7 @@ class TellusDataCarsPerHourLength(TellusDataCarsPerHourPerDay):
         db_table = 'tellus_data_cars_per_hour_length'
 
 
-class TellusDataCarsPerHourSpeed(TellusDataCarsPerHourPerDay):
+class TellingCarsPerHourSpeed(TellingAggregate):
     """
     Aggregated Model for:
     - Every Tellus
