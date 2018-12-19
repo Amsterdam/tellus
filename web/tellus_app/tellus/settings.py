@@ -121,6 +121,7 @@ if DEBUG:
     INSTALLED_APPS += (
         'django_extensions',
         'debug_toolbar',
+        'corsheaders',
     )
 
     MIDDLEWARE = (
@@ -128,6 +129,8 @@ if DEBUG:
         "django.middleware.common.CommonMiddleware",
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
+
+    CORS_ORIGIN_ALLOW_ALL = DEBUG
 
 
 ROOT_URLCONF = 'tellus.urls'
