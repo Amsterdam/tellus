@@ -8,7 +8,7 @@ from api.tests.factories import TellingFactory
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
-from datasets.tellus_data.models import SnelheidsInterval, LengteInterval, TelRichting, Tellus, Meetlocatie
+from datasets.tellus_data.models import SnelheidsInterval, LengteInterval, TelRichting, Tellus, Meetlocatie, Telling
 
 log = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
         'meetraaicategorie-list',
         'tellus-list',
         'telrichting-list',
-        # 'telling-list',
+        'telling-list',
         # 'telling_totaal_uur_dag-list',
         # 'telling_totaal_uur_lengte_dag-list',
         # 'telling_totaal_uur_snelheid_da-listg'
@@ -53,10 +53,11 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
         'meetraaicategorie-detail',
         'tellus-detail',
         'telrichting-detail',
+        'telling-detail',
     ]
 
     def setUp(self):
-        # TelRichtingFactory.create()
+        TellingFactory.create_batch(1000)
         self.setUpAuthorization()
 
     def valid_response(self, url, response):
@@ -78,6 +79,7 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
         self.assertEqual(Meetlocatie.objects.count(), 26)
         self.assertEqual(Tellus.objects.count(), 30)
         self.assertEqual(TelRichting.objects.count(), 51)
+        self.assertEqual(Telling.objects.count(), 1000)
 
     def test_lists(self):
         self.client.credentials(
