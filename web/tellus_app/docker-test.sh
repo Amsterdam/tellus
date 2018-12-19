@@ -3,4 +3,4 @@
 set -u # crash on missing env
 set -e # stop on any error
 
-python manage.py test
+DEBUG=False python manage.py test
