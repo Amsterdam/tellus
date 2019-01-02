@@ -70,11 +70,7 @@ def get_database_key():
 insecure_key = 'insecure'
 SECRET_KEY = os.getenv('SECRET_KEY', insecure_key)
 
-if os.getenv('DEBUG'):
-    DEBUG = os.getenv('DEBUG') == 'True'
-else:
-    DEBUG = SECRET_KEY == insecure_key
-
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = ['*']
 
