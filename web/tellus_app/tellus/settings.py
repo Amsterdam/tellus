@@ -70,7 +70,7 @@ def get_database_key():
 insecure_key = 'insecure'
 SECRET_KEY = os.getenv('SECRET_KEY', insecure_key)
 
-DEBUG = os.getenv('DEBUG', False)
+DEBUG = os.getenv('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -89,8 +89,6 @@ if DEBUG:
     DATAPUNT_API_URL = 'http://localhost:8000/'
 
 # Application definition
-
-
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
@@ -116,7 +114,6 @@ MIDDLEWARE = [
     "authorization_django.authorization_middleware",
 ]
 
-
 if DEBUG:
     INSTALLED_APPS += (
         'django_extensions',
@@ -131,7 +128,7 @@ if DEBUG:
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 
-    CORS_ORIGIN_ALLOW_ALL = DEBUG
+    CORS_ORIGIN_ALLOW_ALL = True
 
 
 ROOT_URLCONF = 'tellus.urls'
