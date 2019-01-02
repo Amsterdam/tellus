@@ -1,0 +1,512 @@
+[
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 1,
+    "fields": {
+      "richting": 1,
+      "tellus": 1,
+      "naam": "Amstelstation",
+      "zijstraat": "1e Boerhaavestraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 2,
+    "fields": {
+      "richting": 2,
+      "tellus": 1,
+      "naam": "Rhijnspoorplein",
+      "zijstraat": "Ruyschstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 3,
+    "fields": {
+      "richting": 1,
+      "tellus": 2,
+      "naam": "De Alpen",
+      "zijstraat": "De Alpen"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 4,
+    "fields": {
+      "richting": 2,
+      "tellus": 2,
+      "naam": "Amsterdamsebaan",
+      "zijstraat": "Amsterdamsebaan"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 5,
+    "fields": {
+      "richting": 1,
+      "tellus": 7,
+      "naam": "Utrechtsebrug",
+      "zijstraat": "Waalstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 6,
+    "fields": {
+      "richting": 2,
+      "tellus": 7,
+      "naam": "RAI",
+      "zijstraat": "Rijnstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 7,
+    "fields": {
+      "richting": 1,
+      "tellus": 8,
+      "naam": "Noord Hollandskanaal",
+      "zijstraat": "Oosterlengte"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 8,
+    "fields": {
+      "richting": 2,
+      "tellus": 8,
+      "naam": "Nwe Leeuwarderweg",
+      "zijstraat": "GJ Scheurleerweg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 9,
+    "fields": {
+      "richting": 1,
+      "tellus": 9,
+      "naam": "Jan Evertsenstraat",
+      "zijstraat": "Jan Everstenstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 10,
+    "fields": {
+      "richting": 2,
+      "tellus": 9,
+      "naam": "John Huizingalaan",
+      "zijstraat": "Louvrelaan"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 11,
+    "fields": {
+      "richting": 1,
+      "tellus": 10,
+      "naam": "Spaarndammerdijk",
+      "zijstraat": "Spaarndammerstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 12,
+    "fields": {
+      "richting": 2,
+      "tellus": 10,
+      "naam": "Houtmankade",
+      "zijstraat": "Houtmankade"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 13,
+    "fields": {
+      "richting": 1,
+      "tellus": 11,
+      "naam": "Stadionplein",
+      "zijstraat": "Op-/afrit A10 noordz."
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 14,
+    "fields": {
+      "richting": 2,
+      "tellus": 11,
+      "naam": "VUMC",
+      "zijstraat": "Op-/afrit A10 zuidz."
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 15,
+    "fields": {
+      "richting": 1,
+      "tellus": 12,
+      "naam": "Jan van Galenstraat",
+      "zijstraat": "Jan van Galenstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 16,
+    "fields": {
+      "richting": 2,
+      "tellus": 13,
+      "naam": "Mercatorplein",
+      "zijstraat": "Jan Everstenstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 17,
+    "fields": {
+      "richting": 1,
+      "tellus": 14,
+      "naam": "IJburg",
+      "zijstraat": "Op-/afrit A10 oostz."
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 18,
+    "fields": {
+      "richting": 2,
+      "tellus": 14,
+      "naam": "Ring A10",
+      "zijstraat": "JO Vaillantlaan"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 19,
+    "fields": {
+      "richting": 1,
+      "tellus": 15,
+      "naam": "Muiden",
+      "zijstraat": "Muiderlaan"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 20,
+    "fields": {
+      "richting": 2,
+      "tellus": 15,
+      "naam": "IJburg",
+      "zijstraat": "Overdiemerweg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 21,
+    "fields": {
+      "richting": 1,
+      "tellus": 16,
+      "naam": "Centrum",
+      "zijstraat": "Vlothavenweg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 22,
+    "fields": {
+      "richting": 2,
+      "tellus": 16,
+      "naam": "Ring A 10",
+      "zijstraat": "Spaarndammerdijk"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 23,
+    "fields": {
+      "richting": 1,
+      "tellus": 17,
+      "naam": "Ring A10",
+      "zijstraat": "Kruislaan"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 24,
+    "fields": {
+      "richting": 2,
+      "tellus": 18,
+      "naam": "Centrum",
+      "zijstraat": "Zaaiersweg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 25,
+    "fields": {
+      "richting": 1,
+      "tellus": 19,
+      "naam": "Gooiseweg",
+      "zijstraat": "Flierbosdreef"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 26,
+    "fields": {
+      "richting": 2,
+      "tellus": 19,
+      "naam": "Flierbosdreef",
+      "zijstraat": "Gooiseweg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 27,
+    "fields": {
+      "richting": 1,
+      "tellus": 20,
+      "naam": "D Goedkoopstraat",
+      "zijstraat": "Korte Ouderkerkerdijk"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 28,
+    "fields": {
+      "richting": 2,
+      "tellus": 20,
+      "naam": "Korte Ouderkerkerdijk",
+      "zijstraat": "D Goedkoopstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 29,
+    "fields": {
+      "richting": 1,
+      "tellus": 21,
+      "naam": "Ring A10",
+      "zijstraat": "J Franklinstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 30,
+    "fields": {
+      "richting": 2,
+      "tellus": 21,
+      "naam": "Centrum",
+      "zijstraat": "Admiralengracht"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 31,
+    "fields": {
+      "richting": 1,
+      "tellus": 22,
+      "naam": "Ring A10",
+      "zijstraat": "Hemsterhuisstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 32,
+    "fields": {
+      "richting": 2,
+      "tellus": 23,
+      "naam": "Osdorp",
+      "zijstraat": "J Huizingalaan"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 33,
+    "fields": {
+      "richting": 1,
+      "tellus": 24,
+      "naam": "Westeinde",
+      "zijstraat": "Westeinde"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 34,
+    "fields": {
+      "richting": 2,
+      "tellus": 24,
+      "naam": "Oosteinde",
+      "zijstraat": "Oosteinde"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 35,
+    "fields": {
+      "richting": 1,
+      "tellus": 25,
+      "naam": "Westerdoksdijk",
+      "zijstraat": "Houtmankade"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 36,
+    "fields": {
+      "richting": 2,
+      "tellus": 25,
+      "naam": "Houtmankade",
+      "zijstraat": "Van Neckstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 37,
+    "fields": {
+      "richting": 1,
+      "tellus": 26,
+      "naam": "Nassauplein",
+      "zijstraat": "Van Limburg Stirumstr."
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 38,
+    "fields": {
+      "richting": 2,
+      "tellus": 26,
+      "naam": "Van Hallstraat",
+      "zijstraat": "Van der Duijnstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 39,
+    "fields": {
+      "richting": 1,
+      "tellus": 27,
+      "naam": "Adm. de Ruijterweg",
+      "zijstraat": "Bestevaerstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 40,
+    "fields": {
+      "richting": 2,
+      "tellus": 27,
+      "naam": "W de Zwijgerlaan",
+      "zijstraat": "R Claeszenstraat"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 41,
+    "fields": {
+      "richting": 1,
+      "tellus": 28,
+      "naam": "stad-uit (noord)",
+      "zijstraat": "Joh.v Hasseltweg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 42,
+    "fields": {
+      "richting": 2,
+      "tellus": 28,
+      "naam": "stad-in (zuid)",
+      "zijstraat": "Hagendoornplein"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 43,
+    "fields": {
+      "richting": 1,
+      "tellus": 29,
+      "naam": "Raadhuisstraat",
+      "zijstraat": "Klimopstraatje"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 44,
+    "fields": {
+      "richting": 2,
+      "tellus": 30,
+      "naam": "Prins Hendrikkade",
+      "zijstraat": "Nieuwezijds Armsteeg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 45,
+    "fields": {
+      "richting": 1,
+      "tellus": 31,
+      "naam": "Westertoegang - Noordbuis",
+      "zijstraat": "Oostertoegang"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 46,
+    "fields": {
+      "richting": 2,
+      "tellus": 31,
+      "naam": "Oostertoegang - Zuidbuis",
+      "zijstraat": "Westertoegang"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 47,
+    "fields": {
+      "richting": 1,
+      "tellus": 32,
+      "naam": "Prins Hendrikkade",
+      "zijstraat": "Oudebrugsteeg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 48,
+    "fields": {
+      "richting": 1,
+      "tellus": 33,
+      "naam": "Nieuwe Hemweg",
+      "zijstraat": "Nieuwe Hemweg"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 49,
+    "fields": {
+      "richting": 2,
+      "tellus": 33,
+      "naam": "Houtmankade",
+      "zijstraat": "Houtmankade"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 50,
+    "fields": {
+      "richting": 1,
+      "tellus": 34,
+      "naam": "Havikslaan",
+      "zijstraat": "Havikslaan"
+    }
+  },
+  {
+    "model": "tellus_data.telrichting",
+    "pk": 51,
+    "fields": {
+      "richting": 2,
+      "tellus": 34,
+      "naam": "Prins Hendrikkade",
+      "zijstraat": "Prins Hendrikkade"
+    }
+  }
+]

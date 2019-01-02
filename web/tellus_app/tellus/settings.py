@@ -70,7 +70,11 @@ def get_database_key():
 insecure_key = 'insecure'
 SECRET_KEY = os.getenv('SECRET_KEY', insecure_key)
 
-DEBUG = SECRET_KEY == insecure_key
+if os.getenv('DEBUG'):
+    DEBUG = os.getenv('DEBUG') == 'True'
+else:
+    DEBUG = SECRET_KEY == insecure_key
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -121,13 +125,17 @@ if DEBUG:
     INSTALLED_APPS += (
         'django_extensions',
         'debug_toolbar',
+        'corsheaders',
     )
 
     MIDDLEWARE = (
         "django.middleware.security.SecurityMiddleware",
+        'corsheaders.middleware.CorsMiddleware',
         "django.middleware.common.CommonMiddleware",
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
+
+    CORS_ORIGIN_ALLOW_ALL = DEBUG
 
 
 ROOT_URLCONF = 'tellus.urls'
@@ -228,7 +236,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
 
-HEALTH_MODEL = 'tellus_data.TellusData'
+HEALTH_MODEL = 'tellus_data.Telling'
 
 LOGGING = {
     'version': 1,
