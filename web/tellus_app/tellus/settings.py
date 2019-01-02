@@ -73,7 +73,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', insecure_key)
 if os.getenv('DEBUG'):
     DEBUG = os.getenv('DEBUG') == 'True'
 else:
-    DEBUG: SECRET_KEY == insecure_key
+    DEBUG = SECRET_KEY == insecure_key
 
 
 ALLOWED_HOSTS = ['*']
@@ -130,6 +130,7 @@ if DEBUG:
 
     MIDDLEWARE = (
         "django.middleware.security.SecurityMiddleware",
+        'corsheaders.middleware.CorsMiddleware',
         "django.middleware.common.CommonMiddleware",
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )

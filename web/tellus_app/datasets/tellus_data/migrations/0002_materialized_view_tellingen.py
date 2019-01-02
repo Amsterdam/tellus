@@ -41,7 +41,8 @@ CREATE MATERIALIZED VIEW tellus_data_cars_per_hour
     ORDER BY tellus.id,
              richting.richting,
              tijd_van
-WITH DATA
+WITH DATA;
+CREATE UNIQUE INDEX tellus_data_cars_per_hour_pkey ON tellus_data_cars_per_hour(id);
         """, """
 DROP MATERIALIZED VIEW IF EXISTS "tellus_data_cars_per_hour";
         """),
