@@ -27,4 +27,4 @@ services:
               && python manage.py migrate \
               && export DJANGO_SETTINGS_MODULE=tellus.settings \
               && python importer.py\
-              && python import_validator.py
+              && python import_validator.py"
