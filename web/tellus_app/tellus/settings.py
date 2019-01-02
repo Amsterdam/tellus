@@ -117,7 +117,7 @@ INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # "authorization_django.authorization_middleware",
+    "authorization_django.authorization_middleware",
 ]
 
 
