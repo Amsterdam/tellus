@@ -1,11 +1,18 @@
 import os
+
+import pytz
+from dateutil.parser import parse as parse_date
 from unittest import TestCase
 from unittest import mock
 
 import openpyxl
 
-from datasets.tellus_data.models import Tellus, SnelheidsCategorie, TellusData
+from datasets.tellus_data.models import Tellus, SnelheidsCategorie, Telling, SnelheidsInterval, Meetlocatie, \
+    TelRichting, LengteInterval
 from importer import TellusImporter
+
+TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+FIXTURE_DIR = path = os.path.join(TEST_DIR, 'fixture_files/')
 
 
 class TestImport(TestCase):
@@ -15,16 +22,13 @@ class TestImport(TestCase):
         assert patched_import_meta == TellusImporter._import_meta
 
         def import_meta(self, codebook_filename):
-            print('HERE', codebook_filename)
-            filepath = os.path.dirname(os.path.abspath(__file__))
-            wb = openpyxl.load_workbook(
-                "{}/fixture_files/{}".format(filepath, codebook_filename))
+            wb = openpyxl.load_workbook(os.path.join(FIXTURE_DIR, codebook_filename))
             return {
-                sheet_name: wb.get_sheet_by_name(sheet_name)
-                for sheet_name in wb.get_sheet_names()}
+                sheet_name: wb[sheet_name]
+                for sheet_name in wb.sheetnames}
 
         # patch `_import_meta`
-        TellusImporter._import_meta = import_meta
+        TellusImporter._import_meta =  import_meta
         self.my_importer = TellusImporter(
             codebook="metadata.xlsx",
             codebook_addon="metadata_aanvulling.xlsx")
@@ -35,29 +39,37 @@ class TestImport(TestCase):
         assert len(self.my_importer.codebook_sheets) == 7
 
     def test_process_tellus_import(self):
-        self.my_importer.process_lengte_categorie()
+        self.my_importer.process_meetraai_categorie()
+        self.my_importer.process_representatief_categorie()
+        self.my_importer.process_validatie_categorie()
+
+        self.my_importer.process_lengte_interval()
+        lengteInterval = LengteInterval.objects.get(id=1)
+        self.assertEqual(lengteInterval.label, '0 - 5,1 m')
+
         self.my_importer.process_snelheids_categorie()
-        assert SnelheidsCategorie.objects.count() == 4
-        # import the `tellus_locaties`
+        self.assertEqual(SnelheidsInterval.objects.count(), 20)
+        snelheidsInterval = SnelheidsCategorie.objects.get(categorie=1, index=1).interval
+        self.assertEqual(snelheidsInterval.label, '< 30 km/u')
+
         self.my_importer.process_tellus_locaties()
+        self.assertEqual(Tellus.objects.count(), 30)
+        self.assertEqual(Meetlocatie.objects.count(), 26)
+        telRichting = TelRichting.objects.get(tellus__meetlocatie=29, richting=2)
+        self.assertEqual(telRichting.naam, 'Prins Hendrikkade')
+        self.assertEqual(telRichting.zijstraat, 'Nieuwezijds Armsteeg')
 
-        # count the number of rows imported in `Tellus` (location)
-        assert Tellus.objects.count() == 26
 
-        # import the latest file `telling_data`
-        # write fixture data
-        os.makedirs('/tmp/tellus', exist_ok=True)
-        filepath = os.path.dirname(os.path.abspath(__file__))
-        with open('/tmp/tellus/tellus.csv', 'w') as f:
-            f.write(open(
-                "{}/fixture_files/AMS365_2016-10.csv".format(filepath)).read())
+        self.my_importer.process_tellingen(os.path.join(FIXTURE_DIR, 'AMS365_2016-10.csv'))
+        self.assertEqual(Telling.objects.count(), 2040)
 
-        self.my_importer.process_telling_data()
-        assert TellusData.objects.count() == 34
-
-        with open('/tmp/tellus/tellus.csv', 'w') as f:
-            f.write(open(
-                "{}/fixture_files/AMS365_2016-11.csv".format(filepath)).read())
-
-        self.my_importer.process_telling_data()
-        assert TellusData.objects.count() == 68
+        self.my_importer.process_tellingen(os.path.join(FIXTURE_DIR, 'AMS365_2016-11.csv'))
+        self.assertEqual(Telling.objects.count(), 4080)
+        time = parse_date('2016-11-11T22:00:00').replace(tzinfo=pytz.UTC)
+        telling = Telling.objects.get(
+            tijd_van=time,
+            tel_richting=telRichting.pk,
+            snelheids_interval=snelheidsInterval.pk,
+            lengte_interval=lengteInterval.pk
+        )
+        self.assertEqual(telling.aantal, 37)  # Value c1 for last row of 'AMS365_2016-11.csv'

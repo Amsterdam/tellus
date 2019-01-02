@@ -1,0 +1,1 @@
+[{"model": "tellus_data.meetraaicategorie", "pk": 0, "fields": {"label": "niet compleet"}}, {"model": "tellus_data.meetraaicategorie", "pk": 1, "fields": {"label": "compleet"}}, {"model": "tellus_data.meetraaicategorie", "pk": 2, "fields": {"label": "niet compleet, data wel bruikbaar"}}]
