@@ -77,6 +77,6 @@ def fetch_tellus_data_file_names():
     folder = 'data'
     for file_object in get_full_container_list("tellus", prefix=folder):
         if file_object['content_type'] != 'application/directory':
-            log.info("Found file {}".format(file_object['name']))
+            # log.info("Found file {}".format(file_object['name']))
             files.append(file_object['name'])
     return files
