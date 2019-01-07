@@ -161,10 +161,6 @@ def process_telling_sheet(csv_reader):
 
             row_cnt += 1
 
-            if row_cnt > 1000:
-                log.info("Stopping import of file after 1000 lines!")
-                break  # TODO: remove early termination
-
         if batch_idx > 0:
             # Insert remaining (partial) batch
             insert_telling_batch(cursor, batch_list[:batch_idx])

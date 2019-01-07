@@ -223,7 +223,4 @@ if __name__ == "__main__":
         print(data_path)
         importer.process_tellingen(data_path)
 
-        log.info("TERMINATING AFTER SINGLE FILE!")
-        break  # TODO: remove early termination
-
     log.info("Done importing tellus data")
