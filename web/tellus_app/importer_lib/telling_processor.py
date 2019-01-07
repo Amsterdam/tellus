@@ -1,4 +1,5 @@
 import logging
+
 import pytz
 import functools
 import time
@@ -71,7 +72,7 @@ def get_tel_richting(meetlocatie_str, richting_id):
         try:
             location_id = int(meetlocatie_str[1:3])
         except Exception as e:
-            print(f"failure to convert string to id: {meetlocatie_str}")
+            log.error(f"failure to convert string to id: {meetlocatie_str}")
             raise e
 
     return TelRichting.objects.get(
@@ -89,7 +90,7 @@ def insert_telling_batch(cursor, batch_list):
                    ") VALUES" + args_str)
 
 
-def process_telling_sheet(csv_reader):
+def process_telling_sheet(file_name, csv_reader):
     t0 = time.time()
 
     skipped_row_cnt = 0
@@ -104,6 +105,7 @@ def process_telling_sheet(csv_reader):
         next(csv_reader, None)
         row_cnt = 0
         item_cnt = 0
+
         for trow in csv_reader:
             if not trow[0]:
                 log.debug('Ignoring empty row.')
@@ -125,11 +127,11 @@ def process_telling_sheet(csv_reader):
                 # there is no reference to it.
                 # T32 is measuring a one way street. So any counts in the opposite direction are
                 # illogical and we'll skip them during this import.
-                log.debug(f"TelRichting not found for : {trow[0]}, {trow[1]}, skipping")
+                log.info(f"TelRichting not found for : {trow[0]}, {trow[1]}, skipping")
                 skipped_row_cnt += 1
                 continue
             except Exception as e:
-                log.debug(f"Error querying database: {trow[0]}, {trow[1]}")
+                log.error(f"Error querying database for telRichting: meetlocatie {trow[0]}, richting {trow[1]}")
                 raise e
 
             snelheids_categorie = tel_richting.tellus.snelheids_categorie
@@ -153,7 +155,7 @@ def process_telling_sheet(csv_reader):
                     item_cnt += batch_insert_count
 
                     difference = time.time() - t0  # in seconds
-                    log.debug(f"Import count: "
+                    log.debug(f"{file_name[-10:]}, Import count: "
                               f"{str(item_cnt)}items, "
                               f"elapsed {int(difference)}s, "
                               f"speed: {item_cnt / difference} items/s")

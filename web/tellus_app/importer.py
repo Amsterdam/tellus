@@ -187,26 +187,25 @@ class TellusImporter(object):
         target_path = os.path.join('/tmp/tellus/', filename)
         exists = os.path.isfile(target_path)
         if exists:
-            print("File exists, skipping download: {}".format(obj_store_path))
+            log.info("File exists, skipping download: {}".format(obj_store_path))
         else:
             with open(target_path, 'wb') as f:
                 f.write(fetch_tellus_data_file_object(obj_store_path))
         return target_path
 
-    def process_tellingen(self, csv_file_path):
-        with open(csv_file_path) as csv_file:
-            csvReader = csv.reader(csv_file, dialect='excel', delimiter=';')
-            process_telling_sheet(csvReader)
 
-
-if __name__ == "__main__":
+def get_importer():
     assert os.getenv('TELLUS_OBJECTSTORE_PASSWORD')
-
     os.makedirs('/tmp/tellus', exist_ok=True)
-    importer = TellusImporter(
+    return TellusImporter(
         codebook='AMS365_codeboek_v5.xlsx',
         codebook_addon='AMS365_codeboek_v8_aanvulling.xlsx'
     )
+
+
+def import_core():
+    importer = get_importer()
+
     importer.process_meetraai_categorie()
     importer.process_representatief_categorie()
     importer.process_validatie_categorie()
@@ -214,13 +213,34 @@ if __name__ == "__main__":
     importer.process_snelheids_categorie()
     importer.process_tellus_locaties()
 
+    log.info("Done importing tellus core")
+
+
+def import_telling(csv_path):
+    file_name = os.path.basename(csv_path)
+    with open(csv_path) as csv_file:
+        csvReader = csv.reader(csv_file, dialect='excel', delimiter=';')
+        process_telling_sheet(file_name, csvReader)
+
+
+def prepare_import_tellingen():
+    """
+    Delete existing Tellingen objects AND get source data (csv files)
+    :return:
+    """
+    assert os.getenv('TELLUS_OBJECTSTORE_PASSWORD')
+    importer = get_importer()
+
     log.debug("Delete all telling objects: ")
     Telling.objects.all().delete()
     log.debug("Delete telling objects done")
 
-    for file_name in fetch_tellus_data_file_names():
-        data_path = importer.download_tellus_data(file_name)
-        print(data_path)
-        importer.process_tellingen(data_path)
+    file_names = fetch_tellus_data_file_names()
 
-    log.info("Done importing tellus data")
+    file_paths = [importer.download_tellus_data(file_name) for file_name in file_names]
+    return file_paths
+
+
+def get_tellingen_count():
+    return Telling.objects.all().count()
+
