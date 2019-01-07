@@ -24,7 +24,7 @@ def import_tellingen_job(csv_path):
 
 def import_tellingen_parallel(csv_paths):
     cpu_count = multiprocessing.cpu_count()
-    pool_size = int(cpu_count / 2)
+    pool_size = int(cpu_count)
     logging.info(f"pool size: {pool_size}")
     tp = ThreadPool(pool_size)
 
