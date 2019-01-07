@@ -26,5 +26,5 @@ services:
       bash -c "/app/docker-wait.sh \
               && python manage.py migrate \
               && export DJANGO_SETTINGS_MODULE=tellus.settings \
-              && python importer.py\
+              && python import_all.py\
               && python import_validator.py"
