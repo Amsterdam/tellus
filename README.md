@@ -39,8 +39,11 @@ Tellus API and import  module.
     http://127.0.0.1:8000/status/data
 
 ### Importeer de meest recente database van acceptatie:
+Als je SSH sleutel bekend is bij Datapunt kun je de acceptatie database
+downloaden naar een lokaal draaiende versie van het Tellus project (in
+het voorbeeld moet je `username` vervangen door jouw username bij Datapunt).
 
-    docker-compose exec database update-db.sh tellus
+    docker-compose exec database update-db.sh tellus <username>
 
 ### Tellus import
 #### Location of the datafiles
