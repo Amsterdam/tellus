@@ -59,7 +59,7 @@ def get_representatief_category(id):
     return RepresentatiefCategorie.objects.get(id=id)
 
 
-# @memoize
+@memoize
 def get_tel_richting(meetlocatie_str, richting_id):
     # meetlocatie_str, e.g.: 2, T02 or T12+13
     try:
