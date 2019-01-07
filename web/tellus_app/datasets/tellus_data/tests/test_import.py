@@ -9,7 +9,7 @@ import openpyxl
 
 from datasets.tellus_data.models import Tellus, SnelheidsCategorie, Telling, SnelheidsInterval, Meetlocatie, \
     TelRichting, LengteInterval
-from importer import TellusImporter
+from importer import TellusImporter, import_telling
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 FIXTURE_DIR = path = os.path.join(TEST_DIR, 'fixture_files/')
@@ -60,10 +60,10 @@ class TestImport(TestCase):
         self.assertEqual(telRichting.zijstraat, 'Nieuwezijds Armsteeg')
 
 
-        self.my_importer.process_tellingen(os.path.join(FIXTURE_DIR, 'AMS365_2016-10.csv'))
+        import_telling(os.path.join(FIXTURE_DIR, 'AMS365_2016-10.csv'))
         self.assertEqual(Telling.objects.count(), 2040)
 
-        self.my_importer.process_tellingen(os.path.join(FIXTURE_DIR, 'AMS365_2016-11.csv'))
+        import_telling(os.path.join(FIXTURE_DIR, 'AMS365_2016-11.csv'))
         self.assertEqual(Telling.objects.count(), 4080)
         time = parse_date('2016-11-11T22:00:00').replace(tzinfo=pytz.UTC)
         telling = Telling.objects.get(
