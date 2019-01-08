@@ -1,3 +1,4 @@
+import atexit
 import logging
 
 import pytz
@@ -79,6 +80,24 @@ def get_tel_richting(meetlocatie_str, richting_id):
         richting=richting_id,
         tellus__meetlocatie__id=location_id
     )
+
+
+def clear_memoize_caches():
+    """
+    Clears any caches created by memoize, required before exiting because django/contrib/gis will throw an error if
+    program exits while a Gis object is still in memory.
+    Related to: https://github.com/django/django/pull/10130, but not solved by Django 2.1.3
+    """
+    get_speed_interval_id.cache.clear()
+    get_length_interval_id.cache.clear()
+    get_validation_category.cache.clear()
+    get_meetraai_category.cache.clear()
+    get_representatief_category.cache.clear()
+    get_tel_richting.cache.clear()
+
+
+# Set function to be executed on normal program exit
+atexit.register(clear_memoize_caches)
 
 
 def insert_telling_batch(cursor, batch_list):
@@ -166,3 +185,5 @@ def process_telling_sheet(file_name, csv_reader):
         if batch_idx > 0:
             # Insert remaining (partial) batch
             insert_telling_batch(cursor, batch_list[:batch_idx])
+
+    clear_memoize_caches()
