@@ -8,6 +8,7 @@ import time
 from dateutil.parser import parse as parse_date
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
+from psycopg2.extras import execute_values
 
 from datasets.tellus_data.models import SnelheidsCategorie
 from datasets.tellus_data.models import MeetraaiCategorie
@@ -100,13 +101,15 @@ def clear_memoize_caches():
 atexit.register(clear_memoize_caches)
 
 
-def insert_telling_batch(cursor, batch_list):
-    args_str = ','.join(batch_list)
-    cursor.execute("INSERT INTO tellus_data_telling " +
-                   "(tel_richting_id, tijd_van, tijd_tot, aantal, lengte_interval_id, " +
-                   "snelheids_interval_id, validatie_categorie_id," +
-                   "meetraai_categorie_id, representatief_categorie_id" +
-                   ") VALUES" + args_str)
+def insert_telling_batch(cursor, values_list):
+    insertQuery = """
+INSERT INTO tellus_data_telling 
+(tel_richting_id, tijd_van, tijd_tot, aantal, lengte_interval_id, 
+snelheids_interval_id, validatie_categorie_id,
+meetraai_categorie_id, representatief_categorie_id)
+VALUES %s
+"""
+    execute_values(cursor, insertQuery, values_list)
 
 
 def process_telling_sheet(file_name, csv_reader):
@@ -163,10 +166,10 @@ def process_telling_sheet(file_name, csv_reader):
                 snelheids_interval_id = get_speed_interval_id(snelheids_categorie, speed_id)
                 lengte_interval_id = get_length_interval_id(length_id)
                 aantal = int(trow[count_idx])
-                query = f"({tel_richting.id},'{tijd_van}','{tijd_tot}',{aantal}," \
-                        f"{lengte_interval_id},{snelheids_interval_id},{validatie_category.id}," \
-                        f"{meetraai_category.id},{representatief_category.id})"
-                batch_list[batch_idx] = query
+                values = (tel_richting.id,tijd_van,tijd_tot,aantal,
+                        lengte_interval_id,snelheids_interval_id,validatie_category.id,
+                        meetraai_category.id,representatief_category.id)
+                batch_list[batch_idx] = values
 
                 batch_idx += 1
                 if not batch_idx % batch_insert_count:
