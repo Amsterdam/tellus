@@ -10,7 +10,6 @@ from django.contrib.gis.measure import Distance
 from datapunt_api.rest import DatapuntViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 
-from api.countless_pagination import HALCursorCountlessPagination
 from datasets.tellus_data import models
 from datasets.tellus_data.models import Tellus
 
@@ -131,7 +130,6 @@ class TellusDataCarsPerHourPerDayViewSet(DatapuntViewSet):
     serializer_detail_class = serializers.TellingCarsPerHourPerDaySerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('dag_type', )
-    # pagination_class = HALCursorCountlessPagination
 
 
 class TellusDataCarsPerHourLengthViewSet(DatapuntViewSet):
@@ -148,7 +146,6 @@ class TellusDataCarsPerHourLengthViewSet(DatapuntViewSet):
     queryset = models.TellingCarsPerHourLength.objects.all().order_by('pk')
     serializer_class = serializers.TellingCarsPerHourLengthSerializer
     serializer_detail_class = serializers.TellingCarsPerHourLengthSerializer
-    pagination_class = HALCursorCountlessPagination
 
 
 class TellusDataCarsPerHourSpeedViewSet(DatapuntViewSet):
@@ -165,4 +162,3 @@ class TellusDataCarsPerHourSpeedViewSet(DatapuntViewSet):
     queryset = models.TellingCarsPerHourSpeed.objects.all().order_by('pk')
     serializer_class = serializers.TellingCarsPerHourSpeedSerializer
     serializer_detail_class = serializers.TellingCarsPerHourSpeedSerializer
-    pagination_class = HALCursorCountlessPagination
