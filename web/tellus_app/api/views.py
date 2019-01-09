@@ -131,7 +131,7 @@ class TellusDataCarsPerHourPerDayViewSet(DatapuntViewSet):
     serializer_detail_class = serializers.TellingCarsPerHourPerDaySerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('dag_type', )
-    pagination_class = HALCursorCountlessPagination
+    # pagination_class = HALCursorCountlessPagination
 
 
 class TellusDataCarsPerHourLengthViewSet(DatapuntViewSet):
