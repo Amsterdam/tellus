@@ -162,3 +162,23 @@ class TellusDataCarsPerHourSpeedViewSet(DatapuntViewSet):
     queryset = models.TellingCarsPerHourSpeed.objects.all().order_by('pk')
     serializer_class = serializers.TellingCarsPerHourSpeedSerializer
     serializer_detail_class = serializers.TellingCarsPerHourSpeedSerializer
+
+
+class TellusDataYMHViewSet(DatapuntViewSet):
+    queryset = models.TellingCarsYMH.objects.all().order_by('pk')
+    serializer_class = serializers.TellingCarsYMHSerializer
+    serializer_detail_class = serializers.TellingCarsYMHSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('dag_type', )
+
+
+class TellusDataYMHLengthViewSet(DatapuntViewSet):
+    queryset = models.TellingCarsYMHLength.objects.all().order_by('pk')
+    serializer_class = serializers.TellingCarsYMHLengthSerializer
+    serializer_detail_class = serializers.TellingCarsYMHLengthSerializer
+
+
+class TellusDataYMHSpeedViewSet(DatapuntViewSet):
+    queryset = models.TellingCarsYMHSpeed.objects.all().order_by('pk')
+    serializer_class = serializers.TellingCarsSpeedYMHSerializer
+    serializer_detail_class = serializers.TellingCarsSpeedYMHSerializer

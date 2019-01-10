@@ -230,3 +230,57 @@ class TellingCarsPerHourSpeed(TellingAggregate):
     class Meta:
         managed = False
         db_table = 'tellus_data_cars_per_hour_speed'
+
+
+class TellingAggregateYMH(models.Model):
+    """
+    Common model for several aggregate models.
+    """
+    id = models.IntegerField(primary_key=True)
+    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
+    richting = models.IntegerField()
+    year = models.IntegerField()
+    month = models.IntegerField()
+    hour = models.IntegerField()  # Start of hourly time window
+    dag_type = models.CharField(max_length=80, choices=DAY_TYPES)
+    aantal = models.IntegerField()
+
+    # Disallow changes to this database through Django ORM!
+    def save(self, *args, **kwargs):
+        raise NotImplementedError
+
+    def delete(self, *args, **kwargs):
+        raise NotImplementedError
+
+    def __str__(self):
+        return "{} 1 uur lang vanaf {} in maand {} gemeten".format(
+            self.tel_richting,
+            self.hour,
+            str(self.year) + '-' + str(self.month))
+
+    class Meta:
+        abstract = True
+
+
+class TellingCarsYMH(TellingAggregateYMH):
+    class Meta:
+        managed = False
+        db_table = 'tellus_data_year_month_hour'
+
+
+class TellingCarsYMHLength(TellingAggregateYMH):
+    lengte_interval = models.ForeignKey(LengteInterval, on_delete=CASCADE)
+    lengte_label = models.CharField(max_length=40, unique=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tellus_data_year_month_hour_length'
+
+
+class TellingCarsYMHSpeed(TellingAggregateYMH):
+    snelheids_interval = models.ForeignKey(SnelheidsInterval, on_delete=CASCADE)
+    snelheids_label = models.CharField(max_length=40, unique=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tellus_data_year_month_hour_speed'
