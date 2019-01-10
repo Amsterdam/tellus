@@ -21,15 +21,7 @@ CREATE MATERIALIZED VIEW tellus_data_cars_per_hour_length
            lengte.label as lengte_label, 
            richting.richting as richting_id,
            telling.tijd_van as dag_uur,
-           (CASE
-              WHEN
-               DATE_PART('day', telling.tijd_van) NOT IN (0,6)
-                      THEN 'Werkdag'
-              WHEN
-               DATE_PART('day', telling.tijd_van) IN (0,6)
-                      THEN
-               'Weekend'
-               END) AS dag_type,
+           (CASE WHEN extract(DAY from telling.tijd_van) NOT IN (0,6) THEN 'Werkdag' ELSE 'Weekend' END) AS dag_type,
            SUM(telling.aantal) AS aantal
     FROM tellus_data_telling telling
            LEFT join tellus_data_telrichting richting
