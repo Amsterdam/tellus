@@ -5,7 +5,8 @@ import subprocess
 from multiprocessing.pool import ThreadPool
 
 from import_single import import_single
-from importer import import_core, prepare_import_tellingen, get_tellingen_count
+from importer import import_core, prepare_import_tellingen, get_tellingen_count, refresh_materialized_views
+
 DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 DO_PARALLEL = True
 
@@ -52,6 +53,10 @@ def import_all():
 
     logging.info("Done importing tellus data")
     logging.info(f"{get_tellingen_count()} tellingen")
+
+    logging.info(f'Refreshing materialized views')
+    refresh_materialized_views()
+    logging.info(f'Refreshing views done')
 
 
 if __name__ == "__main__":

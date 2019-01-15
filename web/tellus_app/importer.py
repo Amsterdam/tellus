@@ -9,6 +9,7 @@ import openpyxl
 
 django.setup()
 
+from django.db import connection
 from importer_lib.speed_processor import create_speed_intervals, create_speed_category  # noqa
 from importer_lib.length_processor import create_length_intervals  # noqa
 from importer_lib.telling_processor import process_telling_sheet  # noqa
@@ -239,6 +240,22 @@ def prepare_import_tellingen():
 
     file_paths = [importer.download_tellus_data(file_name) for file_name in file_names]
     return file_paths
+
+
+def refresh_materialized_views():
+    views = [
+        'tellus_data_cars_per_hour',
+        'tellus_data_cars_per_hour_length',
+        'tellus_data_cars_per_hour_speed',
+        'tellus_data_year_month_hour',
+        'tellus_data_year_month_hour_length',
+        'tellus_data_year_month_hour_speed',
+    ]
+
+    for view in views:
+        with connection.cursor() as cursor:
+            log.info(f'refreshing materialized view {view}')
+            cursor.execute(f"REFRESH MATERIALIZED VIEW public.{view}")
 
 
 def get_tellingen_count():
