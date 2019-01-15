@@ -39,10 +39,11 @@ def check_import():
     assert_count(30, Tellus.objects.count(), 'Tellus count')
     assert_count(20, SnelheidsInterval.objects.count(), 'SnelheidsInterval count')
     assert_count(6, LengteInterval.objects.count(), 'LengteInterval count')
-    
-    # TODO: bump expected count up when including 2016 file again
+
+    # TODO: bump expected count up when including all files again
     # assert_count(50 * 1000 * 1000, Telling.objects.count(), 'Tellingen count')
-    assert_count(40 * 1000 * 1000, Telling.objects.count(), 'Tellingen count')
+    # assert_count(40 * 1000 * 1000, Telling.objects.count(), 'Tellingen count')
+    assert_count(1 * 1000 * 1000, Telling.objects.count(), 'Tellingen count')
 
 
     log_leaf_migrations()

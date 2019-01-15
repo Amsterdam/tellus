@@ -42,7 +42,8 @@ def import_all():
     # TODO: remove filter
     # Removing very big import file for faster import development cycle
     # Parallel code is as fast as it's slowest component
-    csv_paths = list(filter(lambda path: not path.endswith('AMS365_2016.csv'), csv_paths))
+    # csv_paths = list(filter(lambda path: not path.endswith('AMS365_2016.csv'), csv_paths))
+    csv_paths = csv_paths[-1:]  # TODO: remove only use last file test setup
 
     if DO_PARALLEL:
         import_tellingen_parallel(csv_paths)
