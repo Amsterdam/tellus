@@ -29,4 +29,4 @@ services:
       - UWSGI_HTTP=0.0.0.0:8000
       - UWSGI_MODULE=tellus.wsgi:application
       - UWSGI_MASTER=1
-      - UWSGI_STATIC_MAP=/tellus/static=/static
+      - UWSGI_STATIC_MAP=/static=/static

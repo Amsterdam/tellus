@@ -324,7 +324,7 @@ LOGGING = {
 
 # The following JWKS data was obtained in the authz project :
 # jwkgen -create -alg ES256
-# This is a test public/private key def and added for testing .
+# This is a test public/private key def and added for testing.
 JWKS_TEST_KEY = """
     {
         "keys": [
@@ -349,7 +349,6 @@ DATAPUNT_AUTHZ = {
     'MIN_SCOPE': 'TLLS/R',
     'FORCED_ANONYMOUS_ROUTES': (
         '/status/',
-        '/tellus/static/',
         '/tellus/tellus/',
         '/tellus/lengtecategorie/',
         '/tellus/snelheidscategorie/'

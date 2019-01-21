@@ -3,9 +3,9 @@ Tellus vehicle movements API and import module.
 
 Exposes API to query vehicle movements counted by "Tellussen".
 Tellussen are etched into the roads at several locations in Amsterdam and they count passing vehicles.
-The API exposes vehicle counts, speed, direction and length in several areas in the city of Amsterdam.
-The most raw form of these counts are grouped per hour.
-But for performance reasons aggregates are also provided.
+The API exposes vehicle counts, speed, direction and length at several locations in the city of Amsterdam.
+These counts are available up to a resolution of an hour, but for performance reasons aggregates are also provided.
+
 
 ## Development 
 
@@ -14,6 +14,13 @@ But for performance reasons aggregates are also provided.
 * Docker-Compose (recommended)
 
 
+The app can be developed using docker for everything or having only the database in docker.
+After using either method the following end points will be available: 
+
+* Basic web server and database health check: http://127.0.0.1:8107/status/health
+* Basic database data health check: http://127.0.0.1:8107/status/data
+* API overview: http://127.0.0.1:8107/tellus/
+* A list view: http://127.0.0.1:8107/tellus/tellus/
 
 ### Local dockers
 
@@ -22,58 +29,61 @@ Start the database and webapp with:
 ```
 docker-compose up -d --build
 ```
-
-The following end points will be available 
-* Basic web server and database health check: http://127.0.0.1:8107/status/health
-* Basic database data health check: http://127.0.0.1:8107/status/data
-* API overview: http://127.0.0.1:8107/tellus/
-
 	
 ### Dockers DB with local server
 
-```
-# start the local docker containers
-docker-compose up -d --build
+Start the docker database
+    
+    docker-compose up -d --build database
 
-# create virtual environment (use the appropiate python binary)
-virtualenv -p /usr/local/bin/python3 venv
-source venv/bin/activate
+Optionally use virtualenv:
 
-# install the requirements in the virtual env
-pip install -r requirements.txt
+    virtualenv -p /usr/local/bin/python3 venv
+    source venv/bin/activate
+    
+Install the requirements:
 
-# run database migrations
-export DJANGO_SETTINGS_MODULE=tellus.settings
-./web/tellus_app/manage.py migrate
+    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
 
-# start server
-./web/tellus_app/manage.py runserver  
+Run database migrations
 
-# check out status using
-http://127.0.0.1:8000/status/health
-http://127.0.0.1:8000/status/data
-```
+    ./web/tellus_app/manage.py migrate
+
+Start the server
+
+    ./web/tellus_app/manage.py runserver
 
 
-### Importeer de meest recente database van acceptatie:
-Als je SSH sleutel bekend is bij Datapunt kun je de acceptatie database
-downloaden naar een lokaal draaiende versie van het Tellus project (in
-het voorbeeld moet je `username` vervangen door jouw username bij Datapunt).
+## Import
 
-    docker-compose exec database update-db.sh tellus <username>
+An import or copy of a running database is required to work with actual data.
 
-## Tellus import
-### Location of the data files
+### Perform import from raw data
+
+The best way to get data into your environment is to run the import process on the raw data.
+You will need access to the DataPunt object store.
+
+
 Login to Rattic and retrieve the tellus objectstore password for CloudVPS Tellus.
 
 Login to https://stack.cloudvps.com/ with the user 'tellus'.
 
-#### Run the import
+Run the code
 
     export DJANGO_SETTINGS_MODULE=tellus.settings
     export TELLUS_OBJECTSTORE_PASSWORD=XXX_from_step_above_XXX
     python ./web/tellus_app/importer.py
 
-Check out the database tool pgadmin on host 'localhost' , port 5409.
-
  
+### Copy acceptance database
+If your SSH key is accepted by DataPunt you are able to copy the acceptance database
+to you local project.
+
+Use the following command:
+
+    docker-compose exec database update-db.sh tellus <username>
+ 
+Replace `<username>` with your DataPunt username.
+And please note that the process may take very long.
+
