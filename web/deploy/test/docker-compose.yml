@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: tellus
 
   tests:
-    build: ../web
+    build: ../../
     links:
       - database
     environment:
@@ -15,4 +15,4 @@ services:
       DATABASE_USER: tellus
       DATABASE_PASSWORD: insecure
     command: >
-      bash -c "cd /app && ./docker-wait.sh && ./docker-code-check.sh && ./docker-test.sh"
+      bash -c "cd /app && /deploy/docker-wait.sh && ./docker-code-check.sh && ./docker-test.sh"
