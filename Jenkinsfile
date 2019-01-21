@@ -26,11 +26,11 @@ node {
     stage('Test') {
         tryStep "test", {
             withCredentials([[$class: 'StringBinding', credentialsId: 'TELLUS_OBJECTSTORE_PASSWORD', variable: 'TELLUS_OBJECTSTORE_PASSWORD']]) {
-            sh "docker-compose -p tellus -f .jenkins-test/docker-compose.yml build && " +
-                    "docker-compose -p tellus -f .jenkins-test/docker-compose.yml run -u root --rm tests"
+            sh "docker-compose -p tellus -f web/deploy/test/docker-compose.yml build && " +
+                    "docker-compose -p tellus -f web/deploy/test/docker-compose.yml run -u root --rm tests"
         }
         }, {
-            sh "docker-compose -p tellus -f .jenkins-test/docker-compose.yml down"
+            sh "docker-compose -p tellus -f web/deploy/test/docker-compose.yml down"
         }
     }
 

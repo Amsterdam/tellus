@@ -5,7 +5,7 @@ set -e   # stop on any error
 set -x
 
 echo Collecting static files
-yes yes | python manage.py collectstatic
+python manage.py collectstatic --no-input
 
 ls -al /static/
 

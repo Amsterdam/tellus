@@ -98,7 +98,6 @@ INSTALLED_APPS = [
     'tellus',
     'datasets.tellus_data',
 
-
     "django_filters",
     'django.contrib.gis',
     'rest_framework',

@@ -27,9 +27,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 USER datapunt
 
 COPY tellus_app /app/
-COPY .jenkins-import /.jenkins-import/
+COPY deploy /deploy/
 
 RUN export DJANGO_SETTINGS_MODULE=tellus.settings
 
-CMD ["/app/docker-run.sh"]
+CMD ["/deploy/docker-run.sh"]
 
