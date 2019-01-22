@@ -29,7 +29,7 @@ USER datapunt
 COPY tellus_app /app/
 COPY deploy /deploy/
 
-RUN export DJANGO_SETTINGS_MODULE=tellus.settings
+ENV DJANGO_SETTINGS_MODULE=tellus.settings
 
 CMD ["/deploy/docker-run.sh"]
 
