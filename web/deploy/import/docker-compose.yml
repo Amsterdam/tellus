@@ -22,4 +22,4 @@ services:
       DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
     volumes:
       - ./import-run.sh:/app/import-run.sh
-    command: /app/import/run.sh
+    command: /app/import-run.sh
