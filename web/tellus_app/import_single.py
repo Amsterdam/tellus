@@ -2,10 +2,13 @@ import logging
 import os
 import sys
 
-from importer import import_telling
+from importer_lib.importer import import_telling
 
 
 def import_single(csv_path):
+    """
+    Import tellingen in a single csv file
+    """
     filename = os.path.basename(csv_path)
     logging.basicConfig(level=logging.INFO, format=f'Foo{filename[-20:]} %(message)s')
 

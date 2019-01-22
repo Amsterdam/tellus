@@ -5,7 +5,7 @@ import subprocess
 from multiprocessing.pool import ThreadPool
 
 from import_single import import_single
-from importer import import_core, prepare_import_tellingen, get_tellingen_count, refresh_materialized_views
+from importer_lib.importer import import_core, prepare_import_tellingen, get_tellingen_count, refresh_materialized_views
 
 DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 DO_PARALLEL = True
@@ -24,6 +24,9 @@ def import_tellingen_job(csv_path):
 
 
 def import_tellingen_parallel(csv_paths):
+    """
+    Run tellingen import process per file
+    """
     cpu_count = multiprocessing.cpu_count()
     pool_size = int(cpu_count)
     logging.info(f"pool size: {pool_size}")
@@ -37,6 +40,10 @@ def import_tellingen_parallel(csv_paths):
 
 
 def import_all():
+    """
+    Import all: tellussen, tellingen and various other models.
+    Downloads csv files from object store
+    """
     import_core()
     csv_paths = prepare_import_tellingen()
 

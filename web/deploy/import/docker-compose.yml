@@ -21,10 +21,5 @@ services:
       DATABASE_PORT_OVERRIDE: 5432
       DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
     volumes:
-      - ./backups/elasticsearch:/tmp/backups
-    command: >
-      bash -c "/app/docker-wait.sh \
-              && python manage.py migrate \
-              && export DJANGO_SETTINGS_MODULE=tellus.settings \
-              && python import_all.py\
-              && python import_validator.py"
+      - ./import-run.sh:/app/import-run.sh
+    command: /app/import/run.sh

@@ -9,14 +9,14 @@ import openpyxl
 
 from datasets.tellus_data.models import Tellus, SnelheidsCategorie, Telling, SnelheidsInterval, Meetlocatie, \
     TelRichting, LengteInterval
-from importer import TellusImporter, import_telling
+from importer_lib.importer import TellusImporter, import_telling
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 FIXTURE_DIR = path = os.path.join(TEST_DIR, 'fixture_files/')
 
 
 class TestImport(TestCase):
-    @mock.patch('importer.TellusImporter._import_meta')
+    @mock.patch('importer_lib.importer.TellusImporter._import_meta')
     def setUp(self, patched_import_meta):
         os.putenv('TELLUS_OBJECTSTORE_PASSWORD', 'insecure')
         assert patched_import_meta == TellusImporter._import_meta
