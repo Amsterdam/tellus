@@ -78,5 +78,13 @@ def fetch_tellus_data_file_names():
     for file_object in get_full_container_list("tellus", prefix=folder):
         if file_object['content_type'] != 'application/directory':
             # log.info("Found file {}".format(file_object['name']))
-            files.append(file_object['name'])
+            filename = file_object['name']
+            _, ext = os.path.splitext(filename)
+            if ext != '.csv':
+                log.info(f"Skipping none csv file: {filename}")
+                continue
+            if os.path.dirname(filename) != folder:
+                log.info(f"Skipping file not in root data folder: {filename}")
+                continue
+            files.append(filename)
     return files
