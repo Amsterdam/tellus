@@ -15,39 +15,39 @@ DROP MATERIALIZED VIEW IF EXISTS "tellus_data_year_month_hour_length";
 CREATE MATERIALIZED VIEW tellus_data_year_month_hour_length
   AS
     SELECT
-      ROW_NUMBER() OVER (ORDER BY 1) as id,
-      richting.tellus_id,
-      richting.richting as richting,
-      lengte.id as lengte_interval_id,
-      lengte.label as lengte_label,
-      extract(YEAR from telling.tijd_van) as year,
-      extract(MONTH from telling.tijd_van) as month,
-      extract(HOUR from telling.tijd_van) as hour,
-      (CASE WHEN extract(DAY from telling.tijd_van) NOT IN (0,6) THEN 'Werkdag' ELSE 'Weekend' END) AS dag_type,
-      SUM(telling.aantal) AS aantal
-
+       ROW_NUMBER() OVER (ORDER BY 1) as id,
+       richting.tellus_id,
+       richting.richting as richting,
+       lengte.id as lengte_interval_id,
+       lengte.label as lengte_label,
+       extract(YEAR from telling.tijd_van) as year,
+       extract(MONTH from telling.tijd_van) as month,
+       extract(HOUR from telling.tijd_van) as hour,
+       (CASE WHEN extract(dow from telling.tijd_van) BETWEEN 0 AND 4 THEN 'Werkdag' ELSE 'Weekend' END) AS dag_type,
+       SUM(telling.aantal) AS aantal,
+       COUNT(1) as aantal_dagen
     FROM tellus_data_telling telling
-      LEFT join tellus_data_telrichting richting
-        ON telling.tel_richting_id = richting.id
-      LEFT JOIN tellus_data_lengteinterval lengte
-        ON telling.lengte_interval_id = lengte.id
-
+           LEFT join tellus_data_telrichting richting
+             ON telling.tel_richting_id = richting.id
+           LEFT JOIN tellus_data_lengteinterval lengte
+             ON telling.lengte_interval_id = lengte.id
+    WHERE telling.representatief_categorie_id = 1
+           AND telling.validatie_categorie_id = 1
     GROUP BY
-      richting.tellus_id,
-      richting.richting,
-      lengte.id,
-      extract(YEAR from telling.tijd_van),
-      extract(MONTH from telling.tijd_van),
-      extract(HOUR from telling.tijd_van),
-      dag_type
-             
+           richting.tellus_id,
+           richting.richting,
+           year,
+           month,
+           hour,
+           lengte.id,
+           dag_type
     ORDER BY
-      richting.tellus_id,
-      richting.richting,
-      extract(YEAR from telling.tijd_van),
-      extract(MONTH from telling.tijd_van),
-      extract(HOUR from telling.tijd_van),
-      lengte.label
+           richting.tellus_id,
+           richting.richting,
+           year,
+           month,
+           hour,
+           lengte.id
 
 WITH DATA;
 CREATE UNIQUE INDEX tellus_data_year_month_hour_length_pkey ON tellus_data_year_month_hour_length(id);

@@ -272,7 +272,8 @@ class TellingCarsYMHSerializer(HALSerializer):
             "month",
             "hour",
             "dag_type",
-            "aantal"
+            "aantal",
+            "aantal_dagen"
         )
 
 
@@ -295,7 +296,8 @@ class TellingCarsYMHLengthSerializer(HALSerializer):
             "dag_type",
             "lengte_interval_id",
             "lengte_label",
-            "aantal"
+            "aantal",
+            "aantal_dagen"
         )
 
 
@@ -318,5 +320,6 @@ class TellingCarsSpeedYMHSerializer(HALSerializer):
             "dag_type",
             "snelheids_interval_id",
             "snelheids_label",
-            "aantal"
+            "aantal",
+            "aantal_dagen"
         )

@@ -15,31 +15,35 @@ DROP MATERIALIZED VIEW IF EXISTS "tellus_data_year_month_hour";
 CREATE MATERIALIZED VIEW tellus_data_year_month_hour
 AS
   SELECT
-         ROW_NUMBER() OVER (ORDER BY 1) as id,
-         richting.tellus_id,
-         richting.richting as richting,
-         extract(YEAR from telling.tijd_van) as year,
-         extract(MONTH from telling.tijd_van) as month,
-         extract(HOUR from telling.tijd_van) as hour,
-         (CASE WHEN extract(DAY from telling.tijd_van) NOT IN (0,6) THEN 'Werkdag' ELSE 'Weekend' END) AS dag_type,
-         SUM(telling.aantal) AS aantal
+       ROW_NUMBER() OVER (ORDER BY 1) as id,
+       richting.tellus_id,
+       richting.richting as richting,
+       extract(YEAR from telling.tijd_van) as year,
+       extract(MONTH from telling.tijd_van) as month,
+       extract(HOUR from telling.tijd_van) as hour,
+       (CASE WHEN extract(dow from telling.tijd_van) BETWEEN 0 AND 4 THEN 'Werkdag' ELSE 'Weekend' END) AS dag_type,
+       SUM(telling.aantal) AS aantal,
+       COUNT(1) as aantal_dagen
 
   FROM tellus_data_telling telling
          LEFT join tellus_data_telrichting richting
            ON telling.tel_richting_id= richting.id
-
+  
+  WHERE telling.representatief_categorie_id = 1
+         AND telling.validatie_categorie_id = 1
+  
   GROUP BY richting.tellus_id,
            richting.richting,
-           extract(YEAR from telling.tijd_van),
-           extract(MONTH from telling.tijd_van),
-           extract(HOUR from telling.tijd_van),
+           year,
+           month,
+           hour,
            dag_type
-
+  
   ORDER BY richting.tellus_id,
            richting.richting,
-           extract(YEAR from telling.tijd_van),
-           extract(MONTH from telling.tijd_van),
-           extract(HOUR from telling.tijd_van)
+           year,
+           month,
+           hour
 
 WITH DATA;
 CREATE UNIQUE INDEX tellus_data_year_month_hour_pkey ON tellus_data_year_month_hour(id);
