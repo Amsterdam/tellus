@@ -244,6 +244,7 @@ class TellingAggregateYMH(models.Model):
     hour = models.IntegerField()  # Start of hourly time window
     dag_type = models.CharField(max_length=80, choices=DAY_TYPES)
     aantal = models.IntegerField()
+    aantal_dagen = models.IntegerField()
 
     # Disallow changes to this database through Django ORM!
     def save(self, *args, **kwargs):

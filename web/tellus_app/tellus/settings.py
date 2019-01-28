@@ -349,8 +349,14 @@ DATAPUNT_AUTHZ = {
     'MIN_SCOPE': 'TLLS/R',
     'FORCED_ANONYMOUS_ROUTES': (
         '/status/',
+        '/tellus/meetlocatie/',
+        '/tellus/lengte_interval/',
+        '/tellus/snelheids_interval/',
+        '/tellus/snelheids_categorie/',
+        '/tellus/representatief_categorie/',
+        '/tellus/validatie_categorie/',
+        '/tellus/meetraai_categorie/',
         '/tellus/tellus/',
-        '/tellus/lengtecategorie/',
-        '/tellus/snelheidscategorie/'
+        '/tellus/tel_richting/'
     )
 }
