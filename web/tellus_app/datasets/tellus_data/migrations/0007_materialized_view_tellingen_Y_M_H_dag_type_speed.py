@@ -16,8 +16,7 @@ CREATE MATERIALIZED VIEW tellus_data_year_month_hour_speed
 AS
   SELECT
        ROW_NUMBER() OVER (ORDER BY 1) as id,
-       richting.tellus_id,
-       richting.richting as richting,
+       telling.tel_richting_id,
        snelheid.id as snelheids_interval_id,
        snelheid.label as snelheids_label,
        extract(YEAR from telling.tijd_van) as year,
@@ -25,29 +24,26 @@ AS
        extract(HOUR from telling.tijd_van) as hour,
        (CASE WHEN extract(dow from telling.tijd_van) BETWEEN 0 AND 4 THEN 'Werkdag' ELSE 'Weekend' END) AS dag_type,
        SUM(telling.aantal) AS aantal,
-       COUNT(1) as aantal_dagen
+       COUNT(DISTINCT extract(DAY from telling.tijd_van)) as aantal_dagen
+
   FROM tellus_data_telling telling
-         LEFT join tellus_data_telrichting richting
-           ON telling.tel_richting_id = richting.id
          LEFT JOIN tellus_data_snelheidsinterval snelheid
            ON telling.snelheids_interval_id = snelheid.id
   WHERE telling.representatief_categorie_id = 1
-         AND telling.validatie_categorie_id = 1
+    AND telling.validatie_categorie_id = 1
   GROUP BY
-         richting.tellus_id,
-         richting.richting,
-         year,
-         month,
-         hour,
-         snelheid.id,
-         dag_type
+           telling.tel_richting_id,
+           year,
+           month,
+           hour,
+           snelheid.id,
+           dag_type
   ORDER BY
-         richting.tellus_id,
-         richting.richting,
-         year,
-         month,
-         hour,
-         snelheid.id
+           telling.tel_richting_id,
+           year,
+           month,
+           hour,
+           snelheid.id
 
 WITH DATA;
 CREATE UNIQUE INDEX tellus_data_year_month_hour_speed_pkey ON tellus_data_year_month_hour_speed(id);

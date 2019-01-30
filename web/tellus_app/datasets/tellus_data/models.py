@@ -237,8 +237,7 @@ class TellingAggregateYMH(models.Model):
     Common model for several aggregate models.
     """
     id = models.IntegerField(primary_key=True)
-    tellus = models.ForeignKey(Tellus, on_delete=CASCADE)
-    richting = models.IntegerField()
+    tel_richting = models.ForeignKey(TelRichting, on_delete=CASCADE)
     year = models.IntegerField()
     month = models.IntegerField()
     hour = models.IntegerField()  # Start of hourly time window

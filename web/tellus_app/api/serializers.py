@@ -99,28 +99,6 @@ class MeetraaiCategorieSerializer(HALSerializer):
         )
 
 
-class TelRichtingSerializer(HALSerializer):
-    """
-    Tellus Werkdag, Weekdag totalen
-    """
-    dataset = 'tellus_data'
-    _display = serializers.SerializerMethodField()
-    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta(object):
-        model = TelRichting
-        fields = (
-            "_display",
-            "tellus",
-            "richting",
-            "naam",
-            "zijstraat"
-        )
-
-    def get__display(self, obj):
-        return str(obj)
-
-
 class TellusSerializer(HALSerializer):
     """
     Tellus details
@@ -128,7 +106,6 @@ class TellusSerializer(HALSerializer):
     dataset = 'tellus_data'
     _display = serializers.SerializerMethodField()
     meetlocatie = MeetlocatieSerializer()
-    tel_richtingen = TelRichtingSerializer(many=True)
 
     class Meta(object):
         model = Tellus
@@ -139,12 +116,34 @@ class TellusSerializer(HALSerializer):
             "objnr_leverancier",
             "snelheids_categorie",
             "meetlocatie",
-            "tel_richtingen",
             "latitude",
             "longitude",
             "rijksdriehoek_x",
             "rijksdriehoek_y",
             "geometrie",
+        )
+
+    def get__display(self, obj):
+        return str(obj)
+
+
+class TelRichtingSerializer(HALSerializer):
+    """
+    Tellus Werkdag, Weekdag totalen
+    """
+    dataset = 'tellus_data'
+    _display = serializers.SerializerMethodField()
+    tellus = TellusSerializer()
+
+    class Meta(object):
+        model = TelRichting
+        fields = (
+            "_display",
+            "id",
+            "tellus",
+            "richting",
+            "naam",
+            "zijstraat"
         )
 
     def get__display(self, obj):
@@ -260,14 +259,13 @@ class TellingCarsYMHSerializer(HALSerializer):
     Tellus Werkdag, Weekdag totalen
     """
     dataset = 'tellus_data'
-    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
+    tel_richting = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(object):
         model = TellingCarsYMH
         fields = (
             "id",
-            "tellus",
-            "richting",
+            "tel_richting",
             "year",
             "month",
             "hour",
@@ -282,14 +280,13 @@ class TellingCarsYMHLengthSerializer(HALSerializer):
     Tellus Werkdag, Weekdag totalen
     """
     dataset = 'tellus_data'
-    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
+    tel_richting = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(object):
         model = TellingCarsYMHLength
         fields = (
             "id",
-            "tellus",
-            "richting",
+            "tel_richting",
             "year",
             "month",
             "hour",
@@ -306,14 +303,13 @@ class TellingCarsSpeedYMHSerializer(HALSerializer):
     Tellus Werkdag, Weekdag totalen
     """
     dataset = 'tellus_data'
-    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
+    tel_richting = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(object):
         model = TellingCarsYMHSpeed
         fields = (
             "id",
-            "tellus",
-            "richting",
+            "tel_richting",
             "year",
             "month",
             "hour",
