@@ -156,9 +156,12 @@ class TellingSerializer(HALSerializer):
     """
     dataset = 'tellus_data'
     _display = serializers.SerializerMethodField()
-    validatie_categorie = ValidatieCategorieSerializer()
-    representatief_categorie = RepresentatiefCategorieSerializer()
-    meetraai_categorie = MeetraaiCategorieSerializer()
+    tel_richting = serializers.PrimaryKeyRelatedField(read_only=True)
+    lengte_interval = serializers.PrimaryKeyRelatedField(read_only=True)
+    snelheids_interval = serializers.PrimaryKeyRelatedField(read_only=True)
+    validatie_categorie = serializers.PrimaryKeyRelatedField(read_only=True)
+    representatief_categorie = serializers.PrimaryKeyRelatedField(read_only=True)
+    meetraai_categorie = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(object):
         model = Telling
