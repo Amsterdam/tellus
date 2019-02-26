@@ -55,10 +55,6 @@ def import_all():
     logging.info("Done importing tellus data")
     logging.info(f"{get_tellingen_count()} tellingen")
 
-    logging.info(f'Refreshing materialized views')
-    refresh_materialized_views()
-    logging.info(f'Refreshing views done')
-
 
 if __name__ == "__main__":
     import_all()
