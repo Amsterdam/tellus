@@ -8,7 +8,6 @@ from django.contrib.gis.geos import Point  # noqa
 from django.contrib.gis.measure import Distance
 
 from datapunt_api.rest import DatapuntViewSet
-from django_filters.rest_framework import DjangoFilterBackend
 
 from datasets.tellus_data import models
 from datasets.tellus_data.models import Tellus
@@ -92,7 +91,8 @@ class TellusViewSet(DatapuntViewSet):
         if lat is not None and lon is not None and radius is not None:
             pnt = Point(float(lon), float(lat), srid=4326)
             return Tellus.objects.filter(
-                geometrie__distance_lte=(pnt, Distance(m=int(radius))))
+                geometrie__distance_lte=(pnt, Distance(m=int(radius)))
+            )
 
         return Tellus.objects.all().order_by('pk')
 
@@ -113,72 +113,3 @@ class TelRichtingViewSet(DatapuntViewSet):
     queryset = models.TelRichting.objects.all().order_by('pk')
     serializer_class = serializers.TelRichtingSerializer
     serializer_detail_class = serializers.TelRichtingSerializer
-
-
-class TellusDataCarsPerHourPerDayViewSet(DatapuntViewSet):
-    """
-    Returns a list of `TellusDataCarsPerHourPerDay` objects for:
-
-    * Every Tellus
-    * Every day
-    * Every hour
-    * Type of day
-    * Sum of all cars passing within that hour slot
-    """
-    queryset = models.TellingCarsPerHourPerDay.objects.all().order_by('pk')
-    serializer_class = serializers.TellingCarsPerHourPerDaySerializer
-    serializer_detail_class = serializers.TellingCarsPerHourPerDaySerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('dag_type', )
-
-
-class TellusDataCarsPerHourLengthViewSet(DatapuntViewSet):
-    """
-    Returns a list of `TellusDataCarsPerHourPerDay` objects for:
-
-    * Every Tellus
-    * Every day
-    * Every hour
-    * Every length
-    * Type of day
-    * Sum of all cars passing within that hour slot
-    """
-    queryset = models.TellingCarsPerHourLength.objects.all().order_by('pk')
-    serializer_class = serializers.TellingCarsPerHourLengthSerializer
-    serializer_detail_class = serializers.TellingCarsPerHourLengthSerializer
-
-
-class TellusDataCarsPerHourSpeedViewSet(DatapuntViewSet):
-    """
-    Returns a list of `TellusDataCarsPerHourPerDay` objects for:
-
-    * Every Tellus
-    * Every day
-    * Every hour
-    * Every length
-    * Type of day
-    * Sum of all cars passing within that hour slot
-    """
-    queryset = models.TellingCarsPerHourSpeed.objects.all().order_by('pk')
-    serializer_class = serializers.TellingCarsPerHourSpeedSerializer
-    serializer_detail_class = serializers.TellingCarsPerHourSpeedSerializer
-
-
-class TellusDataYMHViewSet(DatapuntViewSet):
-    queryset = models.TellingCarsYMH.objects.all().order_by('pk')
-    serializer_class = serializers.TellingCarsYMHSerializer
-    serializer_detail_class = serializers.TellingCarsYMHSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('dag_type', )
-
-
-class TellusDataYMHLengthViewSet(DatapuntViewSet):
-    queryset = models.TellingCarsYMHLength.objects.all().order_by('pk')
-    serializer_class = serializers.TellingCarsYMHLengthSerializer
-    serializer_detail_class = serializers.TellingCarsYMHLengthSerializer
-
-
-class TellusDataYMHSpeedViewSet(DatapuntViewSet):
-    queryset = models.TellingCarsYMHSpeed.objects.all().order_by('pk')
-    serializer_class = serializers.TellingCarsSpeedYMHSerializer
-    serializer_detail_class = serializers.TellingCarsSpeedYMHSerializer

@@ -2,9 +2,8 @@ from rest_framework import serializers
 
 from datapunt_api.rest import HALSerializer
 
-from datasets.tellus_data.models import LengteInterval, Telling, TellingCarsPerHourPerDay, SnelheidsInterval, \
-    SnelheidsCategorie, Meetlocatie, MeetraaiCategorie, ValidatieCategorie, RepresentatiefCategorie, \
-    TellingCarsPerHourLength, TellingCarsPerHourSpeed, TellingCarsYMHLength, TellingCarsYMHSpeed, TellingCarsYMH
+from datasets.tellus_data.models import LengteInterval, Telling, SnelheidsInterval, \
+    SnelheidsCategorie, Meetlocatie, MeetraaiCategorie, ValidatieCategorie, RepresentatiefCategorie
 from datasets.tellus_data.models import Tellus
 from datasets.tellus_data.models import TelRichting
 
@@ -129,7 +128,7 @@ class TellusSerializer(HALSerializer):
 
 class TelRichtingSerializer(HALSerializer):
     """
-    Tellus Werkdag, Weekdag totalen
+    Tel richting
     """
     dataset = 'tellus_data'
     _display = serializers.SerializerMethodField()
@@ -181,144 +180,3 @@ class TellingSerializer(HALSerializer):
 
     def get__display(self, obj):
         return str(obj)
-
-
-class TellusModelSerializer(serializers.ModelSerializer):
-    """
-    Serializer used by TelusDataCarsPerHourPerDaySerializer
-    """
-
-    class Meta:
-        model = Tellus
-        fields = (
-            "id",
-            "standplaats"
-        )
-
-
-class TellingCarsPerHourPerDaySerializer(HALSerializer):
-    """
-    Tellus Werkdag, Weekdag totalen
-    """
-    dataset = 'tellus_data'
-    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta(object):
-        model = TellingCarsPerHourPerDay
-        fields = (
-            "id",
-            "tellus",
-            "richting_id",
-            "dag_uur",
-            "dag_type",
-            "aantal"
-        )
-
-
-class TellingCarsPerHourLengthSerializer(HALSerializer):
-    """
-    Tellus Werkdag, Weekdag totalen
-    """
-    dataset = 'tellus_data'
-    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta(object):
-        model = TellingCarsPerHourLength
-        fields = (
-            "id",
-            "tellus",
-            "richting_id",
-            "dag_uur",
-            "dag_type",
-            "lengte_interval_id",
-            "lengte_label",
-            "aantal"
-        )
-
-
-class TellingCarsPerHourSpeedSerializer(HALSerializer):
-    """
-    Tellus Werkdag, Weekdag totalen
-    """
-    dataset = 'tellus_data'
-    tellus = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta(object):
-        model = TellingCarsPerHourSpeed
-        fields = (
-            "id",
-            "tellus",
-            "richting_id",
-            "dag_uur",
-            "dag_type",
-            "snelheids_interval_id",
-            "snelheids_label",
-            "aantal"
-        )
-
-
-class TellingCarsYMHSerializer(HALSerializer):
-    """
-    Tellus Werkdag, Weekdag totalen
-    """
-    dataset = 'tellus_data'
-    tel_richting = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta(object):
-        model = TellingCarsYMH
-        fields = (
-            "id",
-            "tel_richting",
-            "year",
-            "month",
-            "hour",
-            "dag_type",
-            "aantal",
-            "aantal_dagen"
-        )
-
-
-class TellingCarsYMHLengthSerializer(HALSerializer):
-    """
-    Tellus Werkdag, Weekdag totalen
-    """
-    dataset = 'tellus_data'
-    tel_richting = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta(object):
-        model = TellingCarsYMHLength
-        fields = (
-            "id",
-            "tel_richting",
-            "year",
-            "month",
-            "hour",
-            "dag_type",
-            "lengte_interval_id",
-            "lengte_label",
-            "aantal",
-            "aantal_dagen"
-        )
-
-
-class TellingCarsSpeedYMHSerializer(HALSerializer):
-    """
-    Tellus Werkdag, Weekdag totalen
-    """
-    dataset = 'tellus_data'
-    tel_richting = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta(object):
-        model = TellingCarsYMHSpeed
-        fields = (
-            "id",
-            "tel_richting",
-            "year",
-            "month",
-            "hour",
-            "dag_type",
-            "snelheids_interval_id",
-            "snelheids_label",
-            "aantal",
-            "aantal_dagen"
-        )

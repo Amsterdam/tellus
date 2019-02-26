@@ -39,13 +39,6 @@ router.register(r'meetraai_categorie', views.MeetraaiCategorieViewSet)
 router.register(r'tellus', views.TellusViewSet)
 router.register(r'tel_richting', views.TelRichtingViewSet)
 router.register(r'telling', views.TellingViewSet)
-router.register(r'telling_totaal_uur_dag', views.TellusDataCarsPerHourPerDayViewSet)
-router.register(r'telling_totaal_uur_lengte_dag', views.TellusDataCarsPerHourLengthViewSet)
-router.register(r'telling_totaal_uur_snelheid_dag', views.TellusDataCarsPerHourSpeedViewSet)
-
-router.register(r'telling_totaal_ymh', views.TellusDataYMHViewSet)
-router.register(r'telling_totaal_ymh_lengte', views.TellusDataYMHLengthViewSet)
-router.register(r'telling_totaal_ymh_snelheid', views.TellusDataYMHSpeedViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
