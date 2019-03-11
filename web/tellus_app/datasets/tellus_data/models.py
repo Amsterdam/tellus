@@ -152,5 +152,3 @@ class Telling(models.Model):
         # Unique together disabled because related database index takes a lot of space and causes
         # a significant increase in insertion time.
         # unique_together = ("tel_richting", "tijd_van", "tijd_tot", "snelheids_interval", "lengte_interval")
-
-

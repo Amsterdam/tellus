@@ -28,4 +28,3 @@ class TellingFactory(factory.DjangoModelFactory):
         end_dt=datetime.now(pytz.UTC))
 
     aantal = randint(0, 1000)
-

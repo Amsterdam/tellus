@@ -4,17 +4,16 @@ import logging
 import os
 
 import django
+from django.db import connection
 import openpyxl
 
+from django.contrib.gis.geos import Point
 
 django.setup()
 
-from django.db import connection
 from importer_lib.speed_processor import create_speed_intervals, create_speed_category  # noqa
 from importer_lib.length_processor import create_length_intervals  # noqa
 from importer_lib.telling_processor import process_telling_sheet  # noqa
-
-from django.contrib.gis.geos import Point  # noqa
 
 from datasets.tellus_data.models import Telling  # noqa
 from datasets.tellus_data.models import MeetraaiCategorie  # noqa
@@ -260,4 +259,3 @@ def refresh_materialized_views():
 
 def get_tellingen_count():
     return Telling.objects.all().count()
-

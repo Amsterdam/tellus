@@ -2,7 +2,18 @@
 #ignore=E501,E225,E261,W391,E241,E203,W292,W391
 #ignore=E501
 
-exclude=.git,migrations,docs,scripts,.uwsgi_plugins_builder,uwsgi-consul
+exclude=
+  .svn,
+  CVS,
+  .bzr,
+  .hg,
+  .git,
+  __pycache__,
+  .tox,
+  .eggs,
+  *.egg,
+  docs,
+  */migrations/
 max-complexity=6
 max-line-length = 119
 statistics=True

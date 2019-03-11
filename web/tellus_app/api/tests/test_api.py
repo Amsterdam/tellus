@@ -39,9 +39,6 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
         'tellus-list',
         'telrichting-list',
         'telling-list',
-        # 'telling_totaal_uur_dag-list',
-        # 'telling_totaal_uur_lengte_dag-list',
-        # 'telling_totaal_uur_snelheid_da-listg'
     ]
     reverse_detail_urls = [
         'tellus-detail',
@@ -94,7 +91,7 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
                 response.data['count'],
                 0, 'Wrong result count for {}'.format(url)
             )
-    #
+
     def test_details(self):
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_tlls_r))

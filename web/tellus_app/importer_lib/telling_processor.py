@@ -104,8 +104,8 @@ atexit.register(clear_memoize_caches)
 def insert_telling_batch(values_list):
     with connection.cursor() as cursor:
         insertQuery = """
-    INSERT INTO tellus_data_telling 
-    (tel_richting_id, tijd_van, tijd_tot, aantal, lengte_interval_id, 
+    INSERT INTO tellus_data_telling
+    (tel_richting_id, tijd_van, tijd_tot, aantal, lengte_interval_id,
     snelheids_interval_id, validatie_categorie_id,
     meetraai_categorie_id, representatief_categorie_id)
     VALUES %s
@@ -113,7 +113,7 @@ def insert_telling_batch(values_list):
         execute_values(cursor, insertQuery, values_list)
 
 
-def process_telling_sheet(file_name, csv_reader):
+def process_telling_sheet(file_name, csv_reader):  # noqa: C901
     t0 = time.time()
 
     skipped_row_cnt = 0
@@ -124,7 +124,7 @@ def process_telling_sheet(file_name, csv_reader):
     batch_list = [None] * batch_insert_count  # preallocate array
 
     range60 = list(range(0, 60))
-    
+
     next(csv_reader, None)
     row_cnt = 0
     item_cnt = 0
@@ -167,9 +167,9 @@ def process_telling_sheet(file_name, csv_reader):
             snelheids_interval_id = get_speed_interval_id(snelheids_categorie, speed_id)
             lengte_interval_id = get_length_interval_id(length_id)
             aantal = int(trow[count_idx])
-            values = (tel_richting.id,tijd_van,tijd_tot,aantal,
-                    lengte_interval_id,snelheids_interval_id,validatie_category.id,
-                    meetraai_category.id,representatief_category.id)
+            values = (tel_richting.id, tijd_van, tijd_tot, aantal,
+                      lengte_interval_id, snelheids_interval_id, validatie_category.id,
+                      meetraai_category.id, representatief_category.id)
             batch_list[batch_idx] = values
 
             batch_idx += 1
