@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import re
 import sys
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 
 def get_docker_host():
@@ -360,3 +362,11 @@ DATAPUNT_AUTHZ = {
         '/tellus/tel_richting/'
     )
 }
+
+SENTRY_DSN = os.getenv('SENTRY_DSN')
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        ignore_errors=['ExpiredSignatureError']
+    )
