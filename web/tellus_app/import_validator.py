@@ -1,12 +1,12 @@
 import logging
 
 import django
+from django.db import connection
 
 django.setup()
 
-from django.db import connection
-from django.db.migrations.executor import MigrationExecutor
-from datasets.tellus_data.models import Tellus, SnelheidsInterval, LengteInterval, Telling
+from django.db.migrations.executor import MigrationExecutor  # noqa
+from datasets.tellus_data.models import Tellus, SnelheidsInterval, LengteInterval, Telling  # noqa
 
 log = logging.getLogger(__name__)
 

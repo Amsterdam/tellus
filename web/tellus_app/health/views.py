@@ -13,9 +13,8 @@ from django.http import HttpResponse
 
 try:
     model = get_model(settings.HEALTH_MODEL)
-except:
-    raise ImproperlyConfigured(
-        'settings.HEALTH_MODEL doesn\'t resolve to a useable model')
+except Exception as e:
+    raise ImproperlyConfigured(f'settings.HEALTH_MODEL doesn\'t resolve to a useable model {str(e)}')
 
 
 log = logging.getLogger(__name__)
@@ -34,8 +33,8 @@ def health(request):
         with connection.cursor() as cursor:
             cursor.execute("select 1")
             assert cursor.fetchone()
-    except:
-        log.exception("Database connectivity failed")
+    except Exception as e:
+        log.exception(f"Database connectivity failed: {str(e)}")
         return HttpResponse(
             "Database connectivity failed",
             content_type="text/plain", status=500)

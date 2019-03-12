@@ -28,7 +28,7 @@ class TestImport(TestCase):
                 for sheet_name in wb.sheetnames}
 
         # patch `_import_meta`
-        TellusImporter._import_meta =  import_meta
+        TellusImporter._import_meta = import_meta
         self.my_importer = TellusImporter(
             codebook="metadata.xlsx",
             codebook_addon="metadata_aanvulling.xlsx")
@@ -58,7 +58,6 @@ class TestImport(TestCase):
         telRichting = TelRichting.objects.get(tellus__meetlocatie=29, richting=2)
         self.assertEqual(telRichting.naam, 'Prins Hendrikkade')
         self.assertEqual(telRichting.zijstraat, 'Nieuwezijds Armsteeg')
-
 
         import_telling(os.path.join(FIXTURE_DIR, 'AMS365_2016-10.csv'))
         self.assertEqual(Telling.objects.count(), 2040)

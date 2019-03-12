@@ -5,7 +5,7 @@ import subprocess
 from multiprocessing.pool import ThreadPool
 
 from import_single import import_single
-from importer_lib.importer import import_core, prepare_import_tellingen, get_tellingen_count, refresh_materialized_views
+from importer_lib.importer import import_core, prepare_import_tellingen, get_tellingen_count
 
 DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 DO_PARALLEL = True
