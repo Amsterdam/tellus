@@ -1,10 +1,11 @@
 """
 Tellus views
 """
+from drf_yasg.utils import swagger_auto_schema
 
 from api import serializers
 
-from django.contrib.gis.geos import Point  # noqa
+from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import Distance
 
 from datapunt_api.rest import DatapuntViewSet
@@ -104,6 +105,14 @@ class TellingViewSet(DatapuntViewSet):
     queryset = models.Telling.objects.all().order_by('pk')
     serializer_class = serializers.TellingSerializer
     serializer_detail_class = serializers.TellingSerializer
+
+    @swagger_auto_schema(security=[{'OAuth2': []}])
+    def list(self, *args, **kwargs):
+        return super(DatapuntViewSet, self).list(*args, **kwargs)
+
+    @swagger_auto_schema(security=[{'OAuth2': []}])
+    def retrieve(self, *args, **kwargs):
+        return super(DatapuntViewSet, self).retrieve(*args, **kwargs)
 
 
 class TelRichtingViewSet(DatapuntViewSet):
