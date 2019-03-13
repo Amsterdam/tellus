@@ -378,7 +378,7 @@ SWAGGER_SETTINGS = {
             },
         }
     },
-    'SECURITY_REQUIREMENTS': None  # No global scope required, only per api
+    'SECURITY_REQUIREMENTS': {}  # No global scope required, only per api
 }
 
 SENTRY_DSN = os.getenv('SENTRY_DSN')
