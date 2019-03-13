@@ -362,6 +362,7 @@ DATAPUNT_AUTHZ = {
         '/tellus/tellus/',
         '/tellus/tel_richting/',
         '/tellus/swagger.yaml',
+        '/tellus/redoc/',
     )
 }
 
