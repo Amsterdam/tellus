@@ -63,6 +63,11 @@ These counts are available up to a resolution of an hour for authorized users.
        
 ```
 
+## Domain and class model
+
+![Tellus class diagram](https://user-images.githubusercontent.com/205326/54351339-905ebf80-464f-11e9-89ef-5629fb2d236c.png)
+
+
 ## Development 
 
 * Python 3.6 (required)
