@@ -1,4 +1,5 @@
-# Tellus
+<img src="https://user-images.githubusercontent.com/205326/54359366-c6f20580-4662-11e9-80eb-2e17e56aec15.jpg" alt="tellus logo" width="200" align="right"/>
+
 Tellus vehicle movements API and import module.
 
 Exposes API to query vehicle movements counted by "Tellussen".
