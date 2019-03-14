@@ -69,9 +69,8 @@ These counts are available up to a resolution of an hour for authorized users.
 ![Tellus class diagram](https://user-images.githubusercontent.com/205326/54351339-905ebf80-464f-11e9-89ef-5629fb2d236c.png)*Data model driving the API*
 
 ![Schematic voorburgwal tellus system](https://user-images.githubusercontent.com/205326/54361949-6239a980-4668-11e9-90f3-478eed9f5836.jpg)*Tellus system example with single "Tellus" box*
+
 ![Schematic wibautstraat tellus system](https://user-images.githubusercontent.com/205326/54361950-636ad680-4668-11e9-8f7c-b2375f2a5173.jpg)*Tellus system example with two "Tellus" boxes because the wires are physically separated by tram tracks*
-
-
 
 ## Development 
 
