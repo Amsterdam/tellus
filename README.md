@@ -4,8 +4,64 @@ Tellus vehicle movements API and import module.
 Exposes API to query vehicle movements counted by "Tellussen".
 Tellussen are etched into the roads at several locations in Amsterdam and they count passing vehicles.
 The API exposes vehicle counts, speed, direction and length at several locations in the city of Amsterdam.
-These counts are available up to a resolution of an hour, but for performance reasons aggregates are also provided.
+These counts are available up to a resolution of an hour for authorized users.
 
+## System overview
+
+```                                                                      
+                                                                               
+            ┌────────────────────┐                                             
+            │                    │                                             
+            │                    │                                             
+            │    Object store    │                                             
+            │                    │                                             
+            │                    │                                             
+            └────────────────────┘                                             
+                       │                                                       
+                       │                                                       
+                       │                                                       
+       ┌ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ┐                                         
+        Tellus repo    │                                                       
+       │               ▼             │                                         
+            ┌────────────────────┐                                             
+       │    │                    │   │                                         
+            │                    │                                             
+       │    │      Importer      │───┼─────────────────────────────┐           
+            │                    │                                 │           
+       │    │                    │   │                             │           
+            └────────────────────┘                                 ▼           
+       │                             │                  ┌─────────────────────┐
+                                                        │                     │
+       │                             │                  │                     │
+                                                        │      Database       │
+       │                             │                  │                     │
+                                                        │                     │
+       │    ┌────────────────────┐   │                  └─────────────────────┘
+            │                    │                                 │           
+       │    │                    │   │                             │           
+            │        API         │◀────────────────────────────────┤           
+       │    │                    │   │                             │           
+            │                    │                                 │           
+       │    └────────────────────┘   │                             │           
+                       │                                           │           
+       └ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ┘                             │           
+                       │                                           │           
+                       │                                           │           
+       ┌ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ┐                             │           
+        Catalog repo   │                                           │           
+       │               ▼             │                             ▼           
+            ┌────────────────────┐                      ┌─────────────────────┐
+       │    │                    │   │                  │                     │
+            │                    │                      │                     │
+       │    │  Tableau web data  │   │   Not used       │       Tableau       │
+            │     connector      │─ ─ ─ (To slow) ─ ─ ─▶│                     │
+       │    │                    │   │                  │                     │
+            │                    │                      │                     │
+       │    └────────────────────┘   │                  └─────────────────────┘
+                                                                               
+       └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘                                         
+       
+```
 
 ## Development 
 
