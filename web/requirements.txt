@@ -35,7 +35,7 @@ idna==2.7
 iso8601==0.1.12
 itypes==1.1.0
 jdcal==1.4
-Jinja2==2.10
+Jinja2==2.10.1
 keystoneauth1==3.10.0
 Markdown==2.6.11
 MarkupSafe==1.0
@@ -74,7 +74,7 @@ stevedore==1.29.0
 text-unidecode==1.2
 unicodecsv==0.14.1
 uritemplate==3.0.0
-urllib3==1.23
+urllib3==1.24.2
 Werkzeug==0.14.1
 wrapt==1.10.11
 sentry-sdk==0.7.6
