@@ -2,16 +2,16 @@
 
 def tryStep(String message, Closure block, Closure tearDown = null) {
     try {
-        block();
+        block()
     }
     catch (Throwable t) {
         slackSend message: "${env.JOB_NAME}: ${message} failure ${env.BUILD_URL}", channel: '#ci-channel', color: 'danger'
 
-        throw t;
+        throw t
     }
     finally {
         if (tearDown) {
-            tearDown();
+            tearDown()
         }
     }
 }
@@ -32,8 +32,10 @@ node {
 
     stage("Build develop image") {
         tryStep "build", {
-            def image = docker.build("repo.data.amsterdam.nl/datapunt/tellus:${env.BUILD_NUMBER}", "web")
+            docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
+            def image = docker.build("datapunt/tellus:${env.BUILD_NUMBER}", "web")
             image.push()
+            }
         }
     }
 }
@@ -45,9 +47,11 @@ if (BRANCH == "master") {
     node {
         stage('Push acceptance image') {
             tryStep "image tagging", {
-                def image = docker.image("repo.data.amsterdam.nl/datapunt/tellus:${env.BUILD_NUMBER}")
+                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
+                def image = docker.image("datapunt/tellus:${env.BUILD_NUMBER}")
                 image.pull()
                 image.push("acceptance")
+                }
             }
         }
     }
@@ -64,7 +68,6 @@ if (BRANCH == "master") {
         }
     }
 
-
     stage('Waiting for approval') {
         slackSend channel: '#ci-channel', color: 'warning', message: 'Tellus is waiting for Production Release - please confirm'
         input "Deploy to Production?"
@@ -73,10 +76,12 @@ if (BRANCH == "master") {
     node {
         stage('Push production image') {
             tryStep "image tagging", {
-                def image = docker.image("repo.data.amsterdam.nl/datapunt/tellus:${env.BUILD_NUMBER}")
+                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
+                def image = docker.image("datapunt/tellus:${env.BUILD_NUMBER}")
                 image.pull()
                 image.push("production")
                 image.push("latest")
+                }
             }
         }
     }
