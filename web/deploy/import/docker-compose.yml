@@ -9,7 +9,7 @@ services:
       - ./backups:/tmp/backups
 
   importer:
-    image: repo.data.amsterdam.nl/datapunt/tellus:${ENVIRONMENT}
+    image: ${DOCKER_REGISTRY_HOST}/datapunt/tellus:${ENVIRONMENT}
     links:
       - database
     environment:
