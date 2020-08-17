@@ -1,0 +1,24 @@
+# Define all requirements, only pin when necessary (and if so, add a comment explaining why).
+# See # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
+
+# base
+Django <=3.0    # django-rest-framework does not support 3.1 yet
+psycopg2-binary
+sentry-sdk
+
+# drf
+drf-amsterdam
+drf-yasg
+drf-hal-json
+django-filter
+djangorestframework-gis
+
+# auth
+datapunt-authorization-django
+datapunt-authorization-levels
+jwcrypto
+
+python-swiftclient
+dateutils
+openpyxl
+django-extensions

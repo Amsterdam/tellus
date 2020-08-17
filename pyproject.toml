@@ -1,0 +1,5 @@
+[tool.black]
+# Default is 88
+line-length = 88
+# Black will default to double quotes
+skip-string-normalization = true
