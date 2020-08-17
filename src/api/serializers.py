@@ -1,19 +1,18 @@
-from rest_framework import serializers
-
 from datapunt_api.rest import HALSerializer
+from rest_framework import serializers
 
 from datasets.tellus_data.models import (
     LengteInterval,
-    Telling,
-    SnelheidsInterval,
-    SnelheidsCategorie,
     Meetlocatie,
     MeetraaiCategorie,
-    ValidatieCategorie,
     RepresentatiefCategorie,
+    SnelheidsCategorie,
+    SnelheidsInterval,
+    Telling,
+    Tellus,
+    TelRichting,
+    ValidatieCategorie,
 )
-from datasets.tellus_data.models import Tellus
-from datasets.tellus_data.models import TelRichting
 
 
 class MeetlocatieSerializer(HALSerializer):

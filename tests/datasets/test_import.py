@@ -1,20 +1,19 @@
 import os
-
-import pytz
-from dateutil.parser import parse as parse_date
 from unittest import mock
 
 import openpyxl
+import pytz
+from dateutil.parser import parse as parse_date
 from django.test import TestCase
 
 from datasets.tellus_data.models import (
-    Tellus,
-    SnelheidsCategorie,
-    Telling,
-    SnelheidsInterval,
-    Meetlocatie,
-    TelRichting,
     LengteInterval,
+    Meetlocatie,
+    SnelheidsCategorie,
+    SnelheidsInterval,
+    Telling,
+    Tellus,
+    TelRichting,
 )
 from importer_lib.importer import TellusImporter, import_telling
 

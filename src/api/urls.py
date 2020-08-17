@@ -2,13 +2,12 @@
 API urls and schema generator
 """
 from django.conf.urls import include, url
+from django.urls import path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-from rest_framework import routers, permissions
-from django.urls import path
+from rest_framework import permissions, routers
 
 from api import views
-
 
 schema_view = get_schema_view(
     openapi.Info(title="Tellus API", default_version="v1",),
@@ -27,7 +26,8 @@ class TellusView(routers.APIRootView):
 
     Note:
 
-    The actual telling and aggregate endpoints require authentication using the Employee login.
+    The actual telling and aggregate endpoints require authentication using
+    the Employee login.
     """
 
     pass

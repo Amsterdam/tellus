@@ -3,19 +3,19 @@
 
 import logging
 
-from tests.api.authzsetup import AuthorizationSetup
-from tests.api.factories import TellingFactory
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
 from datasets.tellus_data.models import (
-    SnelheidsInterval,
     LengteInterval,
-    TelRichting,
-    Tellus,
     Meetlocatie,
+    SnelheidsInterval,
     Telling,
+    Tellus,
+    TelRichting,
 )
+from tests.api.authzsetup import AuthorizationSetup
+from tests.api.factories import TellingFactory
 
 log = logging.getLogger(__name__)
 

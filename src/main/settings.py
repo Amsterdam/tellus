@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import re
 import sys
+
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -231,7 +232,7 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "console": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",},
+        "console": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"},
     },
     "handlers": {
         "console": {
@@ -240,20 +241,21 @@ LOGGING = {
             "formatter": "console",
         },
     },
-    "root": {"level": "DEBUG", "handlers": ["console"],},
+    "root": {"level": "INFO", "handlers": ["console"]},
     "loggers": {
-        "django.db": {"handlers": ["console"], "level": "ERROR",},
-        "django": {"handlers": ["console"], "level": "ERROR",},
+        "django.db": {"handlers": ["console"], "level": "ERROR"},
+        "flake8": {"handlers": ["console"], "level": "WARNING"},
+        "django": {"handlers": ["console"], "level": "ERROR"},
         # Debug all batch jobs
-        "doc": {"handlers": ["console"], "level": "INFO", "propagate": False,},
-        "index": {"handlers": ["console"], "level": "DEBUG", "propagate": False,},
-        "search": {"handlers": ["console"], "level": "ERROR", "propagate": False,},
+        "doc": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "index": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
+        "search": {"handlers": ["console"], "level": "ERROR", "propagate": False},
         "elasticsearch": {
             "handlers": ["console"],
             "level": "ERROR",
             "propagate": False,
         },
-        "urllib3": {"handlers": ["console"], "level": "ERROR", "propagate": False,},
+        "urllib3": {"handlers": ["console"], "level": "ERROR", "propagate": False},
         "factory.containers": {
             "handlers": ["console"],
             "level": "INFO",
@@ -328,7 +330,7 @@ SWAGGER_SETTINGS = {
             "type": "oauth2",
             "authorizationUrl": "/oauth2/authorize",
             "flow": "implicit",
-            "scopes": {"TLLS/R": "Read tellus",},
+            "scopes": {"TLLS/R": "Read tellus"},
         }
     },
     "SECURITY_REQUIREMENTS": {},  # No global scope required, only per api

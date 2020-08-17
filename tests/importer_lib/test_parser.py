@@ -1,5 +1,6 @@
 from unittest import TestCase
-from importer_lib.parser import parse_speed_interval, parse_length_interval
+
+from importer_lib.parser import parse_length_interval, parse_speed_interval
 
 
 class TestParser(TestCase):

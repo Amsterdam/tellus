@@ -7,9 +7,9 @@ def parse_speed_interval(value):
     :return:
     """
 
-    match_smaller = re.match("< (\d+)", value)
-    match_larger = re.match("> (\d+)", value)
-    match_interval = re.match("(\d+) - (\d+)", value)
+    match_smaller = re.match(r"< (\d+)", value)
+    match_larger = re.match(r"> (\d+)", value)
+    match_interval = re.match(r"(\d+) - (\d+)", value)
 
     if match_smaller:
         return [None, int(match_smaller[1])]
@@ -31,9 +31,9 @@ def parse_length_interval(value):
     :return: [min_cm, max_cm]
     """
     interval_str = value.replace(",", ".")
-    match_smaller = re.match("< (\d+.?\d*)", interval_str)
-    match_larger = re.match("> (\d+.?\d*)", interval_str)
-    match_interval = re.match("(\d+.?\d*) - (\d+.?\d*)", interval_str)
+    match_smaller = re.match(r"< (\d+.?\d*)", interval_str)
+    match_larger = re.match(r"> (\d+.?\d*)", interval_str)
+    match_interval = re.match(r"(\d+.?\d*) - (\d+.?\d*)", interval_str)
 
     if match_smaller:
         return [None, parse_meter_string_to_cm(match_smaller[1])]

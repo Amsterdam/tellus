@@ -7,7 +7,8 @@ DAY_TYPES = (("Weekend", "Weekend"), ("Werkdag", "Werkdag"))
 class LengteInterval(models.Model):
     """
     Een lengte interval omvat een bereik van voertuig lengtes.
-    Indien de min of max lengte niet is ingevuld dan is het bereik onbegrensd, e.g.: < 3m.
+    Indien de min of max lengte niet is ingevuld dan is het bereik onbegrensd,
+    e.g.: < 3m.
     """
 
     id = models.IntegerField(primary_key=True)
@@ -22,7 +23,8 @@ class LengteInterval(models.Model):
 class SnelheidsInterval(models.Model):
     """
     Een snelheids interval omvat een bereik van snelheden.
-    Indien de min of max snelheid niet is ingevuld dan is het bereik onbegrensd, e.g.: < 30 km/h.
+    Indien de min of max snelheid niet is ingevuld dan is het bereik onbegrensd,
+    e.g.: < 30 km/h.
     """
 
     label = models.CharField(max_length=40, unique=True)
@@ -167,6 +169,11 @@ class Telling(models.Model):
     class Meta:
         ordering = ["id", "tijd_van", "tijd_tot"]
 
-        # Unique together disabled because related database index takes a lot of space and causes
-        # a significant increase in insertion time.
-        # unique_together = ("tel_richting", "tijd_van", "tijd_tot", "snelheids_interval", "lengte_interval")
+        # Unique together disabled because related database index takes a lot of
+        # space and causes a significant increase in insertion time.
+        # unique_together = (
+        #   "tel_richting",
+        #   "tijd_van",
+        #   "tijd_tot",
+        #   "snelheids_interval",
+        #   "lengte_interval")

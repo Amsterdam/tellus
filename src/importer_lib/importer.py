@@ -4,33 +4,30 @@ import logging
 import os
 
 import django
-from django.db import connection
 import openpyxl
-
 from django.contrib.gis.geos import Point
+from django.db import connection
 
-django.setup()
-
-from importer_lib.speed_processor import (
-    create_speed_intervals,
-    create_speed_category,
-)  # noqa
-from importer_lib.length_processor import create_length_intervals  # noqa
-from importer_lib.telling_processor import process_telling_sheet  # noqa
-
-from datasets.tellus_data.models import Telling  # noqa
-from datasets.tellus_data.models import MeetraaiCategorie  # noqa
-from datasets.tellus_data.models import RepresentatiefCategorie  # noqa
-from datasets.tellus_data.models import ValidatieCategorie  # noqa
-from datasets.tellus_data.models import Meetlocatie  # noqa
-from datasets.tellus_data.models import Tellus  # noqa
-from datasets.tellus_data.models import TelRichting  # noqa
-
+from datasets.tellus_data.models import (
+    Meetlocatie,
+    MeetraaiCategorie,
+    RepresentatiefCategorie,
+    Telling,
+    Tellus,
+    TelRichting,
+    ValidatieCategorie,
+)
+from importer_lib.length_processor import create_length_intervals
+from importer_lib.speed_processor import create_speed_category, create_speed_intervals
+from importer_lib.telling_processor import process_telling_sheet
 from objectstore.objectstore import (
     fetch_meta_data,
     fetch_tellus_data_file_names,
-)  # noqa
-from objectstore.objectstore import fetch_tellus_data_file_object  # noqa
+    fetch_tellus_data_file_object,
+)
+
+django.setup()
+
 
 log = logging.getLogger(__name__)
 

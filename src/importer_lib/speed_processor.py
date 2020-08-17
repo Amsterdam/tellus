@@ -1,6 +1,8 @@
 import logging
+
 from django.core.exceptions import ObjectDoesNotExist
-from datasets.tellus_data.models import SnelheidsInterval, SnelheidsCategorie
+
+from datasets.tellus_data.models import SnelheidsCategorie, SnelheidsInterval
 from importer_lib.parser import parse_speed_interval
 
 EMPTY_CELL = "nvt"

@@ -1,9 +1,8 @@
 import time
 
-from jwcrypto.jwt import JWT
-
 import authorization_levels
 from authorization_django.jwks import get_keyset
+from jwcrypto.jwt import JWT
 
 
 class AuthorizationSetup(object):

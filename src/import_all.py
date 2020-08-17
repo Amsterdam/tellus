@@ -6,9 +6,9 @@ from multiprocessing.pool import ThreadPool
 
 from import_single import import_single
 from importer_lib.importer import (
+    get_tellingen_count,
     import_core,
     prepare_import_tellingen,
-    get_tellingen_count,
 )
 
 DIRECTORY = os.path.dirname(os.path.realpath(__file__))

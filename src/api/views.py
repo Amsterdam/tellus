@@ -1,15 +1,12 @@
 """
 Tellus views
 """
+from datapunt_api.rest import DatapuntViewSet
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import Distance
 from drf_yasg.utils import swagger_auto_schema
 
 from api import serializers
-
-from django.contrib.gis.geos import Point
-from django.contrib.gis.measure import Distance
-
-from datapunt_api.rest import DatapuntViewSet
-
 from datasets.tellus_data import models
 from datasets.tellus_data.models import Tellus
 

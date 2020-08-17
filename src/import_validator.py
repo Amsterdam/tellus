@@ -2,16 +2,16 @@ import logging
 
 import django
 from django.db import connection
+from django.db.migrations.executor import MigrationExecutor
+
+from datasets.tellus_data.models import (
+    LengteInterval,
+    SnelheidsInterval,
+    Telling,
+    Tellus,
+)
 
 django.setup()
-
-from django.db.migrations.executor import MigrationExecutor  # noqa
-from datasets.tellus_data.models import (
-    Tellus,
-    SnelheidsInterval,
-    LengteInterval,
-    Telling,
-)  # noqa
 
 log = logging.getLogger(__name__)
 
@@ -29,7 +29,8 @@ def assert_count(minimal, actual, message):
 
 def log_leaf_migrations():
     """
-    Log migration graph leaf nodes so the current migration state can read from the logs.
+    Log migration graph leaf nodes so the current migration state can read from
+    the logs.
     """
     executor = MigrationExecutor(connection)
     targets = executor.loader.graph.leaf_nodes()

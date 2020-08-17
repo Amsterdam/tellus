@@ -1,21 +1,22 @@
 import atexit
-import logging
-
-import pytz
 import functools
+import logging
 import time
 
+import pytz
 from dateutil.parser import parse as parse_date
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
 from psycopg2.extras import execute_values
 
-from datasets.tellus_data.models import SnelheidsCategorie
-from datasets.tellus_data.models import MeetraaiCategorie
-from datasets.tellus_data.models import RepresentatiefCategorie
-from datasets.tellus_data.models import ValidatieCategorie
-from datasets.tellus_data.models import LengteInterval
-from datasets.tellus_data.models import TelRichting
+from datasets.tellus_data.models import (
+    LengteInterval,
+    MeetraaiCategorie,
+    RepresentatiefCategorie,
+    SnelheidsCategorie,
+    TelRichting,
+    ValidatieCategorie,
+)
 
 log = logging.getLogger(__name__)
 
@@ -84,9 +85,11 @@ def get_tel_richting(meetlocatie_str, richting_id):
 
 def clear_memoize_caches():
     """
-    Clears any caches created by memoize, required before exiting because django/contrib/gis will throw an error if
-    program exits while a Gis object is still in memory.
-    Related to: https://github.com/django/django/pull/10130, but not solved by Django 2.1.3
+    Clears any caches created by memoize, required before exiting because
+    django/contrib/gis will throw an error if program exits while a Gis
+    object is still in memory.
+    Related to: https://github.com/django/django/pull/10130,
+    but not solved by Django 2.1.3
     """
     get_speed_interval_id.cache.clear()
     get_length_interval_id.cache.clear()
@@ -147,14 +150,16 @@ def process_telling_sheet(file_name, csv_reader):  # noqa: C901
             # Even though, there are actual counts for this direction.
             # e.g.: T32 direction 2 is sometimes measured, even though
             # there is no reference to it.
-            # T32 is measuring a one way street. So any counts in the opposite direction are
+            # T32 is measuring a one way street. So any counts in the opposite
+            # direction are
             # illogical and we'll skip them during this import.
             log.info(f"TelRichting not found for : {trow[0]}, {trow[1]}, skipping")
             skipped_row_cnt += 1
             continue
         except Exception as e:
             log.error(
-                f"Error querying database for telRichting: meetlocatie {trow[0]}, richting {trow[1]}"
+                f"Error querying database for telRichting: meetlocatie "
+                f"{trow[0]}, richting {trow[1]}"
             )
             raise e
 

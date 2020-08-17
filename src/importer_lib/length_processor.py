@@ -1,7 +1,7 @@
 import logging
 
-from importer_lib.parser import parse_length_interval
 from datasets.tellus_data.models import LengteInterval
+from importer_lib.parser import parse_length_interval
 
 log = logging.getLogger(__name__)
 

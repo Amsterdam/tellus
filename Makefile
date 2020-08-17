@@ -61,13 +61,10 @@ bash:                               ## Run the container and start bash
 dev:                                ## Run the development app (and run extra migrations first)
 	$(run) --service-ports dev
 
-# lint:                               ## Execute lint checks
-# 	$(run) test pytest /src $(ARGS)
+lint:                               ## Execute lint checks
+	$(run) test pytest /src $(ARGS)
 
-# test: lint                          ## Execute tests
-# 	$(run) test pytest /tests $(ARGS)
-
-test:                               ## Execute tests
+test: lint                          ## Execute tests
 	$(run) test pytest /tests $(ARGS)
 
 pdb:
