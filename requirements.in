@@ -22,3 +22,4 @@ python-swiftclient
 dateutils
 openpyxl
 django-extensions
+python-keystoneclient

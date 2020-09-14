@@ -14,13 +14,14 @@ services:
     depends_on:
       - database
     volumes:
-      - ./src:/src
-      - ./tests:/tests
-      - ./deploy:/deploy
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./deploy:/app/deploy
+      - ./pyproject.toml:/app/pyproject.toml
     environment: &base-app-env
       SECRET_KEY: "insecure"
       DEBUG: "true"
-    entrypoint: /deploy/wait-for-it.sh database:5432 --
+    entrypoint: /app/deploy/wait-for-it.sh database:5432 --
 
   dev:
     <<: *base-app
@@ -39,6 +40,7 @@ services:
         - BUILD_REVISION
         - BUILD_VERSION
     image: docker-registry.secure.amsterdam.nl/datapunt/tellus:${VERSION:-latest}
+    command: /app/deploy/docker-run.sh
 
   test:
     <<: *base-app

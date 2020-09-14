@@ -4,12 +4,17 @@ import os
 import subprocess
 from multiprocessing.pool import ThreadPool
 
+import django
+
+django.setup()
+
 from import_single import import_single
 from importer_lib.importer import (
     get_tellingen_count,
     import_core,
     prepare_import_tellingen,
 )
+
 
 DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 DO_PARALLEL = True

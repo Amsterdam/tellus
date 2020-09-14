@@ -10,7 +10,7 @@ from rest_framework import permissions, routers
 from api import views
 
 schema_view = get_schema_view(
-    openapi.Info(title="Tellus API", default_version="v1",),
+    openapi.Info(title="Tellus API", default_version="v1"),
     public=True,
     permission_classes=(permissions.AllowAny,),
 )

@@ -62,10 +62,11 @@ dev:                                ## Run the development app (and run extra mi
 	$(run) --service-ports dev
 
 lint:                               ## Execute lint checks
-	$(run) test pytest /src $(ARGS)
+	$(run) test isort /app/tests --check --diff $(ARGS)
+	$(run) test black /app/src /app/tests --check --diff $(ARGS)
 
 test: lint                          ## Execute tests
-	$(run) test pytest /tests $(ARGS)
+	$(run) test pytest /app/tests $(ARGS)
 
 pdb:
 	$(run) test pytest --pdb $(ARGS)

@@ -1,15 +1,15 @@
 FROM amsterdam/python:3.8-buster as app
 MAINTAINER datapunt@amsterdam.nl
 
-WORKDIR /app_install
+WORKDIR /app/install
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-COPY deploy /deploy
+WORKDIR /app
+COPY deploy deploy
+COPY src src
 
-WORKDIR /src
-COPY src .
-
+WORKDIR /app/src
 ARG SECRET_KEY=not-used
 RUN python manage.py collectstatic --no-input
 
@@ -23,17 +23,18 @@ ENV BUILD_DATE=$BUILD_DATE
 ENV BUILD_REVISION=$BUILD_REVISION
 ENV BUILD_VERSION=$BUILD_VERSION
 
-CMD ["/deploy/docker-run.sh"]
+CMD ["/app/deploy/docker-run.sh"]
 
 # stage 2, dev
 FROM app as dev
 
 USER root
-WORKDIR /app_install
-ADD requirements_dev.txt requirements_dev.txt
+WORKDIR /app/install
+COPY requirements_dev.txt requirements_dev.txt
 RUN pip install -r requirements_dev.txt
+COPY pyproject.toml /app
 
-WORKDIR /src
+WORKDIR /app/src
 USER datapunt
 
 # Any process that requires to write in the home dir
@@ -46,10 +47,10 @@ CMD ["./manage.py", "runserver", "0.0.0.0:8000"]
 FROM dev as tests
 
 USER datapunt
-WORKDIR /tests
-ADD tests .
+WORKDIR /app/tests
+COPY tests .
 
 ENV COVERAGE_FILE=/tmp/.coverage
-ENV PYTHONPATH=/src
+ENV PYTHONPATH=/app/src
 
 CMD ["pytest"]
