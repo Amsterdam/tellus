@@ -15,7 +15,6 @@ from importer_lib.importer import (
     prepare_import_tellingen,
 )
 
-
 DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 DO_PARALLEL = True
 
