@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3.4"
 services:
   database:
     image: amsterdam/postgres11
@@ -10,7 +10,7 @@ services:
 
   importer:
     image: ${DOCKER_REGISTRY_HOST}/datapunt/tellus:${ENVIRONMENT}
-    links:
+    depends_on:
       - database
     environment:
       TELLUS_OBJECTSTORE_PASSWORD:
