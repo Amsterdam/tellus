@@ -1,7 +1,8 @@
+.local
+.idea
 .git
 .gitignore
+.env
 docker-compose.yml
 Dockerfile
-.idea
-*.iml
-passwords.env
+docker-compose.override.yml

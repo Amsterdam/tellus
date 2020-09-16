@@ -1,0 +1,19 @@
+version: "3.4"
+services:
+  database:
+    image: amsterdam/postgres11
+    environment:
+      POSTGRES_PASSWORD: dev
+      POSTGRES_USER: dev
+    volumes:
+      - ./backups:/tmp/backups
+
+  importer:
+    image: docker-registry.secure.amsterdam.nl/datapunt/tellus:${ENVIRONMENT}
+    depends_on:
+      - database
+    environment:
+      TELLUS_OBJECTSTORE_PASSWORD:
+      DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
+      DJANGO_SETTINGS_MODULE: main.settings
+    command: /app/deploy/import/import-run.sh

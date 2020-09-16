@@ -1,0 +1,13 @@
+[tool.black]
+# Default is 88
+line-length = 88
+# Black will default to double quotes
+skip-string-normalization = true
+exclude = 'migrations'
+
+[tool.pytest.ini_options]
+addopts = "-v -ra -s --ff --nf --disable-pytest-warnings"
+
+[tool.isort]
+profile = "black"
+src_paths = ["src", "tests"]

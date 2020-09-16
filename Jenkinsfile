@@ -1,104 +1,116 @@
 #!groovy
-
-String PLAYBOOK = 'deploy.yml'
-
-def tryStep(String message, Closure block, Closure tearDown = null) {
-    try {
-        block()
-    }
-    catch (Throwable t) {
-        slackSend message: "${env.JOB_NAME}: ${message} failure ${env.BUILD_URL}", channel: '#ci-channel', color: 'danger'
-
-        throw t
-    }
-    finally {
-        if (tearDown) {
-            tearDown()
-        }
-    }
-}
+def PROJECT_NAME = "tellus"
+def SLACK_CHANNEL = '#opdrachten-deployments'
+def PLAYBOOK = 'deploy.yml'
+def SLACK_MESSAGE = [
+    "title_link": BUILD_URL,
+    "fields": [
+        ["title": "Project","value": PROJECT_NAME],
+        ["title": "Branch", "value": BRANCH_NAME, "short":true],
+        ["title": "Build number", "value": BUILD_NUMBER, "short":true]
+    ]
+]
 
 
-node {
-    stage("Checkout") {
-        checkout scm
-    }
 
+pipeline {
+    agent any
 
-    stage('Test') {
-        tryStep "Test", {
-            sh "web/deploy/test/test.sh"
-        }
+    environment {
+        SHORT_UUID = sh( script: "head /dev/urandom | tr -dc A-Za-z0-9 | head -c10", returnStdout: true).trim()
+        COMPOSE_PROJECT_NAME = "${PROJECT_NAME}-${env.SHORT_UUID}"
+        VERSION = env.BRANCH_NAME.replace('/', '-').toLowerCase().replace(
+            'master', 'latest'
+        )
+        IS_PRE_RELEASE_BRANCH = "${env.BRANCH_NAME ==~ "release/.*"}"
     }
 
-
-    stage("Build develop image") {
-        tryStep "build", {
-            docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-            def image = docker.build("datapunt/tellus:${env.BUILD_NUMBER}", "web")
-            image.push()
+    stages {
+        stage('Test') {
+            steps {
+                sh 'make test'
             }
         }
-    }
-}
 
-String BRANCH = "${env.BRANCH_NAME}"
+        stage('Build') {
+            steps {
+                sh 'make build'
+            }
+        }
 
-if (BRANCH == "master") {
+        stage('Push and deploy') {
+            when { 
+                anyOf {
+                    branch 'master'
+                    buildingTag()
+                    environment name: 'IS_PRE_RELEASE_BRANCH', value: 'true'
+                }
+            }
+            stages {
+                stage('Push') {
+                    steps {
+                        retry(3) {
+                            sh 'make push_semver'
+                        }
+                    }
+                }
 
-    node {
-        stage('Push acceptance image') {
-            tryStep "image tagging", {
-                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-                def image = docker.image("datapunt/tellus:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("acceptance")
+                stage('Deploy to acceptance') {
+                    when { 
+                        anyOf {
+                            environment name: 'IS_PRE_RELEASE_BRANCH', value: 'true' 
+                            branch 'master'
+                        }
+                    }
+                    steps {
+                        sh 'VERSION=acceptance make push'
+                        build job: 'Subtask_Openstack_Playbook', parameters: [
+                            string(name: 'PLAYBOOK', value: PLAYBOOK),
+                            string(name: 'INVENTORY', value: "acceptance"),
+                            string(
+                                name: 'PLAYBOOKPARAMS', 
+                                value: "-e cmdb_id=app_${PROJECT_NAME}"
+                            )
+                        ], wait: true
+                    }
+                }
+
+                stage('Deploy to production') {
+                    when { tag pattern: "\\d+\\.\\d+\\.\\d+\\.*", comparator: "REGEXP" }
+                    steps {
+                        sh 'VERSION=production make push'
+                        build job: 'Subtask_Openstack_Playbook', parameters: [
+                            string(name: 'PLAYBOOK', value: PLAYBOOK),
+                            string(name: 'INVENTORY', value: "production"),
+                            string(
+                                name: 'PLAYBOOKPARAMS', 
+                                value: "-e cmdb_id=app_${PROJECT_NAME}"
+                            )
+                        ], wait: true
+
+                        slackSend(channel: SLACK_CHANNEL, attachments: [SLACK_MESSAGE << 
+                            [
+                                "color": "#36a64f",
+                                "title": "Deploy to production succeeded :rocket:",
+                            ]
+                        ])
+                    }
                 }
             }
         }
-    }
 
-    node {
-        stage("Deploy to ACC") {
-            tryStep "deployment", {
-                build job: 'Subtask_Openstack_Playbook',
-                parameters: [
-                    [$class: 'StringParameterValue', name: 'INVENTORY', value: 'acceptance'],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOK', value: "${PLAYBOOK}"],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOKPARAMS', value: "-e cmdb_id=app_tellus"],
-                ]
-            }
+    }
+    post {
+        always {
+            sh 'make clean'
         }
-    }
-
-    stage('Waiting for approval') {
-        slackSend channel: '#ci-channel', color: 'warning', message: 'Tellus is waiting for Production Release - please confirm'
-        input "Deploy to Production?"
-    }
-
-    node {
-        stage('Push production image') {
-            tryStep "image tagging", {
-                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-                def image = docker.image("datapunt/tellus:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("production")
-                image.push("latest")
-                }
-            }
-        }
-    }
-
-    node {
-        stage("Deploy") {
-            tryStep "deployment", {
-                build job: 'Subtask_Openstack_Playbook',
-                parameters: [
-                    [$class: 'StringParameterValue', name: 'INVENTORY', value: 'production'],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOK', value: "${PLAYBOOK}"],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOKPARAMS', value: "-e cmdb_id=app_tellus"],
+        failure {
+            slackSend(channel: SLACK_CHANNEL, attachments: [SLACK_MESSAGE << 
+                [
+                    "color": "#D53030",
+                    "title": "Build failed :fire:",
                 ]
-            }
+            ])
         }
     }
 }

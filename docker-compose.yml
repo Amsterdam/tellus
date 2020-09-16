@@ -1,32 +1,53 @@
-version: "3.0"
+version: "3.5"
 services:
   database:
     image: amsterdam/postgres11
-    ports:
-      - "5409:5432"
     environment:
-      POSTGRES_DB: tellus
-      POSTGRES_USER: tellus
-      POSTGRES_PASSWORD: insecure
-    volumes:
-      - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
+      POSTGRES_DB: dev
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
 
-  web:
-    build: ./web
-    ports:
-      - "8107:8000"
-    links:
+  x-app: &base-app
+    build:
+      context: .
+      target: app
+    depends_on:
       - database
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./deploy:/app/deploy
+      - ./pyproject.toml:/app/pyproject.toml
+    environment: &base-app-env
+      SECRET_KEY: "insecure"
+      DEBUG: "true"
+    entrypoint: /app/deploy/wait-for-it.sh database:5432 --
+
+  dev:
+    <<: *base-app
+    build:
+      context: .
+      target: dev
+    command: python manage.py runserver 0.0.0.0:8000
+
+  app:
+    <<: *base-app
+    build:
+      context: .
+      target: app
+      args:
+        - BUILD_DATE
+        - BUILD_REVISION
+        - BUILD_VERSION
+    image: docker-registry.secure.amsterdam.nl/datapunt/tellus:${VERSION:-latest}
+    command: /app/deploy/docker-run.sh
+
+  test:
+    <<: *base-app
+    build:
+      context: .
+      target: tests
     environment:
-      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
-      - SECRET_KEY=hoi
-      - DATABASE_NAME=tellus
-      - DATABASE_USER=tellus
-      - DATABASE_PASSWORD=insecure
-      - TELLUS_OBJECTSTORE_PASSWORD=insecure
-      - CONSUL_HOST=${CONSUL_HOST:-notset}
-      - CONSUL_PORT=${CONSUL_PORT:-8500}
-      - UWSGI_HTTP=0.0.0.0:8000
-      - UWSGI_MODULE=tellus.wsgi:application
-      - UWSGI_MASTER=1
-      - UWSGI_STATIC_MAP=/static=/static
+      <<: *base-app-env
+      DJANGO_SETTINGS_MODULE: "main.settings"
+      PYTEST_ADDOPTS:
