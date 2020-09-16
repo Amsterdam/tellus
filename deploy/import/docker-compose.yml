@@ -3,8 +3,9 @@ services:
   database:
     image: amsterdam/postgres11
     environment:
-      POSTGRES_PASSWORD: dev
-      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: insecure
+      POSTGRES_USER: tellus
+      POSTGRES_DB: tellus
     volumes:
       - ./backups:/tmp/backups
 
@@ -16,4 +17,7 @@ services:
       TELLUS_OBJECTSTORE_PASSWORD:
       DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
       DJANGO_SETTINGS_MODULE: main.settings
+      DATABASE_NAME: tellus
+      DATABASE_USER: tellus
+      DATABASE_PASSWORD: insecure
     command: /app/deploy/import/import-run.sh
