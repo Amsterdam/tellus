@@ -39,7 +39,7 @@ services:
         - BUILD_DATE
         - BUILD_REVISION
         - BUILD_VERSION
-    image: docker-registry.secure.amsterdam.nl/datapunt/tellus:${VERSION:-latest}
+    image: docker-registry.data.amsterdam.nl/datapunt/tellus:${VERSION:-latest}
     command: /app/deploy/docker-run.sh
 
   test:
