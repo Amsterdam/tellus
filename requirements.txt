@@ -19,7 +19,7 @@ debtcollector==2.2.0      # via oslo.config, oslo.utils, python-keystoneclient
 defusedxml==0.6.0         # via djangorestframework-xml
 django-extensions==3.0.8  # via -r requirements.in
 django-filter==2.3.0      # via -r requirements.in
-django==3.0               # via -r requirements.in, datapunt-authorization-django, django-filter, djangorestframework, drf-hal-json, drf-nested-fields, drf-yasg
+django==3.0.7             # via -r requirements.in, datapunt-authorization-django, django-filter, djangorestframework, drf-hal-json, drf-nested-fields, drf-yasg
 djangorestframework-csv==2.1.0  # via drf-amsterdam
 djangorestframework-gis==0.16  # via -r requirements.in
 djangorestframework-xml==2.0.0  # via drf-amsterdam

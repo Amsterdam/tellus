@@ -2,7 +2,7 @@
 # See # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
 
 # base
-Django <=3.0    # django-rest-framework does not support 3.1 yet
+Django <4.0    # django-rest-framework does not support 3.1 yet
 psycopg2-binary
 sentry-sdk
 
