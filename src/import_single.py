@@ -2,6 +2,10 @@ import logging
 import os
 import sys
 
+import django
+
+django.setup()
+
 from importer_lib.importer import import_telling
 
 
