@@ -4,14 +4,14 @@ import django
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 
+django.setup()
+
 from datasets.tellus_data.models import (
     LengteInterval,
     SnelheidsInterval,
     Telling,
     Tellus,
 )
-
-django.setup()
 
 log = logging.getLogger(__name__)
 
