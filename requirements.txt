@@ -19,7 +19,7 @@ debtcollector==2.2.0      # via oslo.config, oslo.utils, python-keystoneclient
 defusedxml==0.6.0         # via djangorestframework-xml
 django-extensions==3.0.8  # via -r requirements.in
 django-filter==2.3.0      # via -r requirements.in
-django==3.0               # via -r requirements.in, datapunt-authorization-django, django-filter, djangorestframework, drf-hal-json, drf-nested-fields, drf-yasg
+django==3.1.1             # via -r requirements.in, datapunt-authorization-django, django-filter, djangorestframework, drf-hal-json, drf-nested-fields, drf-yasg
 djangorestframework-csv==2.1.0  # via drf-amsterdam
 djangorestframework-gis==0.16  # via -r requirements.in
 djangorestframework-xml==2.0.0  # via drf-amsterdam
@@ -62,7 +62,7 @@ requests==2.24.0          # via coreapi, datapunt-authorization-django, keystone
 rfc3986==1.4.0            # via oslo.config
 ruamel.yaml.clib==0.2.2   # via ruamel.yaml
 ruamel.yaml==0.16.12      # via drf-yasg
-sentry-sdk==0.17.5        # via -r requirements.in
+sentry-sdk==0.17.6        # via -r requirements.in
 six==1.15.0               # via cryptography, debtcollector, djangorestframework-csv, drf-yasg, keystoneauth1, oslo.i18n, oslo.utils, packaging, python-dateutil, python-keystoneclient, python-swiftclient
 sqlparse==0.3.1           # via django
 stevedore==3.2.2          # via keystoneauth1, oslo.config, python-keystoneclient
