@@ -6,7 +6,7 @@ skip-string-normalization = true
 exclude = 'migrations'
 
 [tool.pytest.ini_options]
-addopts = "-v -ra -s --ff --nf --disable-pytest-warnings"
+addopts = "-v -ra -s --ff --nf --disable-pytest-warnings --pdbcls=IPython.terminal.debugger:TerminalPdb"
 
 [tool.isort]
 profile = "black"

@@ -4,7 +4,7 @@
 import logging
 
 from rest_framework.reverse import reverse
-from rest_framework.test import APITestCase
+from rest_framework.test import APITransactionTestCase
 
 from datasets.tellus_data.models import (
     LengteInterval,
@@ -20,7 +20,8 @@ from tests.api.factories import TellingFactory
 log = logging.getLogger(__name__)
 
 
-class TestAPIEndpoints(APITestCase, AuthorizationSetup):
+class TestAPIEndpoints(APITransactionTestCase, AuthorizationSetup):
+    reset_sequences = True
     """
     Verifies that browsing the API works correctly.
     """
@@ -109,5 +110,5 @@ class TestAPIEndpoints(APITestCase, AuthorizationSetup):
         )
 
         for url in self.reverse_detail_urls:
-            log.debug("test {} => {}".format(url, reverse(url, [1])))
+            log.info("test {} => {}".format(url, reverse(url, [1])))
             self.valid_response(url, self.client.get(reverse(url, [1])))
