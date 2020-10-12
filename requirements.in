@@ -11,6 +11,7 @@ drf-amsterdam
 drf-yasg
 drf-hal-json
 django-filter
+djangorestframework<3.12
 djangorestframework-gis
 
 # auth
