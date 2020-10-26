@@ -29,7 +29,7 @@ django==3.0.10            # via -r ./requirements.txt, datapunt-authorization-dj
 djangorestframework-csv==2.1.0  # via -r ./requirements.txt, drf-amsterdam
 djangorestframework-gis==0.16  # via -r ./requirements.txt
 djangorestframework-xml==2.0.0  # via -r ./requirements.txt, drf-amsterdam
-djangorestframework==3.11.2  # via -r ./requirements.txt, djangorestframework-csv, djangorestframework-gis, drf-amsterdam, drf-extensions, drf-hal-json, drf-nested-fields, drf-yasg
+djangorestframework==3.12.1  # via -r ./requirements.txt, djangorestframework-csv, djangorestframework-gis, drf-amsterdam, drf-extensions, drf-hal-json, drf-nested-fields, drf-yasg
 drf-amsterdam==0.4.0      # via -r ./requirements.txt
 drf-extensions==0.6.0     # via -r ./requirements.txt, drf-amsterdam
 drf-hal-json==0.10.0      # via -r ./requirements.txt
