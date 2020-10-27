@@ -11,7 +11,7 @@ cffi==1.14.3              # via cryptography
 chardet==3.0.4            # via requests
 coreapi==2.3.3            # via drf-yasg
 coreschema==0.0.4         # via coreapi, drf-yasg
-cryptography==3.1.1       # via jwcrypto
+cryptography==3.2         # via jwcrypto
 datapunt-authorization-django==1.0.0  # via -r requirements.in
 datapunt-authorization-levels==0.1.3  # via -r requirements.in
 dateutils==0.6.11         # via -r requirements.in
@@ -60,7 +60,6 @@ pytz==2020.1              # via dateutils, django, oslo.serialization, oslo.util
 pyyaml==5.3.1             # via oslo.config
 requests==2.24.0          # via coreapi, datapunt-authorization-django, keystoneauth1, oslo.config, python-keystoneclient, python-swiftclient
 rfc3986==1.4.0            # via oslo.config
-ruamel.yaml.clib==0.2.2   # via ruamel.yaml
 ruamel.yaml==0.16.12      # via drf-yasg
 sentry-sdk==0.18.0        # via -r requirements.in
 six==1.15.0               # via cryptography, debtcollector, djangorestframework-csv, drf-yasg, keystoneauth1, oslo.i18n, oslo.utils, packaging, python-dateutil, python-keystoneclient, python-swiftclient
