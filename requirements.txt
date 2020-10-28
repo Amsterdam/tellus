@@ -4,17 +4,16 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-argparse==1.4.0           # via dateutils
 asgiref==3.3.0            # via django
 certifi==2020.6.20        # via requests, sentry-sdk
 cffi==1.14.3              # via cryptography
 chardet==3.0.4            # via requests
 coreapi==2.3.3            # via drf-yasg
 coreschema==0.0.4         # via coreapi, drf-yasg
-cryptography==3.1.1       # via jwcrypto
+cryptography==3.2         # via jwcrypto
 datapunt-authorization-django==1.0.0  # via -r requirements.in
 datapunt-authorization-levels==0.1.3  # via -r requirements.in
-dateutils==0.6.11         # via -r requirements.in
+dateutils==0.6.12         # via -r requirements.in
 debtcollector==2.2.0      # via oslo.config, oslo.utils, python-keystoneclient
 defusedxml==0.6.0         # via djangorestframework-xml
 django-extensions==3.0.9  # via -r requirements.in
@@ -23,12 +22,12 @@ django==3.0.10            # via -r requirements.in, datapunt-authorization-djang
 djangorestframework-csv==2.1.0  # via drf-amsterdam
 djangorestframework-gis==0.16  # via -r requirements.in
 djangorestframework-xml==2.0.0  # via drf-amsterdam
-djangorestframework==3.11.2  # via -r requirements.in, djangorestframework-csv, djangorestframework-gis, drf-amsterdam, drf-extensions, drf-hal-json, drf-nested-fields, drf-yasg
+djangorestframework==3.12.1  # via -r requirements.in, djangorestframework-csv, djangorestframework-gis, drf-amsterdam, drf-extensions, drf-hal-json, drf-nested-fields, drf-yasg
 drf-amsterdam==0.4.0      # via -r requirements.in
 drf-extensions==0.6.0     # via drf-amsterdam
 drf-hal-json==0.10.0      # via -r requirements.in
 drf-nested-fields==0.9.5  # via drf-hal-json
-drf-yasg==1.17.1          # via -r requirements.in
+drf-yasg==1.20.0          # via -r requirements.in
 et-xmlfile==1.0.1         # via openpyxl
 idna==2.10                # via requests
 inflection==0.5.1         # via drf-yasg
@@ -49,7 +48,7 @@ oslo.i18n==5.0.1          # via oslo.config, oslo.utils, python-keystoneclient
 oslo.serialization==4.0.1  # via python-keystoneclient
 oslo.utils==4.6.0         # via oslo.serialization, python-keystoneclient
 packaging==20.4           # via drf-yasg, oslo.utils
-pbr==5.5.0                # via debtcollector, keystoneauth1, os-service-types, oslo.i18n, oslo.serialization, oslo.utils, python-keystoneclient, stevedore
+pbr==5.5.1                # via debtcollector, keystoneauth1, os-service-types, oslo.i18n, oslo.serialization, oslo.utils, python-keystoneclient, stevedore
 psycopg2-binary==2.8.6    # via -r requirements.in
 pycparser==2.20           # via cffi
 pyparsing==2.4.7          # via oslo.utils, packaging
@@ -62,11 +61,11 @@ requests==2.24.0          # via coreapi, datapunt-authorization-django, keystone
 rfc3986==1.4.0            # via oslo.config
 ruamel.yaml.clib==0.2.2   # via ruamel.yaml
 ruamel.yaml==0.16.12      # via drf-yasg
-sentry-sdk==0.18.0        # via -r requirements.in
-six==1.15.0               # via cryptography, debtcollector, djangorestframework-csv, drf-yasg, keystoneauth1, oslo.i18n, oslo.utils, packaging, python-dateutil, python-keystoneclient, python-swiftclient
+sentry-sdk==0.19.1        # via -r requirements.in
+six==1.15.0               # via cryptography, debtcollector, djangorestframework-csv, keystoneauth1, oslo.i18n, oslo.utils, packaging, python-dateutil, python-keystoneclient, python-swiftclient
 sqlparse==0.4.1           # via django
 stevedore==3.2.2          # via keystoneauth1, oslo.config, python-keystoneclient
 unicodecsv==0.14.1        # via djangorestframework-csv
 uritemplate==3.0.1        # via coreapi, drf-yasg
-urllib3==1.25.10          # via requests, sentry-sdk
+urllib3==1.25.11          # via requests, sentry-sdk
 wrapt==1.12.1             # via debtcollector
