@@ -52,7 +52,7 @@ pipeline {
 
         stage('Deploy to acceptance') {
             when {
-                tag pattern: "^(?i)\\d+\\.\\d+\\.\\d+(-rc.*)", comparator: "REGEXP"
+                branch 'master'
             }
             steps {
                 sh 'VERSION=acceptance make push'
