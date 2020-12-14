@@ -17,6 +17,10 @@ def SLACK_MESSAGE = [
 pipeline {
     agent any
 
+    options {
+        timeout(time: 1, unit: 'HOURS')
+    }
+
     environment {
         SHORT_UUID = sh( script: "head /dev/urandom | tr -dc A-Za-z0-9 | head -c10", returnStdout: true).trim()
         COMPOSE_PROJECT_NAME = "${PROJECT_NAME}-${env.SHORT_UUID}"
