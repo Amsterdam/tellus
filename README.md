@@ -7,6 +7,9 @@ Tellussen are etched into the roads at several locations in Amsterdam and they c
 The API exposes vehicle counts, speed, direction and length at several locations in the city of Amsterdam.
 These counts are available up to a resolution of an hour for authorized users.
 
+# Project architecture
+This project follows the setup used in multiple projects and is described here: https://github.com/Amsterdam/opdrachten_team_dev.  
+
 ## System overview
 
 ```                                                                      
