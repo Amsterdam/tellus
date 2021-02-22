@@ -269,10 +269,8 @@ SWAGGER_SETTINGS = {
     "SECURITY_REQUIREMENTS": {},  # No global scope required, only per api
 }
 
-SENTRY_DSN = os.getenv("SENTRY_DSN")
-if SENTRY_DSN:
+if os.getenv("SENTRY_DSN"):
     sentry_sdk.init(
-        dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
         ignore_errors=["ExpiredSignatureError"],
     )
