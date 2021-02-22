@@ -3,8 +3,7 @@
 
 # base
 #
-# https://github.com/chibisov/drf-extensions/issues/294 prevents upgrade to >= 3.1
-Django<3.1
+Django
 psycopg2-binary
 sentry-sdk
 
