@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-asgiref==3.3.1
+asgiref==3.3.4
     # via django
 certifi==2020.12.5
     # via
@@ -20,7 +20,7 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
-cryptography==3.4.6
+cryptography==3.4.7
     # via jwcrypto
 datapunt-authorization-django==1.3.0
     # via -r requirements.in
@@ -35,14 +35,15 @@ debtcollector==2.2.0
     #   python-keystoneclient
 defusedxml==0.7.1
     # via djangorestframework-xml
-django-extensions==3.1.1
+django-extensions==3.1.2
     # via -r requirements.in
 django-filter==2.4.0
     # via -r requirements.in
-django==3.1.7
+django==3.2
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
+    #   django-extensions
     #   django-filter
     #   djangorestframework
     #   drf-hal-json
@@ -54,7 +55,7 @@ djangorestframework-gis==0.17
     # via -r requirements.in
 djangorestframework-xml==2.0.0
     # via drf-amsterdam
-djangorestframework==3.12.2
+djangorestframework==3.12.4
     # via
     #   -r requirements.in
     #   djangorestframework-csv
@@ -169,7 +170,7 @@ rfc3986==1.4.0
     # via oslo.config
 ruamel.yaml.clib==0.2.2
     # via ruamel.yaml
-ruamel.yaml==0.16.13
+ruamel.yaml==0.17.4
     # via drf-yasg
 sentry-sdk==1.0.0
     # via -r requirements.in
