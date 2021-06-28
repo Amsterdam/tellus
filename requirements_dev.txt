@@ -6,7 +6,7 @@
 #
 appdirs==1.4.4
     # via black
-asgiref==3.3.4
+asgiref==3.4.0
     # via
     #   -r ./requirements.txt
     #   django
@@ -14,7 +14,7 @@ attrs==21.2.0
     # via pytest
 backcall==0.2.0
     # via ipython
-black==21.5b1
+black==21.6b0
     # via
     #   -r requirements_dev.in
     #   pytest-black
@@ -44,7 +44,7 @@ coreschema==0.0.4
     #   -r ./requirements.txt
     #   coreapi
     #   drf-yasg
-coverage[toml]==5.5
+coverage==5.5
     # via pytest-cov
 cryptography==3.4.7
     # via
@@ -70,11 +70,15 @@ defusedxml==0.7.1
     # via
     #   -r ./requirements.txt
     #   djangorestframework-xml
+deprecated==1.2.12
+    # via
+    #   -r ./requirements.txt
+    #   jwcrypto
 django-extensions==3.1.3
     # via -r ./requirements.txt
 django-filter==2.4.0
     # via -r ./requirements.txt
-django==3.2.3
+django==3.2.4
     # via
     #   -r ./requirements.txt
     #   datapunt-authorization-django
@@ -124,7 +128,7 @@ et-xmlfile==1.1.0
     #   openpyxl
 factory-boy==3.2.0
     # via -r requirements_dev.in
-faker==8.4.0
+faker==8.8.2
     # via factory-boy
 flake8==3.9.2
     # via pytest-flake8
@@ -138,18 +142,18 @@ inflection==0.5.1
     #   drf-yasg
 iniconfig==1.1.1
     # via pytest
-ipdb==0.13.8
+ipdb==0.13.9
     # via -r requirements_dev.in
 ipython-genutils==0.2.0
     # via traitlets
-ipython==7.24.0
+ipython==7.25.0
     # via ipdb
 iso8601==0.1.14
     # via
     #   -r ./requirements.txt
     #   keystoneauth1
     #   oslo.utils
-isort==5.8.0
+isort==5.9.1
     # via pytest-isort
 itypes==1.2.0
     # via
@@ -161,7 +165,7 @@ jinja2==3.0.1
     # via
     #   -r ./requirements.txt
     #   coreschema
-jwcrypto==0.8
+jwcrypto==0.9.1
     # via
     #   -r ./requirements.txt
     #   datapunt-authorization-django
@@ -212,7 +216,7 @@ oslo.serialization==4.1.0
     # via
     #   -r ./requirements.txt
     #   python-keystoneclient
-oslo.utils==4.9.0
+oslo.utils==4.9.1
     # via
     #   -r ./requirements.txt
     #   oslo.serialization
@@ -244,13 +248,13 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pip-tools==6.1.0
+pip-tools==6.2.0
     # via -r requirements_dev.in
 pluggy==0.13.1
     # via pytest
-prompt-toolkit==3.0.18
+prompt-toolkit==3.0.19
     # via ipython
-psycopg2-binary==2.8.6
+psycopg2-binary==2.9.1
     # via -r ./requirements.txt
 ptyprocess==0.7.0
     # via pexpect
@@ -273,9 +277,9 @@ pyparsing==2.4.7
     #   packaging
 pytest-black==0.3.12
     # via -r requirements_dev.in
-pytest-cov==2.12.0
+pytest-cov==2.12.1
     # via -r requirements_dev.in
-pytest-django==4.3.0
+pytest-django==4.4.0
     # via -r requirements_dev.in
 pytest-flake8==1.0.7
     # via -r requirements_dev.in
@@ -295,7 +299,7 @@ python-dateutil==2.8.1
     #   faker
 python-keystoneclient==4.2.0
     # via -r ./requirements.txt
-python-swiftclient==3.11.1
+python-swiftclient==3.12.0
     # via -r ./requirements.txt
 pytz==2021.1
     # via
@@ -323,11 +327,11 @@ rfc3986==1.5.0
     # via
     #   -r ./requirements.txt
     #   oslo.config
-ruamel.yaml.clib==0.2.2
+ruamel.yaml.clib==0.2.4
     # via
     #   -r ./requirements.txt
     #   ruamel.yaml
-ruamel.yaml==0.17.6
+ruamel.yaml==0.17.10
     # via
     #   -r ./requirements.txt
     #   drf-yasg
@@ -338,6 +342,7 @@ six==1.16.0
     #   -r ./requirements.txt
     #   debtcollector
     #   djangorestframework-csv
+    #   jwcrypto
     #   keystoneauth1
     #   oslo.i18n
     #   python-dateutil
@@ -358,11 +363,11 @@ text-unidecode==1.3
 toml==0.10.2
     # via
     #   black
-    #   coverage
     #   ipdb
     #   pep517
     #   pytest
     #   pytest-black
+    #   pytest-cov
 traitlets==5.0.5
     # via
     #   ipython
@@ -376,17 +381,20 @@ uritemplate==3.0.1
     #   -r ./requirements.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.5
+urllib3==1.26.6
     # via
     #   -r ./requirements.txt
     #   requests
     #   sentry-sdk
 wcwidth==0.2.5
     # via prompt-toolkit
+wheel==0.36.2
+    # via pip-tools
 wrapt==1.12.1
     # via
     #   -r ./requirements.txt
     #   debtcollector
+    #   deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
