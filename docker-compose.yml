@@ -1,4 +1,21 @@
 version: "3.4"
+
+x-app: &base-app
+  build:
+    context: .
+    target: app
+  depends_on:
+    - database
+  volumes:
+    - ./src:/app/src
+    - ./tests:/app/tests
+    - ./deploy:/app/deploy
+    - ./pyproject.toml:/app/pyproject.toml
+  environment: &base-app-env
+    SECRET_KEY: "insecure"
+    DEBUG: "true"
+  entrypoint: /app/deploy/wait-for-it.sh database:5432 --
+
 services:
   database:
     image: amsterdam/postgres11
@@ -6,22 +23,6 @@ services:
       POSTGRES_DB: dev
       POSTGRES_USER: dev
       POSTGRES_PASSWORD: dev
-
-  x-app: &base-app
-    build:
-      context: .
-      target: app
-    depends_on:
-      - database
-    volumes:
-      - ./src:/app/src
-      - ./tests:/app/tests
-      - ./deploy:/app/deploy
-      - ./pyproject.toml:/app/pyproject.toml
-    environment: &base-app-env
-      SECRET_KEY: "insecure"
-      DEBUG: "true"
-    entrypoint: /app/deploy/wait-for-it.sh database:5432 --
 
   dev:
     <<: *base-app
