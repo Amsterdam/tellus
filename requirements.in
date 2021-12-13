@@ -3,7 +3,7 @@
 
 # base
 #
-Django
+Django<4  # Django 4 not yet suppoerted by djangorestframework-gis
 psycopg2-binary
 sentry-sdk
 
