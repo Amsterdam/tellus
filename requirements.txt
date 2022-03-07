@@ -30,8 +30,8 @@ dateutils==0.6.12
     # via -r requirements.in
 debtcollector==2.4.0
     # via
-    #   oslo.config
-    #   oslo.utils
+    #   oslo-config
+    #   oslo-utils
     #   python-keystoneclient
 defusedxml==0.7.1
     # via djangorestframework-xml
@@ -86,7 +86,7 @@ inflection==0.5.1
 iso8601==1.0.2
     # via
     #   keystoneauth1
-    #   oslo.utils
+    #   oslo-utils
 itypes==1.2.0
     # via coreapi
 jinja2==3.0.3
@@ -100,42 +100,42 @@ keystoneauth1==4.4.0
 markupsafe==2.1.0
     # via jinja2
 msgpack==1.0.3
-    # via oslo.serialization
+    # via oslo-serialization
 netaddr==0.8.0
     # via
-    #   oslo.config
-    #   oslo.utils
+    #   oslo-config
+    #   oslo-utils
 netifaces==0.11.0
-    # via oslo.utils
+    # via oslo-utils
 openpyxl==3.0.9
     # via -r requirements.in
 os-service-types==1.7.0
     # via keystoneauth1
-oslo.config==8.8.0
+oslo-config==8.8.0
     # via python-keystoneclient
-oslo.i18n==5.1.0
+oslo-i18n==5.1.0
     # via
-    #   oslo.config
-    #   oslo.utils
+    #   oslo-config
+    #   oslo-utils
     #   python-keystoneclient
-oslo.serialization==4.3.0
+oslo-serialization==4.3.0
     # via python-keystoneclient
-oslo.utils==4.12.2
+oslo-utils==4.12.2
     # via
-    #   oslo.serialization
+    #   oslo-serialization
     #   python-keystoneclient
 packaging==21.3
     # via
     #   drf-yasg
-    #   oslo.utils
+    #   oslo-utils
 pbr==5.8.1
     # via
     #   debtcollector
     #   keystoneauth1
     #   os-service-types
-    #   oslo.i18n
-    #   oslo.serialization
-    #   oslo.utils
+    #   oslo-i18n
+    #   oslo-serialization
+    #   oslo-utils
     #   python-keystoneclient
     #   stevedore
 psycopg2-binary==2.9.3
@@ -144,7 +144,7 @@ pycparser==2.21
     # via cffi
 pyparsing==3.0.7
     # via
-    #   oslo.utils
+    #   oslo-utils
     #   packaging
 python-dateutil==2.8.2
     # via dateutils
@@ -157,24 +157,24 @@ pytz==2021.3
     #   dateutils
     #   django
     #   djangorestframework
-    #   oslo.serialization
-    #   oslo.utils
+    #   oslo-serialization
+    #   oslo-utils
 pyyaml==6.0
-    # via oslo.config
+    # via oslo-config
 requests==2.27.1
     # via
     #   coreapi
     #   datapunt-authorization-django
     #   keystoneauth1
-    #   oslo.config
+    #   oslo-config
     #   python-keystoneclient
     #   python-swiftclient
 rfc3986==2.0.0
-    # via oslo.config
-ruamel.yaml==0.17.21
+    # via oslo-config
+ruamel-yaml==0.17.21
     # via drf-yasg
-ruamel.yaml.clib==0.2.6
-    # via ruamel.yaml
+ruamel-yaml-clib==0.2.6
+    # via ruamel-yaml
 sentry-sdk==1.5.6
     # via -r requirements.in
 six==1.16.0
@@ -189,7 +189,7 @@ sqlparse==0.4.2
 stevedore==3.5.0
     # via
     #   keystoneauth1
-    #   oslo.config
+    #   oslo-config
     #   python-keystoneclient
 unicodecsv==0.14.1
     # via djangorestframework-csv

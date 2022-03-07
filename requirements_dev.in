@@ -25,3 +25,4 @@ black
 
 # Debugging
 ipdb
+django-debug-toolbar
