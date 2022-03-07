@@ -25,3 +25,5 @@ black
 
 # Debugging
 ipdb
+django-debug-toolbar
+django-cors-headers
