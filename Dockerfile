@@ -11,6 +11,7 @@ COPY src src
 
 WORKDIR /app/src
 ARG SECRET_KEY=not-used
+ARG JWKS_USE_TEST_KEY=true
 RUN python manage.py collectstatic --no-input
 
 USER datapunt

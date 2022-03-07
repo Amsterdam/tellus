@@ -14,6 +14,7 @@ x-app: &base-app
   environment: &base-app-env
     SECRET_KEY: "insecure"
     DEBUG: "true"
+    JWKS_USE_TEST_KEY: "true"
   entrypoint: /app/deploy/wait-for-it.sh database:5432 --
 
 services:
