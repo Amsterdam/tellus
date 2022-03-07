@@ -78,6 +78,7 @@ django==3.2.12
     # via
     #   -r ./requirements.txt
     #   datapunt-authorization-django
+    #   django-cors-headers
     #   django-debug-toolbar
     #   django-extensions
     #   django-filter
@@ -85,6 +86,8 @@ django==3.2.12
     #   drf-hal-json
     #   drf-nested-fields
     #   drf-yasg
+django-cors-headers==3.11.0
+    # via -r requirements_dev.in
 django-debug-toolbar==3.2.4
     # via -r requirements_dev.in
 django-extensions==3.1.5
