@@ -15,9 +15,7 @@ attrs==21.4.0
 backcall==0.2.0
     # via ipython
 black==22.1.0
-    # via
-    #   -r requirements_dev.in
-    #   pytest-black
+    # via pytest-black
 certifi==2021.10.8
     # via
     #   -r ./requirements.txt
@@ -46,7 +44,7 @@ coreschema==0.0.4
     #   drf-yasg
 coverage[toml]==6.3.2
     # via pytest-cov
-cryptography==36.0.1
+cryptography==36.0.2
     # via
     #   -r ./requirements.txt
     #   jwcrypto
@@ -56,7 +54,7 @@ datapunt-authorization-levels==0.1.3
     # via -r ./requirements.txt
 dateutils==0.6.12
     # via -r ./requirements.txt
-debtcollector==2.4.0
+debtcollector==2.5.0
     # via
     #   -r ./requirements.txt
     #   oslo-config
@@ -136,12 +134,10 @@ executing==0.8.3
     # via stack-data
 factory-boy==3.2.1
     # via -r requirements_dev.in
-faker==13.3.0
+faker==13.3.3
     # via factory-boy
-flake8==3.9.2
-    # via
-    #   -r requirements_dev.in
-    #   pytest-flake8
+flake8==4.0.1
+    # via pytest-flake8
 idna==3.3
     # via
     #   -r ./requirements.txt
@@ -154,7 +150,7 @@ iniconfig==1.1.1
     # via pytest
 ipdb==0.13.9
     # via -r requirements_dev.in
-ipython==8.1.1
+ipython==8.2.0
     # via ipdb
 iso8601==1.0.2
     # via
@@ -169,7 +165,7 @@ itypes==1.2.0
     #   coreapi
 jedi==0.18.1
     # via ipython
-jinja2==3.0.3
+jinja2==3.1.1
     # via
     #   -r ./requirements.txt
     #   coreschema
@@ -177,11 +173,11 @@ jwcrypto==1.0
     # via
     #   -r ./requirements.txt
     #   datapunt-authorization-django
-keystoneauth1==4.4.0
+keystoneauth1==4.5.0
     # via
     #   -r ./requirements.txt
     #   python-keystoneclient
-markupsafe==2.1.0
+markupsafe==2.1.1
     # via
     #   -r ./requirements.txt
     #   jinja2
@@ -242,7 +238,6 @@ pathspec==0.9.0
 pbr==5.8.1
     # via
     #   -r ./requirements.txt
-    #   debtcollector
     #   keystoneauth1
     #   os-service-types
     #   oslo-i18n
@@ -272,13 +267,13 @@ pure-eval==0.2.2
     # via stack-data
 py==1.11.0
     # via pytest
-pycodestyle==2.7.0
+pycodestyle==2.8.0
     # via flake8
 pycparser==2.21
     # via
     #   -r ./requirements.txt
     #   cffi
-pyflakes==2.3.1
+pyflakes==2.4.0
     # via flake8
 pygments==2.11.2
     # via ipython
@@ -287,7 +282,7 @@ pyparsing==3.0.7
     #   -r ./requirements.txt
     #   oslo-utils
     #   packaging
-pytest==7.0.1
+pytest==7.1.1
     # via
     #   -r requirements_dev.in
     #   pytest-black
@@ -301,7 +296,7 @@ pytest-cov==3.0.0
     # via -r requirements_dev.in
 pytest-django==4.5.2
     # via -r requirements_dev.in
-pytest-flake8==1.1.0
+pytest-flake8==1.1.1
     # via -r requirements_dev.in
 pytest-isort==3.0.0
     # via -r requirements_dev.in
@@ -314,7 +309,7 @@ python-keystoneclient==4.4.0
     # via -r ./requirements.txt
 python-swiftclient==3.13.1
     # via -r ./requirements.txt
-pytz==2021.3
+pytz==2022.1
     # via
     #   -r ./requirements.txt
     #   dateutils
@@ -347,7 +342,7 @@ ruamel-yaml-clib==0.2.6
     # via
     #   -r ./requirements.txt
     #   ruamel-yaml
-sentry-sdk==1.5.6
+sentry-sdk==1.5.8
     # via -r ./requirements.txt
 six==1.16.0
     # via
@@ -395,7 +390,7 @@ uritemplate==4.1.1
     #   -r ./requirements.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.8
+urllib3==1.26.9
     # via
     #   -r ./requirements.txt
     #   requests
@@ -404,7 +399,7 @@ wcwidth==0.2.5
     # via prompt-toolkit
 wheel==0.37.1
     # via pip-tools
-wrapt==1.13.3
+wrapt==1.14.0
     # via
     #   -r ./requirements.txt
     #   debtcollector
