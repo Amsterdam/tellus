@@ -74,7 +74,7 @@ deprecated==1.2.13
     # via
     #   -r ./requirements.txt
     #   jwcrypto
-django==3.2.14
+django==3.2.15
     # via
     #   -r ./requirements.txt
     #   datapunt-authorization-django
@@ -383,8 +383,6 @@ traitlets==5.3.0
     # via
     #   ipython
     #   matplotlib-inline
-typing-extensions==4.3.0
-    # via black
 unicodecsv==0.14.1
     # via
     #   -r ./requirements.txt
