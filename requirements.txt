@@ -6,7 +6,7 @@
 #
 asgiref==3.5.2
     # via django
-certifi==2022.9.24
+certifi==2022.12.7
     # via
     #   requests
     #   sentry-sdk
@@ -173,8 +173,6 @@ rfc3986==2.0.0
     # via oslo-config
 ruamel-yaml==0.17.21
     # via drf-yasg
-ruamel-yaml-clib==0.2.7
-    # via ruamel-yaml
 sentry-sdk==1.11.1
     # via -r requirements.in
 six==1.16.0
