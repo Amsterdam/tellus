@@ -46,7 +46,7 @@ coreschema==0.0.4
     #   drf-yasg
 coverage[toml]==6.5.0
     # via pytest-cov
-cryptography==38.0.4
+cryptography==39.0.1
     # via
     #   -r ./requirements.txt
     #   jwcrypto
@@ -132,8 +132,6 @@ et-xmlfile==1.1.0
     # via
     #   -r ./requirements.txt
     #   openpyxl
-exceptiongroup==1.0.4
-    # via pytest
 executing==1.2.0
     # via stack-data
 factory-boy==3.2.1
@@ -342,10 +340,6 @@ ruamel-yaml==0.17.21
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-ruamel-yaml-clib==0.2.7
-    # via
-    #   -r ./requirements.txt
-    #   ruamel-yaml
 sentry-sdk==1.11.1
     # via -r ./requirements.txt
 six==1.16.0
@@ -372,13 +366,6 @@ toml==0.10.2
     # via
     #   ipdb
     #   pytest-black
-tomli==2.0.1
-    # via
-    #   black
-    #   build
-    #   coverage
-    #   pep517
-    #   pytest
 traitlets==5.6.0
     # via
     #   ipython
