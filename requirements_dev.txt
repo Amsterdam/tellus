@@ -132,8 +132,6 @@ et-xmlfile==1.1.0
     # via
     #   -r ./requirements.txt
     #   openpyxl
-exceptiongroup==1.0.4
-    # via pytest
 executing==1.2.0
     # via stack-data
 factory-boy==3.2.1
@@ -154,7 +152,7 @@ iniconfig==1.1.1
     # via pytest
 ipdb==0.13.9
     # via -r requirements_dev.in
-ipython==8.7.0
+ipython==8.10.0
     # via ipdb
 iso8601==1.1.0
     # via
@@ -343,9 +341,7 @@ ruamel-yaml==0.17.21
     #   -r ./requirements.txt
     #   drf-yasg
 ruamel-yaml-clib==0.2.7
-    # via
-    #   -r ./requirements.txt
-    #   ruamel-yaml
+    # via -r ./requirements.txt
 sentry-sdk==1.11.1
     # via -r ./requirements.txt
 six==1.16.0
@@ -372,13 +368,6 @@ toml==0.10.2
     # via
     #   ipdb
     #   pytest-black
-tomli==2.0.1
-    # via
-    #   black
-    #   build
-    #   coverage
-    #   pep517
-    #   pytest
 traitlets==5.6.0
     # via
     #   ipython
