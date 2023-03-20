@@ -178,7 +178,6 @@ class TellusImporter(object):
         for row in self.codebook_sheets[sheet_name].iter_rows(
             min_row=title_row + 1, max_row=2, min_col=first_col
         ):
-
             res = [cell.value for cell in row]  # [1, '0 - 5,1 m', ..., '> 12,2 m']
             values = res[1:]  # ['0 - 5,1 m', ..., '> 12,2 m']
 

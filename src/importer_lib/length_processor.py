@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 
 
 def create_length_intervals(values):
-    for (index, value) in enumerate(values):
+    for index, value in enumerate(values):
         [min_cm, max_cm] = parse_length_interval(value)
         db_row, created = LengteInterval.objects.update_or_create(
             id=index + 1, label=value, min_cm=min_cm, max_cm=max_cm
