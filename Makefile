@@ -65,6 +65,10 @@ lint:                               ## Execute lint checks
 	$(run) test isort /app/src /app/tests --check --diff
 	$(run) test black /app/src /app/tests --check --diff
 
+lintfix:                            ## Execute lint fixes
+	$(run) test isort /app/src /app/tests
+	$(run) test black /app/src /app/tests
+
 test: lint                          ## Execute tests
 	$(run) test pytest /app/tests $(ARGS)
 
