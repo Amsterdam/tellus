@@ -49,7 +49,6 @@ def health(request):
 
 
 def check_data(request):
-
     if model.objects.all().count() < 30000:
         return HttpResponse(
             "Too few tellus data in the database", content_type="text/plain", status=500
