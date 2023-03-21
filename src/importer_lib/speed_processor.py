@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 
 def create_speed_intervals(interval_strs):
-    for (index, interval_str) in enumerate(interval_strs):
+    for index, interval_str in enumerate(interval_strs):
         if interval_str == EMPTY_CELL:
             continue
         [speed_min, speed_max] = parse_speed_interval(interval_str)
@@ -26,7 +26,7 @@ def create_speed_intervals(interval_strs):
 
 
 def create_speed_category(categorie, interval_strs):
-    for (index, interval_str) in enumerate(interval_strs):
+    for index, interval_str in enumerate(interval_strs):
         if interval_str == EMPTY_CELL:
             continue
         try:
